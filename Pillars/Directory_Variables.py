@@ -9,7 +9,7 @@ class Directory_Variables:
     def getVar(self, name: str) -> Variable:
         return self.directory[name]
 
-    def appendToDirectory(self, name: str, data_type: str, value: int = 0, addr: int = 0, dimensions: [] = None, spaces: int = 0):
+    def appendToDirectory(self, name: str, data_type: str, value: int = 0, addr: int = 0, dimensions: list = None, spaces: int = 0):
         self.directory[name] = {
             'var' : Variable(name, Data_Type.strToType(data_type), value, addr, dimensions, spaces)
         }
