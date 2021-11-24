@@ -1,7 +1,7 @@
 from Data_Types import Data_Type
 from Variables import Variable
 
-class Directory_Variables:
+class Directory_Vars:
 
     def __init__(self):
         self.directory = {}
