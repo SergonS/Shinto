@@ -269,5 +269,5 @@ class Semantic_Cube():
         }
     }
 
-    def operation_return(self, operatorA: str, operatorB: str, operation: str) -> str:
-        return self.cube[operatorA][operatorB][operation].value
+    def operation_return(self, operandA: str, operandB: str, operator: str) -> str:
+        return self.cube[operandA][operandB][operator].value

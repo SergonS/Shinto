@@ -17,11 +17,11 @@ class Hierarchy(enum.IntEnum):
     ERA = 14
     PARAMS = 15
     GOSUB = 16
-    ASSIGN_R = 17
+    ASSIGN_T = 17
     VER = 18
     ARR_BASE = 19
     ARR_SD = 20
-    ARR_S = 21
+    ARR_SDS = 21
 
 class OpID():
     IDOperators = {
@@ -47,11 +47,11 @@ class OpID():
         "era" : 20,
         "params" : 21,
         "gosub" : 22,
-        "assignr" : 23,
+        "assignt" : 23,
         "ver" : 24,
         "arrbase" : 25,
         "arrsd" : 26,
-        "arrs" : 27
+        "arrsds" : 27
     }
 
     def getOID(self, op: str) -> int:
@@ -84,9 +84,9 @@ class Operators():
         "era" : Hierarchy.ERA,
         "params" : Hierarchy.PARAMS,
         "gosub" : Hierarchy.GOSUB,
-        "assignret" : Hierarchy.ASSIGN_R,
+        "assignret" : Hierarchy.ASSIGN_T,
         "ver" : Hierarchy.VER,
         "addbase" : Hierarchy.ARR_BASE,
         "s1d2" : Hierarchy.ARR_SD,
-        "s2" : Hierarchy.ARR_S
+        "s1d2s2" : Hierarchy.ARR_SDS
     }
