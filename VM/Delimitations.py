@@ -7,23 +7,23 @@ class Delimitation:
 
     territories = {
         # Integers
-        "global_integers": 0 * area,
-        "local_integers": 1 * area,
-        "constant_integers": 2 * area,
+        "global_int": 0 * area,
+        "local_int": 4 * area,
+        "constant_int": 8 * area,
         
         # Floats
-        "global_floats": 3 * area,
-        "local_floats": 4 * area, 
-        "constant_floats": 5 * area,
+        "global_float": 1 * area,
+        "local_float": 5 * area, 
+        "constant_float": 9 * area,
 
         # Strings
-        "global_strings": 6 * area,
-        "local_strings": 7 * area,
-        "constant_strings": 8 * area,
+        "global_string": 2 * area,
+        "local_string": 6 * area,
+        "constant_string": 10 * area,
 
         # Booleans
-        "global_booleans": 9 * area,
-        "local_booleans": 10 * area
+        "global_boolean": 3 * area,
+        "local_boolean": 7 * area
     }
 
     # Dictionary that counts the number of variables that have been created for each type
@@ -31,23 +31,23 @@ class Delimitation:
 
     counter = {
         # Integers
-        "global_integers": 0,
-        "local_integers": 0,
-        "constant_integers": 0,
+        "global_int": 0,
+        "local_int": 0,
+        "constant_int": 0,
         
         # Floats
-        "global_floats": 0,
-        "local_floats": 0, 
-        "constant_floats": 0,
+        "global_float": 0,
+        "local_float": 0, 
+        "constant_float": 0,
 
         # Strings
-        "global_strings": 0,
-        "local_strings": 0,
-        "constant_strings": 0,
+        "global_string": 0,
+        "local_string": 0,
+        "constant_string": 0,
 
         # Booleans
-        "global_booleans": 0,
-        "local_booleans": 0
+        "global_boolean": 0,
+        "local_boolean": 0
     }
 
     def getAddr(self, scope_type: str) -> int:
@@ -68,30 +68,30 @@ class Delimitation:
     
     def getGVarsCounter(self) -> dict:
 
-        integers = self.counter["global_integers"]
-        floats = self.counter["global_floats"]
-        strings = self.counter["global_strings"]
-        booleans = self.counter["global_booleans"]
+        int = self.counter["global_int"]
+        float = self.counter["global_float"]
+        string = self.counter["global_string"]
+        boolean = self.counter["global_boolean"]
 
         GVCounter = {
-            "integers": integers,
-            "floats": floats,
-            "string": strings,
-            "booleans": booleans
+            "int": int,
+            "float": float,
+            "string": string,
+            "boolean": boolean
         }
         return GVCounter
 
     def getLVarsCounter(self) -> dict:
 
-        integers = self.counter["local_integers"]
-        floats = self.counter["local_floats"]
-        strings = self.counter["local_strings"]
-        booleans = self.counter["local_booleans"]
+        int= self.counter["local_int"]
+        float = self.counter["local_float"]
+        string = self.counter["local_string"]
+        boolean = self.counter["local_boolean"]
 
         LVCounter = {
-            "integers": integers,
-            "floats": floats,
-            "string": strings,
-            "booleans": booleans
+            "int": int,
+            "float": float,
+            "string": string,
+            "boolean": boolean
         }
         return LVCounter
