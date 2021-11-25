@@ -6,12 +6,15 @@ class Directory_Vars:
     def __init__(self):
         self.directory = {}
 
-    def getVar(self, name: str) -> Variable:
+    def getVar(self, name: str) -> dict:
         return self.directory[name]
 
-    def appendToDirectory(self, name: str, data_type: str, value: int = 0, addr: int = 0, dimensions: list = None, spaces: int = 0):
+    def appendToDirectory(self, name: str, type: str, addr: int, dims: list = None, r: int = 0):
         self.directory[name] = {
-            'var' : Variable(name, Data_Type.strToType(data_type), value, addr, dimensions, spaces)
+            "type": type,
+            "address": addr, 
+            "dims": dims,
+            "R": R
         }
 
     def getDirectory(self) -> dict:
@@ -19,4 +22,4 @@ class Directory_Vars:
 
     def showDictionary(self):
         for var in self.directory:
-            print(var.data_type + " " + var.name + " at address " + var.addr + " with a value of " + var.value) 
+            print(var + ":", self.getVar(var))

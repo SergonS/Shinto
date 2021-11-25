@@ -7,6 +7,10 @@ class C_Table:
     c_floats = {}
     c_strings = {}
 
+    booleans = {
+        "true": 11 * delimitation,
+        "false": 11 * delimitation + 1
+    }
 
     def addInteger(self, value: str, addr: int) -> bool:
         if value not in self.c_integers:
@@ -38,10 +42,21 @@ class C_Table:
     def getString(self, value: str) -> int:
         return self.c_strings[value]
 
+    def addBoolean(self, value: str, addr: int) -> bool:
+        if value not in self.booleans:
+            self.booleans[value] = addr
+            return True
+        else:
+            return False
+
+    def getBoolean(self, value: str) -> int:
+        return self.booleans[value]
+
     def getCTable(self) -> dict:
         table = {
             "integer": self.c_integers,
             "float": self.c_floats,
-            "string": self.c_strings
+            "string": self.c_strings,
+            "boolean": self.booleans
         }
         return table
