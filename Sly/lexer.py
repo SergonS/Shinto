@@ -43,11 +43,17 @@ from sly import Lexer
 class ShintoLexer(Lexer):
 
     tokens = {
+        'PROG',
+        'MAIN',
+        'VAR',
         'FUNC',               # func
         'ID',
         'INT',
         'FLOAT',
         'STRING',
+        'BOOL',
+        'TRUE',
+        'FALSE',
         'IF',                 # if
         'THEN',               # then
         'ELSE',               # else
@@ -62,6 +68,25 @@ class ShintoLexer(Lexer):
         'DIFF',             # !=
         'AND',              # &&
         'OR'                # ||
+    }
+
+    reserved = {
+        'program'       : 'PROGRAM',
+        'main'          : 'MAIN',
+        'var'           : 'VAR',
+        'if'            : 'IF',
+        'else'          : 'ELSE',
+        'function'      : 'FUNC',
+        'return'        : 'RETURN',
+        'input'         : 'INPUT',
+        'print'        : 'OUTPUT',
+        'int'           : 'INT',
+        'float'         : 'FLOAT',
+        'string'        : 'STRING',
+        'bool'          : 'BOOL',
+        'true'          : 'TRUE',
+        'false'         : 'FALSE',
+        'while'         : 'WHILE'
     }
 
     ignore = '\t'
@@ -86,6 +111,9 @@ class ShintoLexer(Lexer):
         }
 
     # Define keywords
+    PROG = r'program'
+    MAIN = r'main'
+    VAR = r'var'
     FUNC = r'function'
     IF = r'if'
     THEN = r'then'
@@ -93,8 +121,9 @@ class ShintoLexer(Lexer):
     FOR = r'for'
     TO = r'to'
     WHILE = r'while'
+    TRUE = r'true'
+    FALSE = r'false'
     ARROW = r'->'
-    ID = r'[a-zA-Z_][a-zA-Z_0-9]*'
 
     EQEQ = r'=='
     GOETHAN = r'>='
@@ -116,6 +145,11 @@ class ShintoLexer(Lexer):
     @_(r'\d+')
     def INT(self, t):
         t.value = int(t.value)
+        return t
+
+    @_(r'[a-zA-Z_][a-zA-Z_0-9]*')
+    def ID(self, t):
+        t.type = self.reserved.get(t.value, 'ID')
         return t
 
     @_(r'//.*')

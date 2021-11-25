@@ -17,7 +17,7 @@ class Hierarchy(enum.IntEnum):
     ERA = 14
     PARAMS = 15
     GOSUB = 16
-    ASSIGN_T = 17
+    ASSIGN_R = 17
     VER = 18
     ARR_BASE = 19
     ARR_SD = 20
@@ -47,7 +47,7 @@ class OpID():
         "era" : 20,
         "params" : 21,
         "gosub" : 22,
-        "assignt" : 23,
+        "assignr" : 23,
         "ver" : 24,
         "arrbase" : 25,
         "arrsd" : 26,
@@ -84,7 +84,7 @@ class Operators():
         "era" : Hierarchy.ERA,
         "params" : Hierarchy.PARAMS,
         "gosub" : Hierarchy.GOSUB,
-        "assignret" : Hierarchy.ASSIGN_T,
+        "assignr" : Hierarchy.ASSIGN_R,
         "ver" : Hierarchy.VER,
         "addbase" : Hierarchy.ARR_BASE,
         "s1d2" : Hierarchy.ARR_SD,

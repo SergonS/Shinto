@@ -35,10 +35,10 @@ class ShintoParser(Parser):
     quads = QuadOverseer()
     delimitation = Delimitation()
 
-    # PROGRAM
-    
+    #@_('PROGRAM ID ";" COLLECTION')
+    #def program(self, x):
+     #   self.
 
-    # Statements
 
     @_('')
     def statement(self, x):
@@ -76,6 +76,7 @@ class ShintoParser(Parser):
 
     # Variable Assignment
 
+    
     @_('ID "=" expr')
     def var_assign(self, x):
         return ('var_assign', x.ID, x.expr)
@@ -103,7 +104,6 @@ class ShintoParser(Parser):
     @_('"-" expr %prec UMINUS')
     def expr(self, x):
         return x.expr
-
     @_('ID')
     def expr(self, x):
         return ('var', x.ID)
@@ -115,4 +115,9 @@ class ShintoParser(Parser):
     @_('FLOAT')
     def expr(self, x):
         return ('float', x.FLOAT)
+
+    @_('TRUE')
+    def expr(self, x):
+        return ('boolean', x.BOOL)
+    
 
