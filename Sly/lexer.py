@@ -56,12 +56,34 @@ class ShintoLexer(Lexer):
         'WHILE',              # while
         'ARROW',              # arrow
         'COMMENT',            # //
-        'EQEQ'                # ==
+        'EQEQ',               # ==
+        'GOETHAN',          # >=          
+        'LOETHAN',          # <=
+        'DIFF',             # !=
+        'AND',              # &&
+        'OR'                # ||
     }
 
     ignore = '\t'
 
-    literals = { '=', '+', '-', '*', '/', '(', ')', ',', ';', '.', ' '}
+    literals = { 
+        '=', 
+        '+', 
+        '-', 
+        '*', 
+        '/', 
+        '(', 
+        ')', 
+        ',', 
+        ';', 
+        '.', 
+        ' ', 
+        ':',
+        '[',
+        ']',
+        '{',
+        '}'
+        }
 
     # Define keywords
     FUNC = r'function'
@@ -73,9 +95,18 @@ class ShintoLexer(Lexer):
     WHILE = r'while'
     ARROW = r'->'
     ID = r'[a-zA-Z_][a-zA-Z_0-9]*'
-    STRING = r'\".*?\"'
 
     EQEQ = r'=='
+    GOETHAN = r'>='
+    LOETHAN = r'<='
+    DIFF = r'!='
+    AND = r'&&'
+    OR = r'\|\|'
+
+    @_(r'\".*?\"')
+    def STRING(self, t):
+        t.value = str(t.value)
+        return t
 
     @_(r'\d+\.\d*')
     def FLOAT(self, t):
