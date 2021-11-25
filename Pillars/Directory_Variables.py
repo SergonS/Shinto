@@ -1,5 +1,5 @@
-from Data_Types import Data_Type
-from Variables import Variable
+from Pillars.Data_Types import Data_Type
+from Pillars.Variables import Variable
 
 class Directory_Vars:
 

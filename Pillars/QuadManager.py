@@ -1,12 +1,10 @@
-from _typeshed import OpenTextModeReading
-from Data_Types import Data_Type
+from Pillars.Data_Types import Data_Type
 from VM.Delimitations import Delimitation
-from Directory_Variables import Directory_Variables
-from Semantic_Cube import Semantic_Cube
-from Variables import Variable
-from Hierarchy import Hierarchy
-from Hierarchy import OpID
-from Hierarchy import Operators
+from Pillars.Directory_Variables import Directory_Vars
+from Pillars.Semantic_Cube import Semantic_Cube
+from Pillars.Hierarchy import Hierarchy
+from Pillars.Hierarchy import OpID
+from Pillars.Hierarchy import Operators
 import sys 
 
 class QuadOverseer:

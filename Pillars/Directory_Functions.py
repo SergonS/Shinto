@@ -1,4 +1,4 @@
-from Directory_Variables import Directory_Vars
+from Pillars.Directory_Variables import Directory_Vars
 
 class Directory_Func:
     

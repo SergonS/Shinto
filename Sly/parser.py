@@ -1,5 +1,10 @@
 from sly import Parser
 from Sly.lexer import ShintoLexer
+from Pillars.Directory_Functions import Directory_Func
+from Pillars.Directory_Variables import Directory_Vars
+from Pillars.QuadManager import QuadOverseer
+from Pillars.Constants import C_Table
+from VM.Delimitations import Delimitation
 
 ### PARSER ###
 
@@ -11,6 +16,14 @@ from Sly.lexer import ShintoLexer
 
 class ShintoParser(Parser):
     tokens = ShintoLexer.tokens
+    ERROR_FLAG = False
+    stack_dim = []
+    stack_params = []
+    stack_vars = []
+
+    call_params = []
+    counter_params = 0
+    counter = 0
 
     precedence = (
         ('left', '+', '-'),
@@ -18,6 +31,12 @@ class ShintoParser(Parser):
         ('right', 'UMINUS'),           
     )
 
+    constants = C_Table()
+    quads = QuadOverseer()
+    delimitation = Delimitation()
+
+    # PROGRAM
+    
 
     # Statements
 
