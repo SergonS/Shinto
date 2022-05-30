@@ -1,0 +1,15 @@
+program alpha;
+
+var float global_a, global_b, global_c;
+
+int function volta()
+{
+	var int iX, iY;
+
+	3 + 4 - 5 + 3 * 8 / 12
+}
+
+function main()
+{
+	var int iA, iB, iC;
+}
