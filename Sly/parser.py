@@ -1,10 +1,12 @@
 import operator
 from sly import Parser
+from Pillars.Locals import L_Table
 from Sly.lexer import ShintoLexer
 from Pillars.Directory_Functions import Directory_Func
 from Pillars.Directory_Variables import Directory_Vars
 from Pillars.QuadManager import QuadOverseer
 from Pillars.Constants import C_Table
+from Pillars.Globals import G_Table
 from VM.Delimitations import Delimitation
 
 ### PARSER ###
@@ -21,6 +23,7 @@ class ShintoParser(Parser):
     stack_dim = []
     stack_params = []
     stack_vars = []
+    stack_gvars = []
 
     call_params = []
     counter_params = 0
@@ -33,10 +36,13 @@ class ShintoParser(Parser):
         ('left', '*', '/')
     )
 
+    globals = G_Table()
+    locals = L_Table()
     constants = C_Table()
     quads = QuadOverseer()
     delimitation = Delimitation()
     dir_functions = Directory_Func()
+    dir_vars = Directory_Vars()
 
     def __init__(self):
         self.scope = "global"
@@ -44,33 +50,68 @@ class ShintoParser(Parser):
 
     # PROGRAM
 
-    @_('PROG ID check_program ";" vars functions main')
+    @_('PROG ID check_program ";" gvars store_gvars functions main')
     def program(self, x):
+        print(self.stack_gvars)
+        self.dir_vars.showDirectory()
         pass
 
-    # VARS
+    # GLOBAL VARS
+
+    @_('')
+    def gvars(self, x):
+        pass
+
+    @_('VAR datatype gvarids store_gtype ";" gvars')
+    def gvars(self, x):
+        pass
+
+    # GVARIDS
+    @_('ID "," gvarids')
+    def gvarids(self, x):
+        self.stack_gvars.append(x[0])
+        pass
+
+    @_('ID')
+    def gvarids(self, x):
+        self.stack_gvars.append(x[0])
+        pass
+
+    @_('')
+    def store_gvars(self, x):
+        self.storeGlobalVars()
+        pass
+    
+    @_('')
+    def store_gtype(self, x):
+        self.stack_gvars.append(x[-2])
+        pass
+
+    # LOCAL VARS
 
     @_('')
     def vars(self, x):
         pass
 
-    @_('VAR datatype varids ";"')
+    @_('VAR datatype varids store_type ";" vars')
     def vars(self, x):
-        self.storeVars(x[1], self.stack_vars, self.scope)
         pass
+
 
     # VARIDS
     @_('ID "," varids')
     def varids(self, x):
-        #print("Declaring variable of name " + x[0])
         self.stack_vars.append(x[0])
         pass
 
-
     @_('ID')
     def varids(self, x):
-        #print("Declaring variable of name " + x[0])
         self.stack_vars.append(x[0])
+        pass
+
+    @_('')
+    def store_type(self, x):
+        self.stack_vars.append(x[-2])
         pass
 
     # FUNCTIONS
@@ -79,9 +120,9 @@ class ShintoParser(Parser):
     def functions(self, x):
         pass
 
-    @_('datatype FUNC ID "(" params ")" "{" vars statement "}"')
+    @_('datatype FUNC ID "(" params ")" "{" vars statement "}" functions')
     def functions(self, x):
-        #print("Declaring function with name " + x[2] + " of datatype " + x[0])
+        self.storeLocalVars(x[2])
         pass
 
     # PARAMS
@@ -94,6 +135,7 @@ class ShintoParser(Parser):
 
     @_('FUNC MAIN "(" ")" "{" vars statement "}" store_main')
     def main(self, x):
+        self.storeLocalVars("main")
         pass
 
 
@@ -229,6 +271,7 @@ class ShintoParser(Parser):
 
     @_('')
     def store_main(self, x):
+        self.quads.finishGoto("gotof")
         self.dir_functions.addFunc("main", "void")
         pass
 
@@ -238,15 +281,84 @@ class ShintoParser(Parser):
  
     ### Auxiliary Functions
 
-    def storeVars(self, datatype: str, variables: list, scope: str):
-        """
-        print("The variables")
-        print(variables)
-        print("are of data type " + datatype)
-        print("Within scope " + scope)
+    def storeGlobalVars(self):
+        dt = "none"
+        for var in reversed(self.stack_gvars):
+            if var == "int" or var == "float" or var == "string" or var == "bool":
+                dt = var
+            else:
+                if dt == "int":
+                    addr = self.delimitation.getAddr("global_int") + self.delimitation.getCounter("global_int")
+                    self.delimitation.verifyDelimitation(addr, "global_int")
+
+                    if self.globals.addInteger(var, addr) == True:
+                        self.delimitation.updateCounter("global_int")
+                        self.dir_vars.appendToDirectory(var, dt, "", addr, 0, 0, "global")
+
+                elif dt == "float":
+                    addr = self.delimitation.getAddr("global_float") + self.delimitation.getCounter("global_float")
+                    self.delimitation.verifyDelimitation(addr, "global_float")
+
+                    if self.globals.addFloat(var, addr) == True:
+                        self.delimitation.updateCounter("global_float")
+                        self.dir_vars.appendToDirectory(var, dt, "", addr, 0, 0, "global")
+
+                elif dt == "string":
+                    addr = self.delimitation.getAddr("global_string") + self.delimitation.getCounter("global_string")
+                    self.delimitation.verifyDelimitation(addr, "global_string")
+
+                    if self.globals.addString(var, addr) == True:
+                        self.delimitation.updateCounter("global_string")
+                        self.dir_vars.appendToDirectory(var, dt, "", addr, 0, 0, "global")
+
+                elif dt == "bool":
+                    addr = self.delimitation.getAddr("global_bool") + self.delimitation.getCounter("global_bool")
+                    self.delimitation.verifyDelimitation(addr, "global_bool")
+
+                    if self.globals.addBoolean(var, addr) == True:
+                        self.delimitation.updateCounter("global_bool")
+                        self.dir_vars.appendToDirectory(var, dt, "", addr, 0, 0, "global")
+        self.stack_gvars.clear
+                    
+    def storeLocalVars(self, scope: str):
+        dt = "none"
+        for var in reversed(self.stack_vars):
+            if var == "int" or var == "float" or var == "string" or var == "bool":
+                dt = var
+            else:
+                if dt == "int":
+                    addr = self.delimitation.getAddr("local_int") + self.delimitation.getCounter("local_int")
+                    self.delimitation.verifyDelimitation(addr, "local_int")
+
+                    if self.locals.addInteger(var, addr) == True:
+                        self.delimitation.updateCounter("local_int")
+                        self.dir_vars.appendToDirectory(var, dt, "", addr, 0, 0, scope)
+
+                elif dt == "float":
+                    addr = self.delimitation.getAddr("local_float") + self.delimitation.getCounter("local_float")
+                    self.delimitation.verifyDelimitation(addr, "local_float")
+
+                    if self.locals.addFloat(var, addr) == True:
+                        self.delimitation.updateCounter("local_float")
+                        self.dir_vars.appendToDirectory(var, dt, "", addr, 0, 0, scope)
+
+                elif dt == "string":
+                    addr = self.delimitation.getAddr("local_string") + self.delimitation.getCounter("local_string")
+                    self.delimitation.verifyDelimitation(addr, "local_string")
+
+                    if self.locals.addString(var, addr) == True:
+                        self.delimitation.updateCounter("local_string")
+                        self.dir_vars.appendToDirectory(var, dt, "", addr, 0, 0, scope)
+
+                elif dt == "bool":
+                    addr = self.delimitation.getAddr("local_bool") + self.delimitation.getCounter("local_bool")
+                    self.delimitation.verifyDelimitation(addr, "local_bool")
+
+                    if self.locals.addBoolean(var, addr) == True:
+                        self.delimitation.updateCounter("local_bool")
+                        self.dir_vars.appendToDirectory(var, dt, "", addr, 0, 0, scope)
         self.stack_vars.clear()
-        print()
-        """
+        
 
     def storeOperation(self, operator: str):
         print("Operator " + operator + " added")

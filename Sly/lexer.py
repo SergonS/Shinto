@@ -93,6 +93,8 @@ class ShintoLexer(Lexer):
 
     ignore = '\t'
 
+    ignore_newline = r'\n+'
+
     literals = { 
         '=', 
         '+', 
@@ -191,5 +193,18 @@ class ShintoLexer(Lexer):
         pass
 
     @_(r'\n+')
-    def newline(self, t):
-        self.lineno = t.value.count('\n')
+    def ignore_newline(self, t):
+        self.lineno += len(t.value)
+
+    # Compute column
+    def find_column(text, token):
+        last_cr = text.rfind('\n', 0, token.index)
+        if last_cr < 0:
+            last_cr = 0
+        column = (token.index - last_cr) + 1
+        return column
+
+    # Error handling rule
+    def error(self, t):
+        print("Illegal character '%s'" % t.value[0])
+        self.index += 1

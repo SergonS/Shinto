@@ -16,8 +16,6 @@ class Directory_Func:
             bReturn = True
 
         self.directory[name] = {
-            "DirVars": Directory_Vars(),
-            "params": Directory_Vars(),
             "data_type": data_type,
             "bReturn": bReturn
         }

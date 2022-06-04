@@ -121,7 +121,7 @@ class QuadOverseer:
         # We found a multiplication or division
         elif operator == "*" or operator == "/":
             # Verify for other multiplications or divisions
-            while len(self.operator_stack) > 0 and (self.operator_stack[-1] == "*" or self.operator_stack[-1] == "/"):
+            while len(self.operator_stack) > 0 and (self.operator_stack[-1] == Hierarchy.MULT_DIV or self.operator_stack[-1] < Hierarchy.MULT_DIV):
                 op = self.popOperatorS()
                 operandA = self.popOperandS()
                 operandB = self.popOperandS()
@@ -135,7 +135,7 @@ class QuadOverseer:
         # We found a sum or substraction
         elif operator == "+" or operator == "-":
             # Verify for other sums or substractions
-            while len(self.operator_stack) > 0 and (self.operator_stack[-1] == "+" or self.operator_stack[-1] == "-"):
+            while len(self.operator_stack) > 0 and (self.operator_stack[-1] == Hierarchy.SUM_SUB or self.operator_stack[-1] < Hierarchy.SUM_SUB):
                 op = self.popOperatorS()
                 operandB = self.popOperandS()
                 operandA = self.popOperandS()
