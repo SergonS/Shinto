@@ -32,7 +32,7 @@ class QuadOverseer:
 
 
     # Add Operand to polish vector which includes the variable to add and its type
-    def addOperand(self, var: Variable, type: str):
+    def addOperand(self, var, type: str):
         self.polish_vector.append((var, type))
 
     # Add Operator to polish vector

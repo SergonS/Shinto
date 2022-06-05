@@ -6,7 +6,7 @@ int function volta(fifa: int, ea: float, ball: float)
 {
 	var int iX, iY;
 
-	iX = 3
+	iX = 3;
 
 }
 

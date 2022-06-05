@@ -4,6 +4,7 @@ class Function:
     name: str
     data_type: str
     bReturn: bool = False
+    initQuad: int
     params = {}
     vars = {}
 
@@ -25,6 +26,9 @@ class Function:
             print("Variable already in function")
         else:
             self.vars[var.name] = var
+
+    def addIQuad(self, quad: int):
+        self.initQuad = quad
         
     def showParams(self):
         if self.params is not None:
