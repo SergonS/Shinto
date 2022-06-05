@@ -145,7 +145,7 @@ class ShintoLexer(Lexer):
         return t
 
     @_(r'string')
-    def STRING(self, t):
+    def D_STRING(self, t):
         t.value = str(t.value)
         return t
 

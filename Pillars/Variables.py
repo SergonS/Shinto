@@ -1,6 +1,3 @@
-import string
-from Pillars.Data_Types import Data_Type
-
 class Variable:
     name: str
     data_type: str

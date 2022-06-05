@@ -1,4 +1,5 @@
 from Pillars.Data_Types import Data_Type
+from Pillars.Variables import Variable
 from VM.Delimitations import Delimitation
 from Pillars.Directory_Variables import Directory_Vars
 from Pillars.Semantic_Cube import Semantic_Cube
@@ -31,7 +32,7 @@ class QuadOverseer:
 
 
     # Add Operand to polish vector which includes the variable to add and its type
-    def addOperand(self, var: int, type: str):
+    def addOperand(self, var: Variable, type: str):
         self.polish_vector.append((var, type))
 
     # Add Operator to polish vector

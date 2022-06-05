@@ -22,3 +22,11 @@ class Directory_Vars:
                 print(self.directory[var].scope + " " + self.directory[var].data_type + " " + self.directory[var].name + " at address " + str(self.directory[var].addr) + " with a value of " + self.directory[var].value) 
         else:
             print("Directory is empty.")
+
+    def hasVar(self, name: str) -> bool:
+        hasKey = False
+
+        if name in self.directory:
+            hasKey = True
+        
+        return hasKey

@@ -2,9 +2,11 @@ program alpha;
 var float globala, globalb, globalc;
 var int w, x, y, z;
 
-int function volta()
+int function volta(fifa: int, ea: float, ball: float)
 {
 	var int iX, iY;
+
+	iX = 3
 
 }
 

@@ -28,11 +28,11 @@ if __name__ == '__main__':
         res = S_parser.parse(S_lexer.tokenize(f))
 
         S_parser.quads.printQuads()
-        S_parser.constants.printCTable()
+        #S_parser.constants.printCTable()
         
-        print(S_parser.quads.polish_vector)
+        #print(S_parser.quads.polish_vector)
 
-        print(res)
+        #print(res)
 
 
         
