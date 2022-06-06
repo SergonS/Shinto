@@ -25,10 +25,14 @@ if __name__ == '__main__':
         file = open(f_name, 'r') 
         f = file.read()
 
+        """
+        for tok in S_lexer.tokenize(f):
+            print('type=%r, value=%r' % (tok.type, tok.value))
+        """
         res = S_parser.parse(S_lexer.tokenize(f))
 
         S_parser.quads.printQuads()
-        #S_parser.constants.printCTable()
+        S_parser.constants.printCTable()
         
         #print(S_parser.quads.polish_vector)
 

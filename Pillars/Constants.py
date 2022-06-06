@@ -6,6 +6,7 @@ class C_Table:
     c_integers = {}
     c_floats = {}
     c_strings = {}
+    c_booleans = {}
 
 
     def addInteger(self, value: str, addr: int) -> bool:
@@ -38,11 +39,22 @@ class C_Table:
     def getString(self, value: str) -> int:
         return self.c_strings[value]
 
+    def addBoolean(self, value: str, addr: int) -> bool:
+        if value not in self.c_booleans:
+            self.c_booleans[value] = addr
+            return True
+        else:
+            return False
+
+    def getBoolean(self, value: str) -> int:
+        return self.c_booleans[value]
+
     def getCTable(self) -> dict:
         table = {
             "integer": self.c_integers,
             "float": self.c_floats,
-            "string": self.c_strings
+            "string": self.c_strings,
+            "boolean": self.c_booleans
         }
         return table
 
@@ -55,4 +67,7 @@ class C_Table:
         print()
         print("Strings:")
         print(self.c_strings)
+        print()
+        print("Booleans:")
+        print(self.c_booleans)
         print()

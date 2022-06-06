@@ -19,6 +19,7 @@ from VM.Delimitations import Delimitation
 """
 
 class ShintoParser(Parser):
+    debugfile = 'parser.out'
     tokens = ShintoLexer.tokens
     ERROR_FLAG = False
     stack_dim = []
@@ -56,6 +57,7 @@ class ShintoParser(Parser):
         print("VARIABLES DIR:")
         self.dir_vars.showDirectory()
         print()
+        print(self.quads.polish_vector)
         pass
 
     # GLOBAL VARS
@@ -96,10 +98,9 @@ class ShintoParser(Parser):
     def vars(self, x):
         pass
 
-    @_('VAR datatype varids store_type ";" vars')
+    @_('VAR datatype varids store_type ";" ')
     def vars(self, x):
         pass
-
 
     # VARIDS
     @_('ID "," varids')
@@ -123,10 +124,8 @@ class ShintoParser(Parser):
     def functions(self, x):
         pass
 
-    @_('datatype FUNC ID "(" params store_params ")" store_init_quad "{" vars store_local_vars statement "}" functions')
+    @_('datatype FUNC ID "(" params store_params ")" store_funcv store_init_quad  "{" vars store_local_vars statement "}" functions')
     def functions(self, x):
-        func = self.createFunction(x[2], x[0])
-        self.dir_functions.addFunc(func)
         pass
 
     # PARAMS
@@ -167,10 +166,16 @@ class ShintoParser(Parser):
     def statement(self, x):
         pass
 
-    @_('var_assign ";"')
+    
+    @_('var_assign')
     def statement(self, x):
         pass
 
+    @_('expr ";"')
+    def statement(self, x):
+        pass
+    
+    """
     # IF FUNCTION
 
     @_('IF "(" expr ")" store_gotof "{" statement "}" ELSE store_goto "{" statement "}" end_if')
@@ -180,22 +185,16 @@ class ShintoParser(Parser):
     @_('IF "(" expr ")" store_gotof "{" statement "}" end_if')
     def statement(self, x):
         return ('if_stmt', x.condition, ('branch', x.statementA, x.statementB))
+    """
 
     # VAR ASSIGN
     
-    @_('ID "=" expr')
+    @_('ID store_oper "=" expr ";"')
     def var_assign(self, x):
         self.storeOperation("=")
-        if self.verifyVar(x[0]):
-            var = self.dir_vars.getVar(x[0])
-            self.quads.addOperand(var.name, var.data_type)
-        return ('x.var_assign', x.ID, x.expr)
-
-    @_('ID "=" STRING')
-    def var_assign(self, x):
-        self.storeOperation("=")
-        return ('var_assign', x.ID, x.STRING)
-
+        pass
+    
+    
     """
     @_('FOR var_assign TO expr THEN statement')
     def statement(self, x):
@@ -220,82 +219,107 @@ class ShintoParser(Parser):
         return ('condition_eqeq', x.expr0, x.expr1)
 
     """
-
+    """
     @_('expr')
     def statement(self, x):
         return (x.expr)
+    """
     
     # EXPR
 
-    @_('arexp')
+    @_('arexp arexpx')
     def expr(self, x):
         pass
 
-    @_('arexp GOETHAN store_op arexp')
-    def expr(self, x):
+    @_('arexpxop store_op arexp')
+    def arexpx(self, x):
         pass
 
-    @_('arexp ">"store_op arexp')
-    def expr(self, x):
+    @_('')
+    def arexpx(self, x):
         pass
 
-    @_('arexp LOETHAN store_op arexp')
-    def expr(self, x):
+    @_('GOETHAN')
+    def arexpxop(self, x):
         pass
 
-    @_('arexp "<" store_op arexp')
-    def expr(self, x):
+    @_('">"')
+    def arexpxop(self, x):
         pass
 
-    @_('arexp AND store_op arexp')
-    def expr(self, x):
+    @_('LOETHAN')
+    def arexpxop(self, x):
         pass
 
-    @_('arexp DIFF store_op arexp')
-    def expr(self, x):
+    @_('"<"')
+    def arexpxop(self, x):
         pass
 
-    @_('arexp EQEQ store_op arexp')
-    def expr(self, x):
+    @_('AND')
+    def arexpxop(self, x):
         pass
 
-    @_('arexp OR store_op arexp')
-    def expr(self, x):
+    @_('DIFF')
+    def arexpxop(self, x):
+        pass
+
+    @_('EQEQ')
+    def arexpxop(self, x):
+        pass
+
+    @_('OR')
+    def arexpxop(self, x):
         pass
 
     # AREXP
 
-    @_('term "+" store_op term')
-    def arexp(self, x):
-        return ('add', x.term, x.term)
-
-    @_('term "-" store_op term')
-    def arexp(self, x):
-        return ('sub', x.expr, x.term)
-
     @_('term')
     def arexp(self, x):
-        return x.term
+        pass
+
+    @_('term arexpextra')
+    def arexp(self, x):
+        pass
+
+    @_('"+" term arexpextra')
+    def arexpextra(self, x):
+        self.storeOperation("+")
+
+    @_('"-" term arexpextra')
+    def arexpextra(self, x):
+        self.storeOperation("-")
+
+    @_('')
+    def arexpextra(self, x):
+        pass
 
     # TERM
 
-    @_('factor "*" store_op factor')
-    def term(self, x):
-        return ('mul', x.term, x.factor)
-
-    @_('factor "/" store_op factor')
-    def term(self, x):
-        return ('div', x.term, x.factor)
-
     @_('factor')
     def term(self, x):
-        return x.factor
+        pass
+
+    @_('factor termx')
+    def term(self, x):
+        pass
+
+    @_('"*" factor termx')
+    def termx(self, x):
+        self.storeOperation("*")
+
+    @_('"/" store_op factor termx')
+    def termx(self, x):
+        self.storeOperation("/")
+
+    @_('')
+    def termx(self, x):
+        pass
 
     # FACTOR
 
     @_('"(" store_op expr ")" store_op')
     def factor(self, x):
-        return x.expr
+        pass
 
     @_('element')
     def factor(self, x):
@@ -303,42 +327,53 @@ class ShintoParser(Parser):
 
     # ELEMENT
 
-    @_('const')
+    @_('const store_const')
     def element(self, x):
         pass
 
-    @_('callfunc')
+    @_('compound store_oper')
     def element(self, x):
         pass
+
+    @_('compoundx')
+    def compound(self, x):
+        pass
+
+    """
+    @_('callfunc')
+    def compound(self, x):
+        pass
+    """
 
     @_('ID')
-    def factor(self, x):
-        return x.ID
-
+    def compoundx(self, x):
+        pass
+    
+    """
+    @_('callfunc ";"')
+    def element(self, x):
+        pass
+    """
     # CONST
 
-    @_('TRUE')
+    @_('TRUE store_const')
     def const(self, x):
-        self.storeConstant("bool", str(x.TRUE))
         return ('boolean', x.TRUE)
 
-    @_('FALSE')
+    @_('FALSE store_const')
     def const(self, x):
-        self.storeConstant("bool", str(x.FALSE))
         return ('bool', x.FALSE)
 
     @_('INT')
     def const(self, x):
-        self.storeConstant("int", str(x.INT))
         return ('int', x.INT)
 
-    @_('FLOAT')
+    @_('FLOAT store_const')
     def factor(self, x):
-        self.storeConstant("float", str(x.FLOAT))
         return ('float', x.FLOAT)
 
     # CALLFUNC
-
+    """
     @_('ID verify_func add_fstack "(" expr xexpr ")" end_fstack store_gosub')
     def callfunc(self, x):
         pass
@@ -350,7 +385,7 @@ class ShintoParser(Parser):
     @_('"," expr')
     def xexpr(self, x):
         pass
-
+    """
     # DATA TYPE
 
     @_('D_INT')
@@ -368,6 +403,7 @@ class ShintoParser(Parser):
     @_('D_BOOL')
     def datatype(self, x):
         return "bool"
+
     
 
     ### Neuralgic Points
@@ -384,8 +420,50 @@ class ShintoParser(Parser):
 
     @_('')
     def store_init_quad(self, x):
-        self.dir_functions.getFunc(x[-5]).addIQuad(len(self.quads.getQuads()))
+        self.dir_functions.getFunc(x[-6]).addIQuad(len(self.quads.getQuads()))
         pass
+
+    @_('')
+    def store_funcv(self, x):
+        #[-5] name
+        #[-7] data_type
+        dt = x[-7]
+        name = x[-5]
+
+        func = self.createFunction(name, dt)
+        self.dir_functions.addFunc(func)
+
+        if dt == "int":
+            addr = self.delimitation.getAddr("global_int") + self.delimitation.getCounter("global_int")
+            self.delimitation.verifyDelimitation(addr, "global_int")
+
+            if self.globals.addInteger(name, addr) == True:
+                self.delimitation.updateCounter("global_int")
+                self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, "global")
+
+        elif dt == "float":
+            addr = self.delimitation.getAddr("global_float") + self.delimitation.getCounter("global_float")
+            self.delimitation.verifyDelimitation(addr, "global_float")
+
+            if self.globals.addFloat(name, addr) == True:
+                self.delimitation.updateCounter("global_float")
+                self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, "global")
+
+        elif dt == "string":
+            addr = self.delimitation.getAddr("global_string") + self.delimitation.getCounter("global_string")
+            self.delimitation.verifyDelimitation(addr, "global_string")
+
+            if self.globals.addString(name, addr) == True:
+                self.delimitation.updateCounter("global_string")
+                self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, "global")
+
+        elif dt == "bool":
+            addr = self.delimitation.getAddr("global_bool") + self.delimitation.getCounter("global_bool")
+            self.delimitation.verifyDelimitation(addr, "global_bool")
+
+            if self.globals.addBoolean(name, addr) == True:
+                self.delimitation.updateCounter("global_bool")
+                self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, "global")
 
     @_('')
     def store_params(self, x):
@@ -402,6 +480,21 @@ class ShintoParser(Parser):
     @_('')
     def store_op(self, x):
         self.storeOperation(x[-1])
+        pass
+    
+    @_('')
+    def store_oper(self, x):
+        if self.verifyVar(x[-1]):
+            var = self.dir_vars.getVar(x[-1])
+
+            if self.verifyFunc(x[-1]) == False:
+                self.quads.addOperand(var.name, var.data_type)
+        pass
+
+    @_('')
+    def store_const(self, x):
+        self.storeConstant(x[-1][0], x[-1][1])
+        pass
 
     @_('')
     def verify_func(self, x):
@@ -523,6 +616,7 @@ class ShintoParser(Parser):
                     if self.locals.addBoolean(var, addr) == True:
                         self.delimitation.updateCounter("local_bool")
                         self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, scope)
+
         self.stack_vars.clear()
 
     def storeParams(self, funcName: str):
@@ -560,7 +654,6 @@ class ShintoParser(Parser):
                 if self.locals.addBoolean(var, addr) == True:
                     self.delimitation.updateCounter("local_bool")
                     self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, funcName)
-        #self.stack_params.clear()
 
     def createFunction(self, funcName: str, data_type: str) -> Function:
         func = Function(funcName, data_type)
@@ -587,9 +680,11 @@ class ShintoParser(Parser):
         if dt_constant == "int":
             addr = self.delimitation.getAddr("constant_int") + self.delimitation.getCounter("constant_int")
             self.delimitation.verifyDelimitation(addr, "constant_int")
-
-            if self.constants.addInteger(val_constant, addr) == True:
-                self.delimitation.updateCounter("constant_int")
+            
+            print("VARIABLE ADDED TO CONSTANTS")
+            self.constants.addInteger(val_constant, addr)
+            self.delimitation.updateCounter("constant_int")
+            self.quads.addOperand(addr, "int")
 
         elif dt_constant == "float":
             addr = self.delimitation.getAddr("constant_float") + self.delimitation.getCounter("constant_float")
@@ -597,6 +692,7 @@ class ShintoParser(Parser):
 
             if self.constants.addFloat(val_constant, addr) == True:
                 self.delimitation.updateCounter("constant_float")
+                self.quads.addOperand(addr, "float")
 
         elif dt_constant == "string":
             addr = self.delimitation.getAddr("constant_string") + self.delimitation.getCounter("constant_string")
@@ -604,8 +700,15 @@ class ShintoParser(Parser):
 
             if self.constants.addString(val_constant, addr) == True:
                 self.delimitation.updateCounter("constant_string")
+                self.quads.addOperand(addr, "string")
+        
+        elif dt_constant == "bool":
+            addr = self.delimitation.getAddr("constant_bool") + self.delimitation.getCounter("constant_bool")
+            self.delimitation.verifyDelimitation(addr, "constant_bool")
 
-        self.quads.addOperand(addr, dt_constant)
+            if self.constants.addBoolean(val_constant, addr) == True:
+                self.delimitation.updateCounter("constant_bool")
+                self.quads.addOperand(addr, "bool")
 
     def verifyVar(self, var: str) -> bool:
         return self.dir_vars.hasVar(var)

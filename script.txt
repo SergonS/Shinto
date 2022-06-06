@@ -6,12 +6,10 @@ int function volta(fifa: int, ea: float, ball: float)
 {
 	var int iX, iY;
 
-	iX = 3;
-
+	iX = 3 + 5 + 8 * 4;
 }
 
 function main()
 {
 	var int iA, iB, iC;
-	var float ba, bb, bc;
 }

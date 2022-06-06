@@ -182,6 +182,7 @@ class QuadOverseer:
             self.unloadPolishVector()
         # Append operator
         if (operator != ')'):
+            print(self.polish_vector)
             self.operator_stack.append(operator)
             op = self.popOperatorS()
             operandB = self.popOperandS()
@@ -208,6 +209,7 @@ class QuadOverseer:
 
     # Unload Polish Vector
     def unloadPolishVector(self):
+        print(self.operator_stack)
         while len(self.operator_stack) > 0:
             if self.operator_stack[-1] == '(':
                 break
@@ -224,7 +226,8 @@ class QuadOverseer:
 
                 self.addQuad(operator, (), (), operand)
             # If we find a var assignment
-            elif self.operators[self.operator_stack[-1]] == Hierarchy.ASSIGN:
+            elif self.operators[self.operator_stack[-1]] == "=":
+                print("ASSIGNMENT")
                 operator = self.popOperatorS()
                 operandA = self.popOperandS()
                 operandB = self.popOperandS()

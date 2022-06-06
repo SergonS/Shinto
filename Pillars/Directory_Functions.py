@@ -10,7 +10,7 @@ class Directory_Func:
         return self.directory[name]
 
     def addFunc(self, function: Function):
-        self.directory[function.name] = function
+        self.directory[str(function.name)] = function
 
     def getDirectory(self) -> dict:
         return self.directory
