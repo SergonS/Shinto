@@ -1,6 +1,8 @@
 import sys
 from sly import Parser
+from Pillars.Data_Types import Data_Type
 from Pillars.Functions import Function
+from Pillars.Variables import Variable
 from Pillars.Locals import L_Table
 from Sly.lexer import ShintoLexer
 from Pillars.Directory_Functions import Directory_Func
@@ -57,8 +59,20 @@ class ShintoParser(Parser):
         print("VARIABLES DIR:")
         self.dir_vars.showDirectory()
         print()
+        print("FUNCTIONS DIR:")
+        self.dir_functions.showDirectory()
+        print()
         print(self.quads.polish_vector)
         pass
+
+    def parseData(self) -> dict:
+        data = {
+            "Globals": self.globals.getGTable(),
+            "Constants": self.constants.getCTable(),
+            "Locals": self.locals.getLTable(),
+            "Quadruples": self.quads.getQuads()
+        }
+        return data
 
     # GLOBAL VARS
 
@@ -124,8 +138,16 @@ class ShintoParser(Parser):
     def functions(self, x):
         pass
 
-    @_('datatype FUNC ID "(" params store_params ")" store_funcv store_init_quad  "{" vars store_local_vars statement "}" functions')
+    @_('datatype FUNC ID "(" params ")" store_funcv store_params store_init_quad  "{" vars store_local_vars funcontent "}" close_func functions')
     def functions(self, x):
+        pass
+
+    @_('statement funcontent')
+    def funcontent(self, x):
+        pass
+
+    @_('')
+    def funcontent(self, x):
         pass
 
     # PARAMS
@@ -146,14 +168,16 @@ class ShintoParser(Parser):
 
     # MAIN
 
-    @_('FUNC MAIN "(" ")" "{" vars statement "}" store_main')
+    @_('FUNC MAIN "(" ")" store_funcm "{" vars store_mainv maincontent "}" store_main')
     def main(self, x):
-        #self.dir_functions.addFunc("main", "void")
-        if len(self.stack_vars) > 0:
-            self.storeLocalVars("main")
+        pass
 
-        func = self.createFunction("main", "void")
-        self.dir_functions.addFunc(func)
+    @_('statement maincontent')
+    def maincontent(self, x):
+        pass
+
+    @_('')
+    def maincontent(self, x):
         pass
 
     # STATEMENTS
@@ -167,11 +191,15 @@ class ShintoParser(Parser):
         pass
 
     
-    @_('var_assign')
+    @_('var_assign unload_pv')
     def statement(self, x):
         pass
 
     @_('expr ";"')
+    def statement(self, x):
+        pass
+
+    @_('returns unload_pv ";"')
     def statement(self, x):
         pass
     
@@ -194,6 +222,9 @@ class ShintoParser(Parser):
         self.storeOperation("=")
         pass
     
+    @_('RETURN expr store_rquad')
+    def returns(self, x):
+        pass
     
     """
     @_('FOR var_assign TO expr THEN statement')
@@ -307,7 +338,7 @@ class ShintoParser(Parser):
     def termx(self, x):
         self.storeOperation("*")
 
-    @_('"/" store_op factor termx')
+    @_('"/" factor termx')
     def termx(self, x):
         self.storeOperation("/")
 
@@ -339,21 +370,14 @@ class ShintoParser(Parser):
     def compound(self, x):
         pass
 
-    """
-    @_('callfunc')
-    def compound(self, x):
-        pass
-    """
-
-    @_('ID')
+    @_('ID store_oper')
     def compoundx(self, x):
         pass
     
-    """
-    @_('callfunc ";"')
+    @_('callfunc store_oper')
     def element(self, x):
         pass
-    """
+    
     # CONST
 
     @_('TRUE store_const')
@@ -373,11 +397,29 @@ class ShintoParser(Parser):
         return ('float', x.FLOAT)
 
     # CALLFUNC
-    """
-    @_('ID verify_func add_fstack "(" expr xexpr ")" end_fstack store_gosub')
+    
+    @_('ID verify_func add_fstack "(" callfuncpar ver_params ")" end_fstack store_gosub')
     def callfunc(self, x):
         pass
 
+    @_('expr store_pquad callfuncparx')
+    def callfuncpar(self, x):
+        pass
+
+    @_('')
+    def callfuncpar(self, x):
+        pass
+
+    @_('"," callfuncpar')
+    def callfuncparx(self, x):
+        pass
+
+    @_('')
+    def callfuncparx(self, x):
+        pass
+    
+
+    """
     @_('')
     def xexpr(self, x):
         pass
@@ -416,6 +458,7 @@ class ShintoParser(Parser):
 
     @_('')
     def check_program(self, x):
+        self.scope = "global"
         pass
 
     @_('')
@@ -424,14 +467,26 @@ class ShintoParser(Parser):
         pass
 
     @_('')
+    def store_funcm(self, x):
+        self.scope = "main"
+        func = self.createFunction("main", "void")
+        func.addIQuad(len(self.quads.getQuads()) + 1)
+
+        addr = self.delimitation.getAddr("global_int") + self.delimitation.getCounter("global_int")
+        self.delimitation.verifyDelimitation(addr, "global_int")
+        self.delimitation.updateCounter("global_int")
+        self.dir_vars.appendToDirectory("main", "void", addr, 0, 0, "global")
+        func.addr = addr
+
+        self.dir_functions.addFunc(func)
+
+    @_('')
     def store_funcv(self, x):
         #[-5] name
         #[-7] data_type
-        dt = x[-7]
-        name = x[-5]
-
-        func = self.createFunction(name, dt)
-        self.dir_functions.addFunc(func)
+        dt = x[-6]
+        name = x[-4]
+        self.scope = name
 
         if dt == "int":
             addr = self.delimitation.getAddr("global_int") + self.delimitation.getCounter("global_int")
@@ -458,24 +513,33 @@ class ShintoParser(Parser):
                 self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, "global")
 
         elif dt == "bool":
-            addr = self.delimitation.getAddr("global_bool") + self.delimitation.getCounter("global_bool")
-            self.delimitation.verifyDelimitation(addr, "global_bool")
+            addr = self.delimitation.getAddr("global_boolean") + self.delimitation.getCounter("global_boolean")
+            self.delimitation.verifyDelimitation(addr, "global_boolean")
 
             if self.globals.addBoolean(name, addr) == True:
-                self.delimitation.updateCounter("global_bool")
+                self.delimitation.updateCounter("global_boolean")
                 self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, "global")
+        func = self.createFunction(name, dt)
+        func.addr = addr
+
+        self.dir_functions.addFunc(func)
 
     @_('')
     def store_params(self, x):
         if len(self.stack_params) > 0:
-            self.storeParams(x[-3])
+            self.storeParams(x[-5])
         pass
 
     @_('')
     def store_local_vars(self, x):
         if len(self.stack_vars) > 0:
-            self.storeLocalVars(x[-7])
+            self.storeLocalVars(x[-9])
         pass
+
+    @_('')
+    def store_mainv(self, x):
+        if len(self.stack_vars) > 0:
+            self.storeLocalVars("main")
 
     @_('')
     def store_op(self, x):
@@ -486,8 +550,10 @@ class ShintoParser(Parser):
     def store_oper(self, x):
         if self.verifyVar(x[-1]):
             var = self.dir_vars.getVar(x[-1])
+            #print("STORING " + var.name + " IN POLISH VECTOR")
 
             if self.verifyFunc(x[-1]) == False:
+                #print(var.name + " NOT A FUNC")
                 self.quads.addOperand(var.name, var.data_type)
         pass
 
@@ -497,9 +563,52 @@ class ShintoParser(Parser):
         pass
 
     @_('')
+    def unload_pv(self, x):
+        self.quads.unloadPolishVector()
+        pass
+
+    @_('')
+    def store_rquad(self, x):
+        func = self.dir_functions.getFunc(self.scope)
+
+        if func.data_type == "void":
+            sys.exit(f'Function {self.scope} is of type void, it cannot have return')
+        
+        self.quads.addOperand(func.addr, func.data_type)
+        #print(str(self.quads.polish_vector) + " at RETYURN")
+        self.quads.addOperator("return")
+        self.quads.addOperator("endfunc")
+
+        func.returnVar = True
+        pass
+
+    @_('')
+    def close_func(self, x):
+        pass
+
+    @_('')
+    def store_pquad(self, x):
+        self.quads.unloadPolishVector()
+
+        if self.counter_params < len(self.call_params):
+            self.quads.addOperand(self.call_params[self.counter_params].addr, self.call_params[self.counter_params].data_type)
+            self.quads.addOperator("params")
+            self.counter_params = self.counter_params + 1
+        else:
+            sys.exit(f'Different number of arguments between call function and the actual function')
+        pass
+
+    @_('')
+    def ver_params(self, x):
+        if self.counter_params < len(self.call_params):
+            sys.exit(f'Missing arguments for called function')
+        pass
+
+    @_('')
     def verify_func(self, x):
         if self.verifyFunc(x[-1]) == False:
             sys.exit(f'Error: Function {x[-1]} called at line {x.lineno} not previously declared')
+        self.createEra(x[-1], self.dir_functions.getFunc(x[-1]))
         pass
 
     @_('')
@@ -514,12 +623,16 @@ class ShintoParser(Parser):
 
     @_('')
     def store_gosub(self, x):
-        func = self.dir_functions.getFunc(x[8])
-        self.quads.addOperand(func.initQuad, x[-8])
+        func = self.dir_functions.getFunc(x[-8])
+
+        self.quads.addOperand(func.initQuad, func.name)
         self.quads.addOperator("gosub")
 
-        if func.bReturn:
-            var = self
+        if func.returnVar:
+            var = self.dir_vars.getVar(func.name)
+
+            self.quads.addOperand(var.addr, var.data_type)
+            self.quads.addOperator("assignr")
         pass
 
     @_('')
@@ -571,11 +684,11 @@ class ShintoParser(Parser):
                         self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, "global")
 
                 elif dt == "bool":
-                    addr = self.delimitation.getAddr("global_bool") + self.delimitation.getCounter("global_bool")
-                    self.delimitation.verifyDelimitation(addr, "global_bool")
+                    addr = self.delimitation.getAddr("global_boolean") + self.delimitation.getCounter("global_boolean")
+                    self.delimitation.verifyDelimitation(addr, "global_boolean")
 
                     if self.globals.addBoolean(var, addr) == True:
-                        self.delimitation.updateCounter("global_bool")
+                        self.delimitation.updateCounter("global_boolean")
                         self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, "global")
         self.stack_gvars.clear
                     
@@ -616,13 +729,15 @@ class ShintoParser(Parser):
                     if self.locals.addBoolean(var, addr) == True:
                         self.delimitation.updateCounter("local_bool")
                         self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, scope)
-
+                newVar = Variable(var, dt, addr, 0, 0, scope)
+                self.dir_functions.getFunc(scope).addVar(newVar)
         self.stack_vars.clear()
 
     def storeParams(self, funcName: str):
         for vars in self.stack_params:
             var = vars[0]
             dt = vars[1]
+            addr = -1
             if dt == "int":
                 addr = self.delimitation.getAddr("local_int") + self.delimitation.getCounter("local_int")
                 self.delimitation.verifyDelimitation(addr, "local_int")
@@ -654,24 +769,24 @@ class ShintoParser(Parser):
                 if self.locals.addBoolean(var, addr) == True:
                     self.delimitation.updateCounter("local_bool")
                     self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, funcName)
+            newVar = Variable(var, dt, addr, 0, 0, funcName)
+            self.dir_functions.showDirectory()
+            self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, funcName)
+            self.dir_functions.getFunc(funcName).addParam(newVar)
+        self.stack_params.clear()
 
     def createFunction(self, funcName: str, data_type: str) -> Function:
         func = Function(funcName, data_type)
-        
-        if len(self.stack_params) > 0:
-            for param in self.stack_params:
-                func.addParam(self.dir_vars.getVar(param[0]))
-
-        if len(self.stack_vars) > 0:
-            for var in self.stack_params:
-                func.addParam(self.dir_vars.getVar(var[0]))   
-
-        # Reset params and vars stacks
-
-        self.stack_params.clear()
-        self.stack_vars.clear()
-
         return func
+
+    def createEra(self, name: str, function: Function):
+        self.quads.addOperand(name, "")
+        self.quads.addOperator("era")
+
+        params = function.params
+
+        for param in params:
+            self.call_params.append(params[param])
 
     def storeOperation(self, operator: str):
         self.quads.addOperator(operator)
@@ -681,10 +796,12 @@ class ShintoParser(Parser):
             addr = self.delimitation.getAddr("constant_int") + self.delimitation.getCounter("constant_int")
             self.delimitation.verifyDelimitation(addr, "constant_int")
             
-            print("VARIABLE ADDED TO CONSTANTS")
-            self.constants.addInteger(val_constant, addr)
-            self.delimitation.updateCounter("constant_int")
-            self.quads.addOperand(addr, "int")
+            if self.constants.addInteger(val_constant, addr) == True:
+                self.constants.addInteger(val_constant, addr)
+                self.delimitation.updateCounter("constant_int")
+                self.quads.addOperand(addr, "int")
+            else:
+                self.quads.addOperand(self.constants.getInteger(val_constant), "int")
 
         elif dt_constant == "float":
             addr = self.delimitation.getAddr("constant_float") + self.delimitation.getCounter("constant_float")

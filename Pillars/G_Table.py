@@ -50,9 +50,9 @@ class G_Table:
 
     def getGTable(self) -> dict:
         table = {
-            "integer": self.g_integers,
+            "int": self.g_integers,
             "float": self.g_floats,
             "string": self.g_strings,
-            "boolean": self.g_booleans
+            "bool": self.g_booleans
         }
         return table

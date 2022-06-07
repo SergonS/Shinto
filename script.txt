@@ -2,14 +2,18 @@ program alpha;
 var float globala, globalb, globalc;
 var int w, x, y, z;
 
-int function volta(fifa: int, ea: float, ball: float)
+int function volta(fifa: int, ea: int, ball: int)
 {
 	var int iX, iY;
 
-	iX = 3 + 5 + 8 * 4;
+	iX = 3 + 5 + 8 * 9 / 2;
+	return iX;
 }
 
 function main()
 {
-	var int iA, iB, iC;
+	var int iA, iB, iC, iD;
+
+	iA = 1 + 6 + 3;
+	iD = volta(iA, iB, iC);
 }

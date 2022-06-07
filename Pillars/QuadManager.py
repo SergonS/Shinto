@@ -80,10 +80,13 @@ class QuadOverseer:
             self.addQuad(operator, val, (), param)
         # We found gosub
         elif self.operators[operator] == Hierarchy.GOSUB:
+            print("ENTERING GOSUB")
             quad = self.popOperandS()
             self.addQuad(operator, (quad[1], ""), (), (quad[0], ""))
         # We found a return
-        elif self.operators[operator] == Hierarchy.RETURN:
+        elif operator == "return":
+            print("ENTERING RETURN")
+            print(self.polish_vector)
             memory = self.popOperandS()
             operand = self.popOperandS()
 
@@ -181,8 +184,9 @@ class QuadOverseer:
         elif (self.operators[operator] == Hierarchy.PRINT and len(self.operator_stack) > 0):
             self.unloadPolishVector()
         # Append operator
-        if (operator != ')'):
-            print(self.polish_vector)
+        if (operator != ')' and operator != '=' and operator != 'return' and operator != 'endfunc' and operator != 'era' and operator != '(' and operator != 'params' and operator != 'gosub' and operator != 'assignr'):
+            print("MAKING QUAD OF " + operator)
+            #print(self.polish_vector)
             self.operator_stack.append(operator)
             op = self.popOperatorS()
             operandB = self.popOperandS()
@@ -194,6 +198,8 @@ class QuadOverseer:
                 sys.exit(f"Operation of {op} involving {operandA[1]} and {operandB[1]} cannot be performed")
                 
             self.addQuad(op, operandA, operandB, (None, match))
+        elif operator == '=':
+            self.operator_stack.append(operator)
 
     # Pop operator from Stack and return it
     def popOperatorS(self) -> str:
@@ -226,8 +232,7 @@ class QuadOverseer:
 
                 self.addQuad(operator, (), (), operand)
             # If we find a var assignment
-            elif self.operators[self.operator_stack[-1]] == "=":
-                print("ASSIGNMENT")
+            elif self.operators[self.operator_stack[-1]] == Hierarchy.ASSIGN:
                 operator = self.popOperatorS()
                 operandA = self.popOperandS()
                 operandB = self.popOperandS()
@@ -254,20 +259,24 @@ class QuadOverseer:
     # Unload stack when parenthesis found
     def unloadStack(self):
         # As long as we dont find the first parenthesis
-        while self.operator_stack[-1] != '(':
-            operator = self.popOperatorS()
-            operandA = self.popOperandS()
-            operandB = self.popOperandS()
-            
-            # We verify if the operation is valid with our Semantic Cube
-            match = self.semantic_cube.operation_return(operandA[1], operandB[2], operator)
+        print("OPERATOR STACK")
+        print(self.operator_stack)
+        if len(self.operator_stack) > 0:
 
-            # If the result is invalid then we exit because the operation cannot be done
-            if match == Data_Type.INVALID.value:
-                sys.exit(f"Operation of {operator} involving {operandA[1]} and {operandB[1]} cannot be performed")
+            while self.operator_stack[-1] != '(':
+                operator = self.popOperatorS()
+                operandA = self.popOperandS()
+                operandB = self.popOperandS()
+                
+                # We verify if the operation is valid with our Semantic Cube
+                match = self.semantic_cube.operation_return(operandA[1], operandB[2], operator)
 
-            # If it can be done we continue and add it to the quadruples
-            self.addQuad(operator, operandA, operandB, (None, match))
+                # If the result is invalid then we exit because the operation cannot be done
+                if match == Data_Type.INVALID.value:
+                    sys.exit(f"Operation of {operator} involving {operandA[1]} and {operandB[1]} cannot be performed")
+
+                # If it can be done we continue and add it to the quadruples
+                self.addQuad(operator, operandA, operandB, (None, match))
 
     # Print all Quads
     def printQuads(self):

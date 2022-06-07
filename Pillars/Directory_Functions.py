@@ -18,7 +18,8 @@ class Directory_Func:
     def showDirectory(self):
         if self.directory is not None:
             for func in self.directory:
-                print("Function " + self.directory[func].name + " of type " + self.directory[func].data_type)
+                print(self.directory[func])
+                self.directory[func].showParams()
 
     def hasFunc(self, name: str) -> bool:
         hasKey = False

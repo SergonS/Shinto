@@ -30,7 +30,7 @@ class VirtualMachine:
 
     def solveQuad(self, quad: dict):
         # Verify if operator is +, -, *, /, <, <=, >=, ==, !=, && or ||
-        if self.operators.getOID(quad["operator"]) >= 1 and self.operators.getOID(quad["operator"]) <= 12:
+        if self.operators.getOpID(quad["operator"]) >= 1 and self.operators.getOpID(quad["operator"]) <= 12:
             # Get operands and the address to store
             opA = quad["operandA"]
             opA = self.em.getValue(opA[0], opA[1])

@@ -3,17 +3,20 @@ from Pillars.Variables import Variable
 class Function:
     name: str
     data_type: str
-    bReturn: bool = False
+    returnVar: bool
     initQuad: int
-    params = {}
-    vars = {}
+    addr: int
 
     def __init__(self, name: str, data_type: str = "void"):
         self.name = name
         self.data_type = data_type
-        
-        if data_type != "void":
-            self.bReturn = True
+
+        self.params = {}
+        self.vars = {}
+        self.initQuad = 0
+        self.returnVar = False
+        self.addr = 0
+
 
     def addParam(self, var: Variable):
         if var.name in self.params:
@@ -39,5 +42,12 @@ class Function:
         if self.vars is not None:
             for var in self.vars:
                 print(var)
+
+    def getNParams(self) -> int:
+        return len(self.params)
+
+    def __repr__(self) -> str:
+        return f'Function({self.name}, {self.data_type}, with {len(self.params)} args and {len(self.vars)} vars, starting at Quad #{self.initQuad})'
+
 
     

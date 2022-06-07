@@ -71,7 +71,8 @@ class ShintoLexer(Lexer):
         'LOETHAN',          # <=
         'DIFF',             # !=
         'AND',              # &&
-        'OR'                # ||
+        'OR',                # ||
+        'RETURN'
     }
 
     reserved = {

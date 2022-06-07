@@ -1,5 +1,6 @@
 from Sly.lexer import ShintoLexer
 from Sly.parser import ShintoParser
+from VM.VirtualMachine import VirtualMachine
 
 if __name__ == '__main__':
         S_lexer = ShintoLexer()
@@ -30,6 +31,8 @@ if __name__ == '__main__':
             print('type=%r, value=%r' % (tok.type, tok.value))
         """
         res = S_parser.parse(S_lexer.tokenize(f))
+
+        em = VirtualMachine(S_parser.parseData())
 
         S_parser.quads.printQuads()
         S_parser.constants.printCTable()

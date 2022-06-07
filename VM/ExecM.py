@@ -1,6 +1,6 @@
 from Pillars.Directory_Functions import Directory_Func
 from Pillars.Directory_Variables import Directory_Vars
-from Delimitations import Delimitation
+from VM.Delimitations import Delimitation
 import sys
 
 class ExMemory:
@@ -10,29 +10,30 @@ class ExMemory:
     extra_memory = []
 
     newEMemory = {
-        address["local_integers"]: [],
-        address["local_floats"]: [],
-        address["local_strings"]: [],
-        address["local_booleans"]: []
+        address["local_int"]: [],
+        address["local_float"]: [],
+        address["local_string"]: [],
+        address["local_bool"]: []
     }
 
     memory = {
         "global": {
-            address["global_integers"]: [],
-            address["global_floats"]: [],
-            address["global_strings"]: [],
-            address["global_booleans"]: []
+            address["global_int"]: [],
+            address["global_float"]: [],
+            address["global_string"]: [],
+            address["global_bool"]: []
         },
         "local": {
-            address["local_integers"]: [],
-            address["local_floats"]: [],
-            address["local_strings"]: [],
-            address["local_booleans"]: []
+            address["local_int"]: [],
+            address["local_float"]: [],
+            address["local_string"]: [],
+            address["local_bool"]: []
         },
         "constant": {
-            address["constant_integers"]: [],
-            address["constant_floats"]: [],
-            address["constant_strings"]: []
+            address["constant_int"]: [],
+            address["constant_float"]: [],
+            address["constant_string"]: [],
+            address["constant_bool"]: []
         }
     }
 
@@ -74,10 +75,10 @@ class ExMemory:
 
     # Initialize global memory with the memory needed
     def initializeGlobalMemory(self, globals: dict):
-        self.memory["global"][self.address["global_integers"]] = [None] * len(globals["int"])
-        self.memory["global"][self.address["global_floats"]] = [None] * len(globals["float"])
-        self.memory["global"][self.address["global_strings"]] = [None] * len(globals["string"])
-        self.memory["global"][self.address["global_booleans"]] = [None] * len(globals["boolean"])
+        self.memory["global"][self.address["global_int"]] = [None] * len(globals["int"])
+        self.memory["global"][self.address["global_float"]] = [None] * len(globals["float"])
+        self.memory["global"][self.address["global_string"]] = [None] * len(globals["string"])
+        self.memory["global"][self.address["global_bool"]] = [None] * len(globals["boolean"])
 
     # Store const value in its corresponding address within the memory
     def storeConstValue(self, data_type: str, vars: dict):
@@ -89,16 +90,17 @@ class ExMemory:
 
     # Initialize constant memory with the memory needed
     def initializeConstMemory(self, constants: dict):
-        self.memory["constant"][self.address["constant_integers"]] = [None] * len(constants["int"])
-        self.memory["constant"][self.address["constant_floats"]] = [None] * len(constants["float"])
-        self.memory["constant"][self.address["constant_strings"]] = [None] * len(constants["string"])
+        self.memory["constant"][self.address["constant_int"]] = [None] * len(constants["int"])
+        self.memory["constant"][self.address["constant_float"]] = [None] * len(constants["float"])
+        self.memory["constant"][self.address["constant_string"]] = [None] * len(constants["string"])
+        self.memory["constant"][self.address["constant_bool"]] = [None] * len(constants["bool"])
 
     # Initialize local memory with the memory needed
     def initializeLocalMemory(self, locals: dict):
-        self.newEMemory[self.address["local_integers"]] = [None] * len(locals["int"])
-        self.newEMemory[self.address["local_floats"]] = [None] * len(locals["int"])
-        self.newEMemory[self.address["local_strings"]] = [None] * len(locals["int"])
-        self.newEMemory[self.address["local_booleans"]] = [None] * len(locals["int"])
+        self.newEMemory[self.address["local_int"]] = [None] * len(locals["int"])
+        self.newEMemory[self.address["local_float"]] = [None] * len(locals["float"])
+        self.newEMemory[self.address["local_string"]] = [None] * len(locals["string"])
+        self.newEMemory[self.address["local_bool"]] = [None] * len(locals["bool"])
 
     # Copy the extra memory into the local memory in execution
     def setEMtoLM(self):
