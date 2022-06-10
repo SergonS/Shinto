@@ -19,13 +19,22 @@ class QuadOverseer:
     delimitation = Delimitation()
     op_id = OpID()
     operators = Operators().HierarchyOp
+    counter_temps = 0
 
     def __init__(self):
         self.quad_stack = []
         self.jumps_stack = []
         self.operator_stack = []
         self.polish_vector = []
+        self.counter_temps = 0
 
+        # Generate an initial quad just to have a more congruent number
+        self.quad_stack.append({
+            "operator": "init",
+            "operandA": (),
+            "operandB": (),
+            "t_memory": ()
+        })
         # Generate GOTO to start in main
         self.addQuad("goto", (), (), ())
         self.jumps_stack.append(len(self.quad_stack) - 1)
@@ -37,9 +46,13 @@ class QuadOverseer:
 
     # Add Operator to polish vector
     def addOperator(self, operator: str):
+        #print("OPERATOR = ")
+        #print(operator)
         # We found an ending parenthesis
         if operator == ')':
             self.unloadStack()
+        elif operator == '%':
+            operator = "output"
         # We found a GOTO
         elif self.operators[operator] == Hierarchy.GOTO:
             self.addQuad(operator, (), (), ())
@@ -80,13 +93,13 @@ class QuadOverseer:
             self.addQuad(operator, val, (), param)
         # We found gosub
         elif self.operators[operator] == Hierarchy.GOSUB:
-            print("ENTERING GOSUB")
+            #print("ENTERING GOSUB")
             quad = self.popOperandS()
             self.addQuad(operator, (quad[1], ""), (), (quad[0], ""))
         # We found a return
         elif operator == "return":
-            print("ENTERING RETURN")
-            print(self.polish_vector)
+            #print("ENTERING RETURN")
+            #print(self.polish_vector)
             memory = self.popOperandS()
             operand = self.popOperandS()
 
@@ -181,11 +194,12 @@ class QuadOverseer:
                 
                 self.addQuad(op, operandA, operandB, (None, match))
         # We found a print
-        elif (self.operators[operator] == Hierarchy.PRINT and len(self.operator_stack) > 0):
+        elif operator == "output":
+            #print("OPERATOR FOUND IS OUTPUT")
             self.unloadPolishVector()
         # Append operator
-        if (operator != ')' and operator != '=' and operator != 'return' and operator != 'endfunc' and operator != 'era' and operator != '(' and operator != 'params' and operator != 'gosub' and operator != 'assignr'):
-            print("MAKING QUAD OF " + operator)
+        if (operator != ')' and operator != '=' and operator != 'return' and operator != 'endfunc' and operator != 'era' and operator != '(' and operator != 'params' and operator != 'gosub' and operator != 'assignr' and operator != 'output' and operator != 'input'):
+            #print("MAKING QUAD OF " + operator)
             #print(self.polish_vector)
             self.operator_stack.append(operator)
             op = self.popOperatorS()
@@ -198,7 +212,7 @@ class QuadOverseer:
                 sys.exit(f"Operation of {op} involving {operandA[1]} and {operandB[1]} cannot be performed")
                 
             self.addQuad(op, operandA, operandB, (None, match))
-        elif operator == '=':
+        elif operator == '=' or operator == "output":
             self.operator_stack.append(operator)
 
     # Pop operator from Stack and return it
@@ -215,12 +229,14 @@ class QuadOverseer:
 
     # Unload Polish Vector
     def unloadPolishVector(self):
-        print(self.operator_stack)
+        #print("UNLOADING POLISH VECTOR")
+        #print(self.operator_stack)
         while len(self.operator_stack) > 0:
             if self.operator_stack[-1] == '(':
                 break
-            # If we find a print
-            elif self.operators[self.operator_stack[-1]] == Hierarchy.PRINT:
+            # If we find a output
+            elif self.operators[self.operator_stack[-1]] == Hierarchy.OUTPUT:
+                #print("PRINTING SOMETHING")
                 operator = self.popOperatorS()
                 operand = self.popOperandS()
 
@@ -259,8 +275,8 @@ class QuadOverseer:
     # Unload stack when parenthesis found
     def unloadStack(self):
         # As long as we dont find the first parenthesis
-        print("OPERATOR STACK")
-        print(self.operator_stack)
+        #print("OPERATOR STACK")
+        #print(self.operator_stack)
         if len(self.operator_stack) > 0:
 
             while self.operator_stack[-1] != '(':
@@ -281,7 +297,7 @@ class QuadOverseer:
     # Print all Quads
     def printQuads(self):
         for i, quad in enumerate(self.quad_stack):
-            print(i + 1, ": ", self.op_id.getOpIDKey(quad["operator"]), quad["operandA"], quad["operandB"], quad["t_memory"])
+            print(i, ": ", self.op_id.getOpIDKey(quad["operator"]), quad["operandA"], quad["operandB"], quad["t_memory"])
 
     # Get stack of quads
     def getQuads(self):
@@ -299,6 +315,8 @@ class QuadOverseer:
 
     # Finish the goto and/or gotof
     def finishGoto(self, data_type: str = ""):
+        #print("GOING TO")
+        #print(self.jumps_stack)
         if self.operators[data_type] == Hierarchy.GOTOF:
             jump = self.popJump()
             self.quad_stack[jump]["t_memory"] = (len(self.quad_stack))
@@ -314,6 +332,7 @@ class QuadOverseer:
             self.delimitation.verifyDelimitation(addr, "local_" + t_memory[1])
             self.delimitation.updateCounter("local_" + t_memory[1])
             t_memory = (addr, t_memory[1])
+            self.counter_temps = self.counter_temps + 1
         elif op == "era" or op == "gosub" or op == "params" or op == "ver":
             t_memory = t_memory[0]
 

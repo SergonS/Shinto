@@ -6,14 +6,18 @@ int function volta(fifa: int, ea: int, ball: int)
 {
 	var int iX, iY;
 
-	iX = 3 + 5 + 8 * 9 / 2;
+	iX = 3 + 5;
 	return iX;
 }
 
 function main()
 {
 	var int iA, iB, iC, iD;
+	iB = 2;
+	iC = 3;
 
 	iA = 1 + 6 + 3;
 	iD = volta(iA, iB, iC);
+
+	output(iD);
 }

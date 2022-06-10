@@ -8,7 +8,7 @@ class Hierarchy(enum.IntEnum):
     PAREN = 5
     ASSIGN = 6
     RETURN = 7
-    PRINT = 8
+    OUTPUT = 8
     INPUT = 9
     GOTOF = 10
     GOTO = 11
@@ -40,7 +40,7 @@ class OpID():
         "=": 13,
         "return": 14,
         "input": 15,
-        "print": 16,
+        "output": 16,
         "gotof" : 17,
         "goto": 18,
         "endfunc" : 19,
@@ -55,6 +55,8 @@ class OpID():
     }
 
     def getOpID(self, op: str) -> int:
+        #print("self.IDOperators")
+        #print(self.IDOperators[op])
         return self.IDOperators[op]
 
     def getOpIDKey(self, value: int) -> str:
@@ -80,7 +82,7 @@ class Operators():
         "=": Hierarchy.ASSIGN,
         "return": Hierarchy.RETURN,
         "input": Hierarchy.INPUT,
-        "output": Hierarchy.PRINT,
+        "output": Hierarchy.OUTPUT,
         "gotof": Hierarchy.GOTOF,
         "goto": Hierarchy.GOTO,
         "gotow": Hierarchy.GOTOW,

@@ -72,7 +72,9 @@ class ShintoLexer(Lexer):
         'DIFF',             # !=
         'AND',              # &&
         'OR',                # ||
-        'RETURN'
+        'RETURN',
+        'OUTPUT',
+        'INPUT'
     }
 
     reserved = {
@@ -84,7 +86,7 @@ class ShintoLexer(Lexer):
         'function'      : 'FUNC',
         'return'        : 'RETURN',
         'input'         : 'INPUT',
-        'print'        : 'OUTPUT',
+        'output'        : 'OUTPUT',
         'int'           : 'INT',
         'float'         : 'FLOAT',
         'string'        : 'STRING',
@@ -127,6 +129,7 @@ class ShintoLexer(Lexer):
     TO = r'to'
     WHILE = r'while'
     ARROW = r'->'
+    OUTPUT = r'output'
 
     EQEQ = r'=='
     GOETHAN = r'>='

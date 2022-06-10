@@ -1,3 +1,4 @@
+from asyncio import constants
 from Pillars.Directory_Functions import Directory_Func
 from Pillars.Directory_Variables import Directory_Vars
 from VM.Delimitations import Delimitation
@@ -39,13 +40,11 @@ class ExMemory:
 
     # Convert the value in string notation to its corresponding data type
     def convertToConstType(self, data_type: str, var: str):
-        data_type = data_type[:len(data_type) - 1]
-
-        if data_type == "int":
+        if data_type == "constant_int":
             return int(var)
-        elif data_type == "float":
+        elif data_type == "constant_float":
             return float(var)
-        elif data_type == "boolean" and not isinstance(var, int):
+        elif data_type == "constant_boolean" and not isinstance(var, int):
             if var == "false":
                 return False
             elif var == "true":
@@ -56,30 +55,39 @@ class ExMemory:
             return var[1:-1]
 
     def convertToType(self, data_type: str, var: str):
-        try:
-            if data_type == "int":
-                return int(var)
-            elif data_type == "float":
-                return float(var)
-            elif data_type == "boolean" and not isinstance(var, int):
-                if var == "false":
-                    return False
-                elif var == "true":
-                    return True
-                else:
-                    sys.exit(f"Expected boolean")
+        print(data_type)
+        if data_type == "int" or data_type == "int":
+            return int(var)
+        elif data_type == "float":
+            return float(var)
+        elif data_type == "bool":
+            if var == "false":
+                return False
+            elif var == "true":
+                return True
             else:
-                return var
-        except ValueError:
-            sys.exit(f"Invalid variable retrieved")
+                sys.exit(f"Expected boolean")
+        else:
+            return var
+    
+
+    # Store const value in its corresponding address within the memory
+    def storeValue(self, data_type: str, vars: dict):
+        initial = self.address[data_type]
+
+        for var in vars:
+            print("addr of var")
+            print(vars[var])
+            space = vars[var] - initial
+            self.memory["global"][initial][space] = self.convertToType(data_type, var)
 
     # Initialize global memory with the memory needed
     def initializeGlobalMemory(self, globals: dict):
-        self.memory["global"][self.address["global_int"]] = [None] * len(globals["int"])
+        self.memory["global"][self.address["global_int"]] = [None] * len(globals["integer"])
         self.memory["global"][self.address["global_float"]] = [None] * len(globals["float"])
         self.memory["global"][self.address["global_string"]] = [None] * len(globals["string"])
         self.memory["global"][self.address["global_bool"]] = [None] * len(globals["boolean"])
-
+        
     # Store const value in its corresponding address within the memory
     def storeConstValue(self, data_type: str, vars: dict):
         initial = self.address[data_type]
@@ -87,20 +95,31 @@ class ExMemory:
         for var in vars:
             space = vars[var] - initial
             self.memory["constant"][initial][space] = self.convertToConstType(data_type, var)
+        
 
     # Initialize constant memory with the memory needed
     def initializeConstMemory(self, constants: dict):
-        self.memory["constant"][self.address["constant_int"]] = [None] * len(constants["int"])
+        self.memory["constant"][self.address["constant_int"]] = [None] * len(constants["integer"])
         self.memory["constant"][self.address["constant_float"]] = [None] * len(constants["float"])
         self.memory["constant"][self.address["constant_string"]] = [None] * len(constants["string"])
-        self.memory["constant"][self.address["constant_bool"]] = [None] * len(constants["bool"])
+        self.memory["constant"][self.address["constant_bool"]] = [None] * len(constants["boolean"])
+
+        self.storeConstValue("constant_int", constants["integer"])
+        self.storeConstValue("constant_float", constants["float"])
+        self.storeConstValue("constant_string", constants["string"])
+        self.storeConstValue("constant_bool", constants["boolean"])
 
     # Initialize local memory with the memory needed
-    def initializeLocalMemory(self, locals: dict):
-        self.newEMemory[self.address["local_int"]] = [None] * len(locals["int"])
-        self.newEMemory[self.address["local_float"]] = [None] * len(locals["float"])
-        self.newEMemory[self.address["local_string"]] = [None] * len(locals["string"])
-        self.newEMemory[self.address["local_bool"]] = [None] * len(locals["bool"])
+    def initializeLocalMemory(self, locals: dict, temps: int):
+        print("Locals:")
+        print(locals)
+        print()
+        print(len(locals["integer"]))
+        self.memory["local"][self.address["local_int"]] = [None] * (len(locals["integer"]) + temps)
+        self.memory["local"][self.address["local_float"]] = [None] * (len(locals["float"]) + temps)
+        self.memory["local"][self.address["local_string"]] = [None] * (len(locals["string"]) + temps)
+        self.memory["local"][self.address["local_bool"]] = [None] * (len(locals["boolean"]) + temps)
+
 
     # Copy the extra memory into the local memory in execution
     def setEMtoLM(self):
@@ -143,8 +162,9 @@ class ExMemory:
             var = self.memory["local"][self.address["local_" + data_type]][pos]
         # Constant address
         elif addr >= 8 * self.area and addr < 11 * self.area:
-            pos = addr - self.address["constant_" + data_type]
-            var = self.memory["constant"][self.address["constant_" + data_type]][pos]
+            if data_type == "int":
+                pos = addr - self.address["constant_int"]
+                var = self.memory["constant"][self.address["constant_int"]][pos]
         
         # Variable not found
         if var == None:
@@ -169,6 +189,14 @@ class ExMemory:
         elif addr >= 4 * self.area and addr < 8 * self.area:
             pos = addr - self.address["local_" + data_type]
             pos = self.convertToType("int", pos)
+            print("Data_type:")
+            print(data_type)
+            print("pos:")
+            print(pos)
+            print("Value:")
+            print(value)
+            print("List:")
+            print(self.memory["local"][self.address["local_" + data_type]])
             self.memory["local"][self.address["local_" + data_type]][pos] = value
 
     # Pass along values into the New Extra Memory

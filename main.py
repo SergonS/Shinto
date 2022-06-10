@@ -31,13 +31,16 @@ if __name__ == '__main__':
             print('type=%r, value=%r' % (tok.type, tok.value))
         """
         res = S_parser.parse(S_lexer.tokenize(f))
-
-        em = VirtualMachine(S_parser.parseData())
-
         S_parser.quads.printQuads()
-        S_parser.constants.printCTable()
+        print(S_parser.locals.getLTable())
+        print("Temps: ")
+        print(S_parser.quads.counter_temps)
+
+        vm = VirtualMachine(S_parser.parseData(), S_parser.quads.counter_temps)
         
-        #print(S_parser.quads.polish_vector)
+        vm.em.showMemory()
+        
+        
 
         #print(res)
 

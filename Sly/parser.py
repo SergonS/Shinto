@@ -31,6 +31,7 @@ class ShintoParser(Parser):
 
     call_params = []
     counter_params = 0
+    counter_temp = 0
     counter = 0
 
     
@@ -168,7 +169,7 @@ class ShintoParser(Parser):
 
     # MAIN
 
-    @_('FUNC MAIN "(" ")" store_funcm "{" vars store_mainv maincontent "}" store_main')
+    @_('FUNC MAIN "(" ")" store_funcm "{" vars store_mainv maincontent "}" ')
     def main(self, x):
         pass
 
@@ -203,17 +204,21 @@ class ShintoParser(Parser):
     def statement(self, x):
         pass
     
-    """
-    # IF FUNCTION
-
-    @_('IF "(" expr ")" store_gotof "{" statement "}" ELSE store_goto "{" statement "}" end_if')
+    @_('ifelse unload_pv')
     def statement(self, x):
         pass
 
-    @_('IF "(" expr ")" store_gotof "{" statement "}" end_if')
+    @_('output unload_pv')
     def statement(self, x):
-        return ('if_stmt', x.condition, ('branch', x.statementA, x.statementB))
-    """
+        pass
+
+    @_('input unload_pv')
+    def statement(self, x):
+        pass
+
+    @_('loop unload_pv')
+    def statement(self, x):
+        pass
 
     # VAR ASSIGN
     
@@ -235,14 +240,6 @@ class ShintoParser(Parser):
     def statement(self, x):
         return ('if_stmt', x.condition, ('branch', x.statementA, x.statementB))
 
-    @_('ID "(" ")"')
-    def statement(self, x):
-        return ('fun_call', x.ID)
-    
-    @_('var_assign')
-    def statement(self, x):
-        return x.var_assign
-
     # Conditions
 
     @_('expr EQEQ expr')
@@ -250,20 +247,67 @@ class ShintoParser(Parser):
         return ('condition_eqeq', x.expr0, x.expr1)
 
     """
-    """
-    @_('expr')
-    def statement(self, x):
-        return (x.expr)
-    """
-    
-    # EXPR
+
+    #IFELSE
+
+    @_('IF "(" expr ")" store_gotof "{" ifelsecont "}" ELSE store_goto "{" ifelsecont "}" store_endif')
+    def ifelse(self, x):
+        pass
+
+    @_('IF "(" expr ")" store_gotof "{" ifelsecont "}" store_endif')
+    def ifelse(self, x):
+        pass
+
+    @_('statement ifelsecont')
+    def ifelsecont(self, x):
+        pass
+
+    @_('')
+    def ifelsecont(self, x):
+        pass
+
+    # OUTPUT
+
+    @_('OUTPUT "(" expr outex ")" ";"')
+    def output(self, x):
+        self.storeOperation("output")
+        pass
+
+    @_('"," expr outex')
+    def outex(self, x):
+        self.storeOperation("output")
+        pass
+
+    @_('')
+    def outex(self, x):
+        pass
+
+    # INPUT 
+
+    @_('INPUT "(" ID store_oper ")" ";"')
+    def input(self, x):
+        pass
+
+    # LOOP
+    @_('WHILE store_jump "(" expr ")" store_gotof "{" loopcont "}" end_loop')
+    def loop(self, x):
+        pass
+
+    @_('statement loopcont')
+    def loopcont(self, x):
+        pass
+
+    @_('')
+    def loopcont(self, x):
+        pass
 
     @_('arexp arexpx')
     def expr(self, x):
         pass
 
-    @_('arexpxop store_op arexp')
+    @_('arexpxop arexp')
     def arexpx(self, x):
+        self.storeOperation(x[0])
         pass
 
     @_('')
@@ -451,12 +495,6 @@ class ShintoParser(Parser):
     ### Neuralgic Points
 
     @_('')
-    def store_main(self, x):
-        self.quads.finishGoto("gotof")
-        #self.dir_functions.addFunc("main", "void")
-        pass
-
-    @_('')
     def check_program(self, x):
         self.scope = "global"
         pass
@@ -538,6 +576,7 @@ class ShintoParser(Parser):
 
     @_('')
     def store_mainv(self, x):
+        self.quads.finishGoto("goto")
         if len(self.stack_vars) > 0:
             self.storeLocalVars("main")
 
@@ -554,7 +593,7 @@ class ShintoParser(Parser):
 
             if self.verifyFunc(x[-1]) == False:
                 #print(var.name + " NOT A FUNC")
-                self.quads.addOperand(var.name, var.data_type)
+                self.quads.addOperand(var.addr, var.data_type)
         pass
 
     @_('')
@@ -584,6 +623,11 @@ class ShintoParser(Parser):
 
     @_('')
     def close_func(self, x):
+        pass
+
+    @_('')
+    def store_endif(self, x):
+        self.quads.finishGoto("gotof")
         pass
 
     @_('')
@@ -645,12 +689,17 @@ class ShintoParser(Parser):
         self.quads.finishGoto("goto")
         self.quads.addOperator("goto")
         pass
+ 
+    @_('')
+    def store_jump(self, x):
+        self.quads.addJump()
+        pass
 
     @_('')
-    def end_if(self, x):
-        self.quads.finishGoto("gotof")
+    def end_loop(self, x):
+        self.quads.addOperator("gotow")
         pass
- 
+
     ### Auxiliary Functions
 
     def storeGlobalVars(self):
