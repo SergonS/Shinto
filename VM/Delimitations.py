@@ -22,9 +22,9 @@ class Delimitation:
         "constant_string": 10 * area,
 
         # Booleans
-        "global_bool": 3 * area,
-        "local_bool": 7 * area,
-        "constant_bool": 11 * area
+        "global_boolean": 3 * area,
+        "local_boolean": 7 * area,
+        "constant_boolean": 11 * area
     }
 
     # Dictionary that counts the number of variables that have been created for each type
@@ -47,9 +47,9 @@ class Delimitation:
         "constant_string": 0,
 
         # Booleans
-        "global_bool": 0,
-        "local_bool": 0,
-        "constant_bool": 0
+        "global_boolean": 0,
+        "local_boolean": 0,
+        "constant_boolean": 0
     }
 
     def getAddr(self, scope_type: str) -> int:
@@ -73,7 +73,7 @@ class Delimitation:
         int = self.counter["global_int"]
         float = self.counter["global_float"]
         string = self.counter["global_string"]
-        boolean = self.counter["global_bool"]
+        boolean = self.counter["global_boolean"]
 
         GVCounter = {
             "int": int,
@@ -88,7 +88,7 @@ class Delimitation:
         int = self.counter["local_int"]
         float = self.counter["local_float"]
         string = self.counter["local_string"]
-        boolean = self.counter["local_bool"]
+        boolean = self.counter["local_boolean"]
 
         LVCounter = {
             "int": int,

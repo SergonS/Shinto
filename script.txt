@@ -13,6 +13,7 @@ int function volta(fifa: int, ea: int, ball: int)
 function main()
 {
 	var int iA, iB, iC, iD;
+	var boolean bt;
 	iB = 2;
 	iC = 3;
 
@@ -20,4 +21,14 @@ function main()
 	iD = volta(iA, iB, iC);
 
 	output(iD);
+
+	input(iA);
+	output(iA);
+	iA = 0;
+	while (iA < 3)
+	{
+		output(iA);
+		iA = iA + 1;
+	}
+
 }

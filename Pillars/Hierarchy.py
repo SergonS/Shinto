@@ -22,6 +22,7 @@ class Hierarchy(enum.IntEnum):
     ARR_BASE = 19
     ARR_SD = 20
     ARR_SDS = 21
+    END = 22
 
 class OpID():
     IDOperators = {
@@ -51,12 +52,11 @@ class OpID():
         "ver" : 24,
         "arrbase" : 25,
         "arrsd" : 26,
-        "arrsds" : 27
+        "arrsds" : 27,
+        "end" : 28
     }
 
     def getOpID(self, op: str) -> int:
-        #print("self.IDOperators")
-        #print(self.IDOperators[op])
         return self.IDOperators[op]
 
     def getOpIDKey(self, value: int) -> str:
@@ -94,5 +94,6 @@ class Operators():
         "ver" : Hierarchy.VER,
         "addbase" : Hierarchy.ARR_BASE,
         "s1d2" : Hierarchy.ARR_SD,
-        "s1d2s2" : Hierarchy.ARR_SDS
+        "s1d2s2" : Hierarchy.ARR_SDS,
+        "end" : Hierarchy.END
     }

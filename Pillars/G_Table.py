@@ -53,6 +53,6 @@ class G_Table:
             "int": self.g_integers,
             "float": self.g_floats,
             "string": self.g_strings,
-            "bool": self.g_booleans
+            "boolean": self.g_booleans
         }
         return table

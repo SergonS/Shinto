@@ -28,13 +28,7 @@ class QuadOverseer:
         self.polish_vector = []
         self.counter_temps = 0
 
-        # Generate an initial quad just to have a more congruent number
-        self.quad_stack.append({
-            "operator": "init",
-            "operandA": (),
-            "operandB": (),
-            "t_memory": ()
-        })
+        
         # Generate GOTO to start in main
         self.addQuad("goto", (), (), ())
         self.jumps_stack.append(len(self.quad_stack) - 1)
@@ -49,25 +43,32 @@ class QuadOverseer:
         #print("OPERATOR = ")
         #print(operator)
         # We found an ending parenthesis
+        print(operator)
         if operator == ')':
             self.unloadStack()
         elif operator == '%':
             operator = "output"
         # We found a GOTO
-        elif self.operators[operator] == Hierarchy.GOTO:
+        elif operator == "goto":
             self.addQuad(operator, (), (), ())
             self.jumps_stack.append(len(self.quad_stack) - 1)
         # We found a GOTOF
-        elif self.operators[operator] == Hierarchy.GOTOF:
-            self.unloadPolishVector()
+        elif self.operators[operator] == Hierarchy.GOTOF and self.quad_stack[-1]["operator"] != 17:
+            print("ENTERING GOTOF")
+            print(self.polish_vector)
             operand = self.popOperandS()
+
+            print("OPERAND OF GOTOF")
+            print(operand)
 
             if operand[1] != Data_Type.BOOLEAN.value:
                 sys.exit("Result must have been a boolean")
             self.addQuad(operator, operand, (), ())
+            print("operator of last quad:")
+            print(self.quad_stack[-1]["operator"])
             self.jumps_stack.append(len(self.quad_stack) - 1)
         # We found a While
-        elif self.operators[operator] == Hierarchy.GOTOW:
+        elif operator == "gotow":
             false = self.jumps_stack.pop()
             ret = self.jumps_stack.pop()
             
@@ -164,10 +165,12 @@ class QuadOverseer:
                 
                 self.addQuad(op, operandA, operandB, (None, match))
         # We found a comparison
-        elif self.operators[operator] == Hierarchy.COMPARE and len(self.operator_stack) > 0:
+        elif self.operators[operator] == Hierarchy.COMPARE:
+            print("FOUND A COMPARISON")
             # Verify for other comparisons or operations of higher hierarchy
             while (len(self.operator_stack) > 0 and (self.operators[self.operator_stack[-1]] == Hierarchy.COMPARE
             or self.operators[self.operator_stack[-1]] < Hierarchy.COMPARE)):
+                print("MAKING COMPARISON")
                 op = self.popOperatorS()
                 operandB = self.popOperandS()
                 operandA = self.popOperandS()
@@ -194,13 +197,13 @@ class QuadOverseer:
                 
                 self.addQuad(op, operandA, operandB, (None, match))
         # We found a print
-        elif operator == "output":
+        elif (operator == "output" and len(self.operator_stack) > 0):
             #print("OPERATOR FOUND IS OUTPUT")
             self.unloadPolishVector()
         # Append operator
-        if (operator != ')' and operator != '=' and operator != 'return' and operator != 'endfunc' and operator != 'era' and operator != '(' and operator != 'params' and operator != 'gosub' and operator != 'assignr' and operator != 'output' and operator != 'input'):
-            #print("MAKING QUAD OF " + operator)
-            #print(self.polish_vector)
+        if (operator != ')' and operator != '=' and operator != 'return' and operator != 'endfunc' and operator != 'era' and operator != '(' and operator != 'params' and operator != 'gosub' and operator != 'assignr' and operator != 'output' and operator != 'input' and operator != 'gotof' and operator != 'gotow' and operator != 'end'):
+            print("MAKING QUAD OF " + operator)
+            print(self.polish_vector)
             self.operator_stack.append(operator)
             op = self.popOperatorS()
             operandB = self.popOperandS()
@@ -212,7 +215,7 @@ class QuadOverseer:
                 sys.exit(f"Operation of {op} involving {operandA[1]} and {operandB[1]} cannot be performed")
                 
             self.addQuad(op, operandA, operandB, (None, match))
-        elif operator == '=' or operator == "output":
+        elif operator == '=' or operator == "output" or operator == "input" or operator == 'end':
             self.operator_stack.append(operator)
 
     # Pop operator from Stack and return it
@@ -229,8 +232,9 @@ class QuadOverseer:
 
     # Unload Polish Vector
     def unloadPolishVector(self):
-        #print("UNLOADING POLISH VECTOR")
-        #print(self.operator_stack)
+        print("UNLOADING POLISH VECTOR")
+        print(self.operator_stack)
+        print(self.polish_vector)
         while len(self.operator_stack) > 0:
             if self.operator_stack[-1] == '(':
                 break
@@ -315,17 +319,18 @@ class QuadOverseer:
 
     # Finish the goto and/or gotof
     def finishGoto(self, data_type: str = ""):
-        #print("GOING TO")
-        #print(self.jumps_stack)
+        print("GOING TO JKGASNDGKJANSDFJKGDF")
+        print(self.jumps_stack)
         if self.operators[data_type] == Hierarchy.GOTOF:
             jump = self.popJump()
-            self.quad_stack[jump]["t_memory"] = (len(self.quad_stack))
+            self.quad_stack[jump]["t_memory"] = (len(self.quad_stack) - 1)
         else: 
             jump = self.popJump()
-            self.quad_stack[jump]["t_memory"] = (len(self.quad_stack) + 1)
+            self.quad_stack[jump]["t_memory"] = (len(self.quad_stack) )
 
     # Add a Quad to the Quad stack
     def addQuad(self, op: str, operandA: tuple, operandB: tuple, t_memory: tuple):
+        
         # If we have to create a temporal
         if len(t_memory) > 0 and t_memory[0] == None:
             addr = self.delimitation.getAddr("local_" + t_memory[1]) + self.delimitation.getCounter("local_" + t_memory[1])
@@ -345,13 +350,16 @@ class QuadOverseer:
             "operandB": operandB,
             "t_memory": t_memory
         })
-
-        if (self.operators[op] <= Hierarchy.LOGIC or 
+        print("op:")
+        print(op)
+        if (op == "==" or self.operators[op] <= Hierarchy.LOGIC or 
                 self.operators[op] == Hierarchy.ASSIGN_R or
                 self.operators[op] == Hierarchy.ARR_BASE or
                 self.operators[op] == Hierarchy.ARR_SD or
                 self.operators[op] == Hierarchy.ARR_SDS):
+            print("adding op: " + op + " result to operands: " + str(t_memory[0]))
             self.addOperand(t_memory[0], t_memory[1])
+            print(self.polish_vector)
 
         
 

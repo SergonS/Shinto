@@ -64,6 +64,7 @@ class ShintoParser(Parser):
         self.dir_functions.showDirectory()
         print()
         print(self.quads.polish_vector)
+        self.quads.addQuad("end", (), (), ())
         pass
 
     def parseData(self) -> dict:
@@ -113,7 +114,7 @@ class ShintoParser(Parser):
     def vars(self, x):
         pass
 
-    @_('VAR datatype varids store_type ";" ')
+    @_('VAR datatype varids store_type ";" vars')
     def vars(self, x):
         pass
 
@@ -183,15 +184,14 @@ class ShintoParser(Parser):
 
     # STATEMENTS
 
-    @_('')
-    def statement(self, x):
-        pass
-
     @_('statement statement')
     def statement(self, x):
         pass
 
-    
+    @_('')
+    def statement(self, x):
+        pass
+
     @_('var_assign unload_pv')
     def statement(self, x):
         pass
@@ -230,23 +230,6 @@ class ShintoParser(Parser):
     @_('RETURN expr store_rquad')
     def returns(self, x):
         pass
-    
-    """
-    @_('FOR var_assign TO expr THEN statement')
-    def statement(self, x):
-        return ('for_loop', ('for_loop_setup', x.var_assign, x.expr), x.statement)
-
-    @_('IF condition THEN statement ELSE statement')
-    def statement(self, x):
-        return ('if_stmt', x.condition, ('branch', x.statementA, x.statementB))
-
-    # Conditions
-
-    @_('expr EQEQ expr')
-    def condition(self, x):
-        return ('condition_eqeq', x.expr0, x.expr1)
-
-    """
 
     #IFELSE
 
@@ -286,65 +269,62 @@ class ShintoParser(Parser):
 
     @_('INPUT "(" ID store_oper ")" ";"')
     def input(self, x):
+        self.storeOperation("input")
         pass
 
     # LOOP
-    @_('WHILE store_jump "(" expr ")" store_gotof "{" loopcont "}" end_loop')
+    @_('WHILE store_jump "(" expr ")" store_gotof "{" statement "}" end_loop')
     def loop(self, x):
         pass
 
-    @_('statement loopcont')
-    def loopcont(self, x):
-        pass
+    # EXPR
 
-    @_('')
-    def loopcont(self, x):
-        pass
-
-    @_('arexp arexpx')
+    @_('arexp exprx')
     def expr(self, x):
         pass
 
-    @_('arexpxop arexp')
-    def arexpx(self, x):
-        self.storeOperation(x[0])
+    @_('exprop arexp')
+    def exprx(self, x):
+        print("x[0] at exprop")
+        print(x[0])
+        self.quads.addOperator(x[0])
         pass
 
     @_('')
-    def arexpx(self, x):
+    def exprx(self, x):
         pass
 
     @_('GOETHAN')
-    def arexpxop(self, x):
-        pass
+    def exprop(self, x):
+        return (">=")
 
     @_('">"')
-    def arexpxop(self, x):
-        pass
+    def exprop(self, x):
+        return (">")
 
     @_('LOETHAN')
-    def arexpxop(self, x):
-        pass
+    def exprop(self, x):
+        return ("<=")
 
     @_('"<"')
-    def arexpxop(self, x):
-        pass
+    def exprop(self, x):
+        return ("<")
 
     @_('AND')
-    def arexpxop(self, x):
-        pass
+    def exprop(self, x):
+        return ("&&")
 
     @_('DIFF')
-    def arexpxop(self, x):
-        pass
+    def exprop(self, x):
+        return ("!=")
 
     @_('EQEQ')
-    def arexpxop(self, x):
-        pass
+    def exprop(self, x):
+        return ("==")
 
     @_('OR')
-    def arexpxop(self, x):
-        pass
+    def exprop(self, x):
+        return ("||")
 
     # AREXP
 
@@ -359,10 +339,12 @@ class ShintoParser(Parser):
     @_('"+" term arexpextra')
     def arexpextra(self, x):
         self.storeOperation("+")
+        pass
 
     @_('"-" term arexpextra')
     def arexpextra(self, x):
         self.storeOperation("-")
+        pass
 
     @_('')
     def arexpextra(self, x):
@@ -424,21 +406,25 @@ class ShintoParser(Parser):
     
     # CONST
 
-    @_('TRUE store_const')
+    @_('TRUE')
     def const(self, x):
         return ('boolean', x.TRUE)
 
-    @_('FALSE store_const')
+    @_('FALSE')
     def const(self, x):
-        return ('bool', x.FALSE)
+        return ('boolean', x.FALSE)
 
     @_('INT')
     def const(self, x):
         return ('int', x.INT)
 
-    @_('FLOAT store_const')
-    def factor(self, x):
+    @_('FLOAT')
+    def const(self, x):
         return ('float', x.FLOAT)
+
+    @_('STRING')
+    def string(self, x):
+        return ('string', x.STRING)
 
     # CALLFUNC
     
@@ -488,7 +474,7 @@ class ShintoParser(Parser):
 
     @_('D_BOOL')
     def datatype(self, x):
-        return "bool"
+        return "boolean"
 
     
 
@@ -550,7 +536,7 @@ class ShintoParser(Parser):
                 self.delimitation.updateCounter("global_string")
                 self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, "global")
 
-        elif dt == "bool":
+        elif dt == "boolean":
             addr = self.delimitation.getAddr("global_boolean") + self.delimitation.getCounter("global_boolean")
             self.delimitation.verifyDelimitation(addr, "global_boolean")
 
@@ -589,15 +575,17 @@ class ShintoParser(Parser):
     def store_oper(self, x):
         if self.verifyVar(x[-1]):
             var = self.dir_vars.getVar(x[-1])
-            #print("STORING " + var.name + " IN POLISH VECTOR")
+            print("STORING " + var.name + " IN POLISH VECTOR")
 
             if self.verifyFunc(x[-1]) == False:
-                #print(var.name + " NOT A FUNC")
+                print(var.name + " NOT A FUNC")
                 self.quads.addOperand(var.addr, var.data_type)
         pass
 
     @_('')
     def store_const(self, x):
+        print("STORING CONSTANT:")
+        print(x[-1])
         self.storeConstant(x[-1][0], x[-1][1])
         pass
 
@@ -681,6 +669,7 @@ class ShintoParser(Parser):
 
     @_('')
     def store_gotof(self, x):
+        print("STORING GOTOF")
         self.quads.addOperator("gotof")
         pass
 
@@ -705,7 +694,7 @@ class ShintoParser(Parser):
     def storeGlobalVars(self):
         dt = "none"
         for var in reversed(self.stack_gvars):
-            if var == "int" or var == "float" or var == "string" or var == "bool":
+            if var == "int" or var == "float" or var == "string" or var == "boolean":
                 dt = var
             else:
                 if dt == "int":
@@ -732,7 +721,7 @@ class ShintoParser(Parser):
                         self.delimitation.updateCounter("global_string")
                         self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, "global")
 
-                elif dt == "bool":
+                elif dt == "boolean":
                     addr = self.delimitation.getAddr("global_boolean") + self.delimitation.getCounter("global_boolean")
                     self.delimitation.verifyDelimitation(addr, "global_boolean")
 
@@ -744,7 +733,7 @@ class ShintoParser(Parser):
     def storeLocalVars(self, scope: str):
         dt = "none"
         for var in reversed(self.stack_vars):
-            if var == "int" or var == "float" or var == "string" or var == "bool":
+            if var == "int" or var == "float" or var == "string" or var == "boolean":
                 dt = var
             else:
                 if dt == "int":
@@ -771,12 +760,12 @@ class ShintoParser(Parser):
                         self.delimitation.updateCounter("local_string")
                         self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, scope)
 
-                elif dt == "bool":
-                    addr = self.delimitation.getAddr("local_bool") + self.delimitation.getCounter("local_bool")
-                    self.delimitation.verifyDelimitation(addr, "local_bool")
+                elif dt == "boolean":
+                    addr = self.delimitation.getAddr("local_boolean") + self.delimitation.getCounter("local_boolean")
+                    self.delimitation.verifyDelimitation(addr, "local_boolean")
 
                     if self.locals.addBoolean(var, addr) == True:
-                        self.delimitation.updateCounter("local_bool")
+                        self.delimitation.updateCounter("local_boolean")
                         self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, scope)
                 newVar = Variable(var, dt, addr, 0, 0, scope)
                 self.dir_functions.getFunc(scope).addVar(newVar)
@@ -811,12 +800,12 @@ class ShintoParser(Parser):
                     self.delimitation.updateCounter("local_string")
                     self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, funcName)
 
-            elif dt == "bool":
-                addr = self.delimitation.getAddr("local_bool") + self.delimitation.getCounter("local_bool")
-                self.delimitation.verifyDelimitation(addr, "local_bool")
+            elif dt == "boolean":
+                addr = self.delimitation.getAddr("local_boolean") + self.delimitation.getCounter("local_boolean")
+                self.delimitation.verifyDelimitation(addr, "local_boolean")
 
                 if self.locals.addBoolean(var, addr) == True:
-                    self.delimitation.updateCounter("local_bool")
+                    self.delimitation.updateCounter("local_boolean")
                     self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, funcName)
             newVar = Variable(var, dt, addr, 0, 0, funcName)
             self.dir_functions.showDirectory()
@@ -859,6 +848,8 @@ class ShintoParser(Parser):
             if self.constants.addFloat(val_constant, addr) == True:
                 self.delimitation.updateCounter("constant_float")
                 self.quads.addOperand(addr, "float")
+            else:
+                self.quads.addOperand(self.constants.getFloat(val_constant), "float")
 
         elif dt_constant == "string":
             addr = self.delimitation.getAddr("constant_string") + self.delimitation.getCounter("constant_string")
@@ -867,14 +858,18 @@ class ShintoParser(Parser):
             if self.constants.addString(val_constant, addr) == True:
                 self.delimitation.updateCounter("constant_string")
                 self.quads.addOperand(addr, "string")
+            else:
+                self.quads.addOperand(self.constants.getString(val_constant), "string")
         
-        elif dt_constant == "bool":
-            addr = self.delimitation.getAddr("constant_bool") + self.delimitation.getCounter("constant_bool")
-            self.delimitation.verifyDelimitation(addr, "constant_bool")
+        elif dt_constant == "boolean":
+            addr = self.delimitation.getAddr("constant_boolean") + self.delimitation.getCounter("constant_boolean")
+            self.delimitation.verifyDelimitation(addr, "constant_boolean")
 
             if self.constants.addBoolean(val_constant, addr) == True:
-                self.delimitation.updateCounter("constant_bool")
-                self.quads.addOperand(addr, "bool")
+                self.delimitation.updateCounter("constant_boolean")
+                self.quads.addOperand(addr, "boolean")
+            else:
+                self.quads.addOperand(self.constants.getBoolean(val_constant), "boolean")
 
     def verifyVar(self, var: str) -> bool:
         return self.dir_vars.hasVar(var)

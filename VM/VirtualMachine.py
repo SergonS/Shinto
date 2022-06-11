@@ -7,6 +7,8 @@ class VirtualMachine:
     em = ExMemory()
     operators = OpID()
 
+    ipointer : int
+
     quads = []
     jumps = []
     ip: int
@@ -16,8 +18,9 @@ class VirtualMachine:
         self.em.initializeGlobalMemory(data["Globals"])
         self.em.initializeConstMemory(data["Constants"])
         self.em.initializeLocalMemory(data["Locals"], temps)
-
         self.quads = data["Quadruples"]
+        self.ip = 1
+        self.q_length = len(self.quads)
         self.executeQuads()
 
     # Move the pointer to the next instruction
@@ -25,8 +28,8 @@ class VirtualMachine:
         self.ip = self.ip + 1
 
     def executeQuads(self):
-        self.ip = 1
-        while self.ip < len(self.quads):
+        self.ip = 0
+        while self.ip <= self.q_length:
             self.solveQuad(self.quads[self.ip])
 
     def solveQuad(self, quad: dict):
@@ -44,42 +47,44 @@ class VirtualMachine:
             store = quad["t_memory"]
             ans = 0
             # Sum
-            if self.operators.getOpID("+"):
+            if self.operators.getOpID("+") == quad["operator"]:
                 ans = opA + opB
+                print("Doing a sum")
                 print("ans")
                 print(ans)
             # Substraction
-            elif self.operators.getOpID("-"):
+            elif self.operators.getOpID("-") == quad["operator"]:
                 ans = opA - opB
             # Multiplication
-            elif self.operators.getOpID("*"):
+            elif self.operators.getOpID("*") == quad["operator"]:
                 ans = opA * opB
             # Division
-            elif self.operators.getOpID("/"):
+            elif self.operators.getOpID("/") == quad["operator"]:
                 ans = opA / opB
             # Less than
-            elif self.operators.getOpID("<"):
+            elif self.operators.getOpID("<") == quad["operator"]:
                 ans = opA < opB
             # Less or equal than
-            elif self.operators.getOpID("<="):
+            elif self.operators.getOpID("<=") == quad["operator"]:
                 ans = opA <= opB
             # Greater than
-            elif self.operators.getOpID(">"):
+            elif self.operators.getOpID(">") == quad["operator"]:
                 ans = opA > opB
             # Greater or equal than
-            elif self.operators.getOpID(">="):
+            elif self.operators.getOpID(">=") == quad["operator"]:
                 ans = opA >= opB
             # Equal than
-            elif self.operators.getOpID("=="):
+            elif self.operators.getOpID("==") == quad["operator"]:
+                print(f'Comparison between {opA} and {opB}')
                 ans = opA == opB
             # Different than
-            elif self.operators.getOpID("!="):
+            elif self.operators.getOpID("!=") == quad["operator"]:
                 ans = opA != opB
             # And
-            elif self.operators.getOpID("&&"):
+            elif self.operators.getOpID("&&") == quad["operator"]:
                 ans = opA and opB
             # Or
-            elif self.operators.getOpID("||"):
+            elif self.operators.getOpID("||") == quad["operator"]:
                 ans = opA or opB
 
             self.em.saveValue(store[0], store[1], ans)
@@ -93,6 +98,7 @@ class VirtualMachine:
             store = quad["t_memory"]
             ans = input(">> ")
             ans = self.em.convertToType(store[1], ans)
+            self.em.saveValue(store[0], store[1], ans)
             self.nextInstruction()
         elif quad["operator"] == self.operators.getOpID("="):
             opA = quad["operandA"]
@@ -109,7 +115,7 @@ class VirtualMachine:
             else:
                 self.nextInstruction()
         elif quad["operator"] == self.operators.getOpID("goto"):
-            self.ip = quad["t_memory"] - 1
+            self.ip = quad["t_memory"]
             print("GOTO")
         # DOUBLE CHECK
         elif quad["operator"] == self.operators.getOpID("era"):

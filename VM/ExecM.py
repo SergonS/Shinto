@@ -14,7 +14,7 @@ class ExMemory:
         address["local_int"]: [],
         address["local_float"]: [],
         address["local_string"]: [],
-        address["local_bool"]: []
+        address["local_boolean"]: []
     }
 
     memory = {
@@ -22,19 +22,19 @@ class ExMemory:
             address["global_int"]: [],
             address["global_float"]: [],
             address["global_string"]: [],
-            address["global_bool"]: []
+            address["global_boolean"]: []
         },
         "local": {
             address["local_int"]: [],
             address["local_float"]: [],
             address["local_string"]: [],
-            address["local_bool"]: []
+            address["local_boolean"]: []
         },
         "constant": {
             address["constant_int"]: [],
             address["constant_float"]: [],
             address["constant_string"]: [],
-            address["constant_bool"]: []
+            address["constant_boolean"]: []
         }
     }
 
@@ -55,22 +55,22 @@ class ExMemory:
             return var[1:-1]
 
     def convertToType(self, data_type: str, var: str):
-        print(data_type)
-        if data_type == "int" or data_type == "int":
+        print(f'{data_type} , {var}')
+        if data_type == "int":
             return int(var)
         elif data_type == "float":
             return float(var)
-        elif data_type == "bool":
-            if var == "false":
+        elif data_type == "boolean" and not isinstance(var, int):
+            print("var:")
+            print(data_type)
+            print(var)
+            if var == 'False':
                 return False
-            elif var == "true":
+            elif var == 'True':
                 return True
-            else:
-                sys.exit(f"Expected boolean")
         else:
             return var
     
-
     # Store const value in its corresponding address within the memory
     def storeValue(self, data_type: str, vars: dict):
         initial = self.address[data_type]
@@ -86,7 +86,7 @@ class ExMemory:
         self.memory["global"][self.address["global_int"]] = [None] * len(globals["integer"])
         self.memory["global"][self.address["global_float"]] = [None] * len(globals["float"])
         self.memory["global"][self.address["global_string"]] = [None] * len(globals["string"])
-        self.memory["global"][self.address["global_bool"]] = [None] * len(globals["boolean"])
+        self.memory["global"][self.address["global_boolean"]] = [None] * len(globals["boolean"])
         
     # Store const value in its corresponding address within the memory
     def storeConstValue(self, data_type: str, vars: dict):
@@ -102,12 +102,12 @@ class ExMemory:
         self.memory["constant"][self.address["constant_int"]] = [None] * len(constants["integer"])
         self.memory["constant"][self.address["constant_float"]] = [None] * len(constants["float"])
         self.memory["constant"][self.address["constant_string"]] = [None] * len(constants["string"])
-        self.memory["constant"][self.address["constant_bool"]] = [None] * len(constants["boolean"])
+        self.memory["constant"][self.address["constant_boolean"]] = [None] * len(constants["boolean"])
 
         self.storeConstValue("constant_int", constants["integer"])
         self.storeConstValue("constant_float", constants["float"])
         self.storeConstValue("constant_string", constants["string"])
-        self.storeConstValue("constant_bool", constants["boolean"])
+        self.storeConstValue("constant_boolean", constants["boolean"])
 
     # Initialize local memory with the memory needed
     def initializeLocalMemory(self, locals: dict, temps: int):
@@ -118,7 +118,7 @@ class ExMemory:
         self.memory["local"][self.address["local_int"]] = [None] * (len(locals["integer"]) + temps)
         self.memory["local"][self.address["local_float"]] = [None] * (len(locals["float"]) + temps)
         self.memory["local"][self.address["local_string"]] = [None] * (len(locals["string"]) + temps)
-        self.memory["local"][self.address["local_bool"]] = [None] * (len(locals["boolean"]) + temps)
+        self.memory["local"][self.address["local_boolean"]] = [None] * (len(locals["boolean"]) + temps)
 
 
     # Copy the extra memory into the local memory in execution
@@ -161,10 +161,9 @@ class ExMemory:
             pos = self.convertToType("int", pos)
             var = self.memory["local"][self.address["local_" + data_type]][pos]
         # Constant address
-        elif addr >= 8 * self.area and addr < 11 * self.area:
-            if data_type == "int":
-                pos = addr - self.address["constant_int"]
-                var = self.memory["constant"][self.address["constant_int"]][pos]
+        elif addr >= 8 * self.area and addr < 12 * self.area:
+            pos = addr - self.address["constant_" + data_type]
+            var = self.memory["constant"][self.address["constant_" + data_type]][pos]
         
         # Variable not found
         if var == None:
@@ -178,7 +177,9 @@ class ExMemory:
             newAddr = addr[1:-1]
             address = self.getValue(int(newAddr), data_type)
             addr = address
+        print(f'The value is {value}')
         value = self.convertToType(data_type, value)
+        print(f'The value now is {value}')
 
         # Global address
         if addr >= 0 * self.area and addr < 4 * self.area:
@@ -195,8 +196,6 @@ class ExMemory:
             print(pos)
             print("Value:")
             print(value)
-            print("List:")
-            print(self.memory["local"][self.address["local_" + data_type]])
             self.memory["local"][self.address["local_" + data_type]][pos] = value
 
     # Pass along values into the New Extra Memory

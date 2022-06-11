@@ -114,7 +114,9 @@ class ShintoLexer(Lexer):
         '[',
         ']',
         '{',
-        '}'
+        '}',
+        '<',
+        '>'
         }
 
     # Define keywords
@@ -130,6 +132,7 @@ class ShintoLexer(Lexer):
     WHILE = r'while'
     ARROW = r'->'
     OUTPUT = r'output'
+    INPUT = r'input'
 
     EQEQ = r'=='
     GOETHAN = r'>='
@@ -153,8 +156,8 @@ class ShintoLexer(Lexer):
         t.value = str(t.value)
         return t
 
-    @_(r'bool')
-    def BOOL(self, t):
+    @_(r'boolean')
+    def D_BOOL(self, t):
         t.value = str(t.value)
         return t
 
