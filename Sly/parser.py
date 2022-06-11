@@ -573,8 +573,17 @@ class ShintoParser(Parser):
     def store_oper(self, x):
         if self.verifyVar(x[-1]):
             var = self.dir_vars.getVar(x[-1])
+            
             if self.verifyFunc(x[-1]) == False:
-                self.quads.addOperand(var.addr, var.data_type)
+
+                if var.scope != self.scope and var.scope != "global":
+                    sys.exit(f'Trying to access variable {var.name} at function {self.scope} declared in another function.')
+                else:
+                    self.quads.addOperand(var.addr, var.data_type)
+
+            else:
+                sys.exit(f'Trying to access a function as a variable.')
+            
         pass
 
     @_('')
@@ -631,7 +640,7 @@ class ShintoParser(Parser):
     @_('')
     def verify_func(self, x):
         if self.verifyFunc(x[-1]) == False:
-            sys.exit(f'Error: Function {x[-1]} called at line {x.lineno} not previously declared')
+            sys.exit(f'Error: Function {x[-1]} not previously declared')
         self.createEra(x[-1], self.dir_functions.getFunc(x[-1]))
         pass
 
@@ -663,13 +672,7 @@ class ShintoParser(Parser):
     def store_gotof(self, x):
         self.quads.addOperator("gotof")
         pass
-
-    @_('')
-    def store_goto(self, x):
-        self.quads.finishGoto("goto")
-        self.quads.addOperator("goto")
-        pass
- 
+    
     @_('')
     def store_jump(self, x):
         self.quads.addJump()
@@ -799,7 +802,7 @@ class ShintoParser(Parser):
                     self.delimitation.updateCounter("local_boolean")
                     self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, funcName)
             newVar = Variable(var, dt, addr, 0, 0, funcName)
-            self.dir_functions.showDirectory()
+            #self.dir_functions.showDirectory()
             self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, funcName)
             self.dir_functions.getFunc(funcName).addParam(newVar)
         self.stack_params.clear()

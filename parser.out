@@ -105,18 +105,12 @@ Rule 101   add_fstack -> <empty>
 Rule 102   end_fstack -> <empty>
 Rule 103   store_gosub -> <empty>
 Rule 104   store_gotof -> <empty>
-Rule 105   store_goto -> <empty>
-Rule 106   store_jump -> <empty>
-Rule 107   end_loop -> <empty>
+Rule 105   store_jump -> <empty>
+Rule 106   end_loop -> <empty>
 
 Unused terminals:
 
-    TO
-    FOR
-    BOOL
-    THEN
     COMMENT
-    ARROW
 
 Terminals, with rules where they appear:
 
@@ -133,8 +127,6 @@ Terminals, with rules where they appear:
 =                    : 32
 >                    : 50
 AND                  : 47
-ARROW                : 
-BOOL                 : 
 COMMENT              : 
 DIFF                 : 46
 D_BOOL               : 80
@@ -145,7 +137,6 @@ ELSE                 : 34
 EQEQ                 : 45
 FALSE                : 72
 FLOAT                : 70
-FOR                  : 
 FUNC                 : 13 20
 GOETHAN              : 51
 ID                   : 1 4 5 10 11 13 17 18 32 39 68 74
@@ -159,8 +150,6 @@ OUTPUT               : 36
 PROG                 : 1
 RETURN               : 33
 STRING               : 69
-THEN                 : 
-TO                   : 
 TRUE                 : 73
 VAR                  : 2 8
 VOID                 : 79
@@ -210,7 +199,6 @@ store_endif          : 34 35
 store_funcm          : 20
 store_funcv          : 13
 store_gosub          : 74
-store_goto           : 
 store_gotof          : 34 35 40
 store_gtype          : 2
 store_gvars          : 1 1
@@ -1046,8 +1034,8 @@ state 61
 state 62
 
     (40) loop -> WHILE . store_jump ( expr ) store_gotof { statement } end_loop
-    (106) store_jump -> .
-    (               reduce using rule 106 (store_jump -> .)
+    (105) store_jump -> .
+    (               reduce using rule 105 (store_jump -> .)
 
     store_jump                     shift and go to state 95
 
@@ -3786,20 +3774,20 @@ state 186
 state 187
 
     (40) loop -> WHILE store_jump ( expr ) store_gotof { statement } . end_loop
-    (107) end_loop -> .
-    WHILE           reduce using rule 107 (end_loop -> .)
-    INPUT           reduce using rule 107 (end_loop -> .)
-    OUTPUT          reduce using rule 107 (end_loop -> .)
-    IF              reduce using rule 107 (end_loop -> .)
-    RETURN          reduce using rule 107 (end_loop -> .)
-    ID              reduce using rule 107 (end_loop -> .)
-    (               reduce using rule 107 (end_loop -> .)
-    STRING          reduce using rule 107 (end_loop -> .)
-    FLOAT           reduce using rule 107 (end_loop -> .)
-    INT             reduce using rule 107 (end_loop -> .)
-    FALSE           reduce using rule 107 (end_loop -> .)
-    TRUE            reduce using rule 107 (end_loop -> .)
-    }               reduce using rule 107 (end_loop -> .)
+    (106) end_loop -> .
+    WHILE           reduce using rule 106 (end_loop -> .)
+    INPUT           reduce using rule 106 (end_loop -> .)
+    OUTPUT          reduce using rule 106 (end_loop -> .)
+    IF              reduce using rule 106 (end_loop -> .)
+    RETURN          reduce using rule 106 (end_loop -> .)
+    ID              reduce using rule 106 (end_loop -> .)
+    (               reduce using rule 106 (end_loop -> .)
+    STRING          reduce using rule 106 (end_loop -> .)
+    FLOAT           reduce using rule 106 (end_loop -> .)
+    INT             reduce using rule 106 (end_loop -> .)
+    FALSE           reduce using rule 106 (end_loop -> .)
+    TRUE            reduce using rule 106 (end_loop -> .)
+    }               reduce using rule 106 (end_loop -> .)
 
     end_loop                       shift and go to state 191
 

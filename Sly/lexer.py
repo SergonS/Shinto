@@ -51,7 +51,6 @@ class ShintoLexer(Lexer):
         'INT',
         'FLOAT',
         'STRING',
-        'BOOL',
         'TRUE',
         'FALSE',
         'D_INT',
@@ -59,12 +58,8 @@ class ShintoLexer(Lexer):
         'D_STRING',
         'D_BOOL',
         'IF',                 # if
-        'THEN',               # then
         'ELSE',               # else
-        'FOR',                # for
-        'TO',                 # to
         'WHILE',              # while
-        'ARROW',              # arrow
         'COMMENT',            # //
         'EQEQ',               # ==
         'GOETHAN',          # >=          
@@ -127,12 +122,8 @@ class ShintoLexer(Lexer):
     VAR = r'var'
     FUNC = r'function'
     IF = r'if'
-    THEN = r'then'
     ELSE = r'else'
-    FOR = r'for'
-    TO = r'to'
     WHILE = r'while'
-    ARROW = r'->'
     OUTPUT = r'output'
     INPUT = r'input'
     VOID = r'void'
