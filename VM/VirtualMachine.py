@@ -29,13 +29,13 @@ class VirtualMachine:
 
     def executeQuads(self):
         self.ip = 0
-        while self.ip <= self.q_length:
+        while self.ip < self.q_length:
             self.solveQuad(self.quads[self.ip])
 
     def solveQuad(self, quad: dict):
         # Verify if operator is +, -, *, /, <, <=, >=, ==, !=, && or ||
-        print("Solving quad:")
-        print("#" + str(self.ip) + " " + str(quad))
+        #print("Solving quad:")
+        #print("#" + str(self.ip) + " " + str(quad))
         if quad["operator"] >= 1 and quad["operator"] <= 12:
             # Get operands and the address to store
             opA = quad["operandA"]
@@ -49,9 +49,6 @@ class VirtualMachine:
             # Sum
             if self.operators.getOpID("+") == quad["operator"]:
                 ans = opA + opB
-                print("Doing a sum")
-                print("ans")
-                print(ans)
             # Substraction
             elif self.operators.getOpID("-") == quad["operator"]:
                 ans = opA - opB
@@ -75,7 +72,7 @@ class VirtualMachine:
                 ans = opA >= opB
             # Equal than
             elif self.operators.getOpID("==") == quad["operator"]:
-                print(f'Comparison between {opA} and {opB}')
+                #print(f'Comparison between {opA} and {opB}')
                 ans = opA == opB
             # Different than
             elif self.operators.getOpID("!=") == quad["operator"]:
@@ -92,7 +89,8 @@ class VirtualMachine:
             self.nextInstruction()
         elif quad["operator"] == self.operators.getOpID("output"):
             store = quad["t_memory"]
-            print(self.em.getValue(store[0], store[1]))
+            output = self.em.getValue(store[0], store[1])
+            print(output)
             self.nextInstruction()
         elif quad["operator"] == self.operators.getOpID("input"):
             store = quad["t_memory"]
@@ -116,10 +114,8 @@ class VirtualMachine:
                 self.nextInstruction()
         elif quad["operator"] == self.operators.getOpID("goto"):
             self.ip = quad["t_memory"]
-            print("GOTO")
         # DOUBLE CHECK
         elif quad["operator"] == self.operators.getOpID("era"):
-            #self.em.initializeLocalMemory(self.data["Locals"])
             self.nextInstruction()
         elif quad["operator"] == self.operators.getOpID("params"):
             pValue = self.em.getValue(quad["operandA"][0], quad["operandA"][1])
@@ -129,15 +125,11 @@ class VirtualMachine:
             self.jumps.append(self.ip + 1)
             self.ip = quad["t_memory"]
         elif quad["operator"] == self.operators.getOpID("endfunc"):
-            print("ENDFUNC")
-            print(self.jumps[-1])
             self.ip = self.jumps[-1]
             self.jumps.pop()
         elif quad["operator"] == self.operators.getOpID("return"):
             pValue = quad["operandA"]
             pValue = self.em.getValue(pValue[0], pValue[1])
-            print("pValue:")
-            print(pValue)
             store = quad["t_memory"]
             self.em.saveValue(store[0], store[1], pValue)
             self.nextInstruction()
@@ -174,3 +166,6 @@ class VirtualMachine:
             ans = opA + opB
             self.em.saveValue(store[0], store[1], ans)
             self.nextInstruction()
+        elif quad["operator"] == self.operators.getOpID("end"):
+            self.ip = len(self.quads)
+            print(f'Program compiled and executed correctly.')

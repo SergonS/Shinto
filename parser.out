@@ -34,8 +34,8 @@ Rule 30    statement -> <empty>
 Rule 31    statement -> statement statement
 Rule 32    var_assign -> ID store_oper = expr ;
 Rule 33    returns -> RETURN expr store_rquad
-Rule 34    ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif
-Rule 35    ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+Rule 34    ifelse -> IF ( expr ) store_gotof { statement } store_endif
+Rule 35    ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
 Rule 36    ifelsecont -> <empty>
 Rule 37    ifelsecont -> statement ifelsecont
 Rule 38    output -> OUTPUT ( expr outex ) ;
@@ -113,11 +113,11 @@ Rule 108   end_loop -> <empty>
 Unused terminals:
 
     FOR
+    TO
     COMMENT
-    BOOL
     THEN
     ARROW
-    TO
+    BOOL
 
 Terminals, with rules where they appear:
 
@@ -195,7 +195,7 @@ functions            : 1 13
 gvarids              : 2 5
 gvars                : 1 1 2
 ifelse               : 26
-ifelsecont           : 34 35 35 37
+ifelsecont           : 35 37
 input                : 24
 loop                 : 23
 main                 : 1
@@ -205,7 +205,7 @@ output               : 25
 params               : 13 17
 program              : 0
 returns              : 27
-statement            : 16 22 31 31 37 42
+statement            : 16 22 31 31 34 35 37 42
 store_const          : 68
 store_endif          : 34 35
 store_funcm          : 20
@@ -706,8 +706,8 @@ state 48
     (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
     (41) input -> . INPUT ( ID store_oper ) ;
     (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (33) returns -> . RETURN expr store_rquad
     (43) expr -> . arexp exprx
     (32) var_assign -> . ID store_oper = expr ;
@@ -835,8 +835,8 @@ state 53
     (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
     (41) input -> . INPUT ( ID store_oper ) ;
     (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (33) returns -> . RETURN expr store_rquad
     (43) expr -> . arexp exprx
     (32) var_assign -> . ID store_oper = expr ;
@@ -1056,8 +1056,8 @@ state 64
 
 state 65
 
-    (34) ifelse -> IF . ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> IF . ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> IF . ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> IF . ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (               shift and go to state 98
 
 
@@ -1417,8 +1417,8 @@ state 81
     (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
     (41) input -> . INPUT ( ID store_oper ) ;
     (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (33) returns -> . RETURN expr store_rquad
     (43) expr -> . arexp exprx
     (32) var_assign -> . ID store_oper = expr ;
@@ -1543,8 +1543,8 @@ state 84
     (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
     (41) input -> . INPUT ( ID store_oper ) ;
     (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (33) returns -> . RETURN expr store_rquad
     (43) expr -> . arexp exprx
     (32) var_assign -> . ID store_oper = expr ;
@@ -1812,8 +1812,8 @@ state 97
 
 state 98
 
-    (34) ifelse -> IF ( . expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> IF ( . expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> IF ( . expr ) store_gotof { statement } store_endif
+    (35) ifelse -> IF ( . expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (43) expr -> . arexp exprx
     (54) arexp -> . term arexpextra
     (55) arexp -> . term
@@ -2268,8 +2268,8 @@ state 123
     (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
     (41) input -> . INPUT ( ID store_oper ) ;
     (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (33) returns -> . RETURN expr store_rquad
     (43) expr -> . arexp exprx
     (32) var_assign -> . ID store_oper = expr ;
@@ -2455,8 +2455,8 @@ state 130
 
 state 131
 
-    (34) ifelse -> IF ( expr . ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> IF ( expr . ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> IF ( expr . ) store_gotof { statement } store_endif
+    (35) ifelse -> IF ( expr . ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     )               shift and go to state 151
 
 
@@ -2645,8 +2645,8 @@ state 142
     (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
     (41) input -> . INPUT ( ID store_oper ) ;
     (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (33) returns -> . RETURN expr store_rquad
     (43) expr -> . arexp exprx
     (32) var_assign -> . ID store_oper = expr ;
@@ -2853,8 +2853,8 @@ state 150
 
 state 151
 
-    (34) ifelse -> IF ( expr ) . store_gotof { ifelsecont } store_endif
-    (35) ifelse -> IF ( expr ) . store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> IF ( expr ) . store_gotof { statement } store_endif
+    (35) ifelse -> IF ( expr ) . store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (105) store_gotof -> .
     {               reduce using rule 105 (store_gotof -> .)
 
@@ -3050,8 +3050,8 @@ state 165
 
 state 166
 
-    (34) ifelse -> IF ( expr ) store_gotof . { ifelsecont } store_endif
-    (35) ifelse -> IF ( expr ) store_gotof . { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> IF ( expr ) store_gotof . { statement } store_endif
+    (35) ifelse -> IF ( expr ) store_gotof . { statement } ELSE store_goto { ifelsecont } store_endif
     {               shift and go to state 174
 
 
@@ -3126,10 +3126,8 @@ state 173
 
 state 174
 
-    (34) ifelse -> IF ( expr ) store_gotof { . ifelsecont } store_endif
-    (35) ifelse -> IF ( expr ) store_gotof { . ifelsecont } ELSE store_goto { ifelsecont } store_endif
-    (36) ifelsecont -> .
-    (37) ifelsecont -> . statement ifelsecont
+    (34) ifelse -> IF ( expr ) store_gotof { . statement } store_endif
+    (35) ifelse -> IF ( expr ) store_gotof { . statement } ELSE store_goto { ifelsecont } store_endif
     (23) statement -> . loop unload_pv
     (24) statement -> . input unload_pv
     (25) statement -> . output unload_pv
@@ -3142,8 +3140,8 @@ state 174
     (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
     (41) input -> . INPUT ( ID store_oper ) ;
     (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (33) returns -> . RETURN expr store_rquad
     (43) expr -> . arexp exprx
     (32) var_assign -> . ID store_oper = expr ;
@@ -3163,7 +3161,6 @@ state 174
     (73) const -> . FALSE
     (74) const -> . TRUE
     (70) compoundx -> . ID store_oper
-  ! reduce/reduce conflict for } resolved using rule 30 (statement -> .)
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for INPUT resolved as shift
   ! shift/reduce conflict for OUTPUT resolved as shift
@@ -3189,8 +3186,7 @@ state 174
     TRUE            shift and go to state 78
 
     expr                           shift and go to state 59
-    ifelsecont                     shift and go to state 179
-    statement                      shift and go to state 180
+    statement                      shift and go to state 179
     loop                           shift and go to state 54
     input                          shift and go to state 55
     output                         shift and go to state 56
@@ -3221,8 +3217,8 @@ state 175
     (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
     (41) input -> . INPUT ( ID store_oper ) ;
     (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (33) returns -> . RETURN expr store_rquad
     (43) expr -> . arexp exprx
     (32) var_assign -> . ID store_oper = expr ;
@@ -3267,7 +3263,7 @@ state 175
     TRUE            shift and go to state 78
 
     expr                           shift and go to state 59
-    statement                      shift and go to state 181
+    statement                      shift and go to state 180
     loop                           shift and go to state 54
     input                          shift and go to state 55
     output                         shift and go to state 56
@@ -3303,7 +3299,7 @@ state 176
     )               reduce using rule 103 (end_fstack -> .)
     ,               reduce using rule 103 (end_fstack -> .)
 
-    end_fstack                     shift and go to state 182
+    end_fstack                     shift and go to state 181
 
 state 177
 
@@ -3341,7 +3337,7 @@ state 178
     FALSE           shift and go to state 77
     TRUE            shift and go to state 78
 
-    callfuncpar                    shift and go to state 183
+    callfuncpar                    shift and go to state 182
     expr                           shift and go to state 163
     arexp                          shift and go to state 67
     term                           shift and go to state 68
@@ -3354,96 +3350,8 @@ state 178
 
 state 179
 
-    (34) ifelse -> IF ( expr ) store_gotof { ifelsecont . } store_endif
-    (35) ifelse -> IF ( expr ) store_gotof { ifelsecont . } ELSE store_goto { ifelsecont } store_endif
-    }               shift and go to state 184
-
-
-state 180
-
-    (37) ifelsecont -> statement . ifelsecont
-    (31) statement -> statement . statement
-    (36) ifelsecont -> .
-    (37) ifelsecont -> . statement ifelsecont
-    (23) statement -> . loop unload_pv
-    (24) statement -> . input unload_pv
-    (25) statement -> . output unload_pv
-    (26) statement -> . ifelse unload_pv
-    (27) statement -> . returns unload_pv ;
-    (28) statement -> . expr ;
-    (29) statement -> . var_assign unload_pv
-    (30) statement -> .
-    (31) statement -> . statement statement
-    (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
-    (41) input -> . INPUT ( ID store_oper ) ;
-    (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
-    (33) returns -> . RETURN expr store_rquad
-    (43) expr -> . arexp exprx
-    (32) var_assign -> . ID store_oper = expr ;
-    (54) arexp -> . term arexpextra
-    (55) arexp -> . term
-    (59) term -> . factor termx
-    (60) term -> . factor
-    (64) factor -> . element
-    (65) factor -> . ( store_op expr ) store_op
-    (66) element -> . callfunc store_oper
-    (67) element -> . compound store_oper
-    (68) element -> . const store_const
-    (76) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
-    (69) compound -> . compoundx
-    (71) const -> . FLOAT
-    (72) const -> . INT
-    (73) const -> . FALSE
-    (74) const -> . TRUE
-    (70) compoundx -> . ID store_oper
-  ! reduce/reduce conflict for } resolved using rule 30 (statement -> .)
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for INPUT resolved as shift
-  ! shift/reduce conflict for OUTPUT resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for RETURN resolved as shift
-  ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for ( resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for INT resolved as shift
-  ! shift/reduce conflict for FALSE resolved as shift
-  ! shift/reduce conflict for TRUE resolved as shift
-    }               reduce using rule 30 (statement -> .)
-    WHILE           shift and go to state 61
-    INPUT           shift and go to state 62
-    OUTPUT          shift and go to state 64
-    IF              shift and go to state 65
-    RETURN          shift and go to state 66
-    ID              shift and go to state 63
-    (               shift and go to state 51
-    FLOAT           shift and go to state 75
-    INT             shift and go to state 76
-    FALSE           shift and go to state 77
-    TRUE            shift and go to state 78
-
-    statement                      shift and go to state 185
-    ifelsecont                     shift and go to state 186
-    loop                           shift and go to state 54
-    input                          shift and go to state 55
-    output                         shift and go to state 56
-    ifelse                         shift and go to state 57
-    returns                        shift and go to state 58
-    expr                           shift and go to state 59
-    var_assign                     shift and go to state 60
-    arexp                          shift and go to state 67
-    term                           shift and go to state 68
-    factor                         shift and go to state 69
-    element                        shift and go to state 70
-    callfunc                       shift and go to state 71
-    compound                       shift and go to state 72
-    const                          shift and go to state 73
-    compoundx                      shift and go to state 74
-
-state 181
-
-    (42) loop -> WHILE store_jump ( expr ) store_gotof { statement . } end_loop
+    (34) ifelse -> IF ( expr ) store_gotof { statement . } store_endif
+    (35) ifelse -> IF ( expr ) store_gotof { statement . } ELSE store_goto { ifelsecont } store_endif
     (31) statement -> statement . statement
     (23) statement -> . loop unload_pv
     (24) statement -> . input unload_pv
@@ -3457,8 +3365,8 @@ state 181
     (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
     (41) input -> . INPUT ( ID store_oper ) ;
     (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (33) returns -> . RETURN expr store_rquad
     (43) expr -> . arexp exprx
     (32) var_assign -> . ID store_oper = expr ;
@@ -3490,7 +3398,7 @@ state 181
   ! shift/reduce conflict for INT resolved as shift
   ! shift/reduce conflict for FALSE resolved as shift
   ! shift/reduce conflict for TRUE resolved as shift
-    }               shift and go to state 188
+    }               shift and go to state 184
     WHILE           shift and go to state 61
     INPUT           shift and go to state 62
     OUTPUT          shift and go to state 64
@@ -3504,7 +3412,7 @@ state 181
     TRUE            shift and go to state 78
 
     expr                           shift and go to state 59
-    statement                      shift and go to state 187
+    statement                      shift and go to state 183
     loop                           shift and go to state 54
     input                          shift and go to state 55
     output                         shift and go to state 56
@@ -3520,7 +3428,86 @@ state 181
     const                          shift and go to state 73
     compoundx                      shift and go to state 74
 
-state 182
+state 180
+
+    (42) loop -> WHILE store_jump ( expr ) store_gotof { statement . } end_loop
+    (31) statement -> statement . statement
+    (23) statement -> . loop unload_pv
+    (24) statement -> . input unload_pv
+    (25) statement -> . output unload_pv
+    (26) statement -> . ifelse unload_pv
+    (27) statement -> . returns unload_pv ;
+    (28) statement -> . expr ;
+    (29) statement -> . var_assign unload_pv
+    (30) statement -> .
+    (31) statement -> . statement statement
+    (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
+    (41) input -> . INPUT ( ID store_oper ) ;
+    (38) output -> . OUTPUT ( expr outex ) ;
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
+    (33) returns -> . RETURN expr store_rquad
+    (43) expr -> . arexp exprx
+    (32) var_assign -> . ID store_oper = expr ;
+    (54) arexp -> . term arexpextra
+    (55) arexp -> . term
+    (59) term -> . factor termx
+    (60) term -> . factor
+    (64) factor -> . element
+    (65) factor -> . ( store_op expr ) store_op
+    (66) element -> . callfunc store_oper
+    (67) element -> . compound store_oper
+    (68) element -> . const store_const
+    (76) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (69) compound -> . compoundx
+    (71) const -> . FLOAT
+    (72) const -> . INT
+    (73) const -> . FALSE
+    (74) const -> . TRUE
+    (70) compoundx -> . ID store_oper
+  ! shift/reduce conflict for } resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for INPUT resolved as shift
+  ! shift/reduce conflict for OUTPUT resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for RETURN resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for ( resolved as shift
+  ! shift/reduce conflict for FLOAT resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for FALSE resolved as shift
+  ! shift/reduce conflict for TRUE resolved as shift
+    }               shift and go to state 185
+    WHILE           shift and go to state 61
+    INPUT           shift and go to state 62
+    OUTPUT          shift and go to state 64
+    IF              shift and go to state 65
+    RETURN          shift and go to state 66
+    ID              shift and go to state 63
+    (               shift and go to state 51
+    FLOAT           shift and go to state 75
+    INT             shift and go to state 76
+    FALSE           shift and go to state 77
+    TRUE            shift and go to state 78
+
+    expr                           shift and go to state 59
+    statement                      shift and go to state 183
+    loop                           shift and go to state 54
+    input                          shift and go to state 55
+    output                         shift and go to state 56
+    ifelse                         shift and go to state 57
+    returns                        shift and go to state 58
+    var_assign                     shift and go to state 60
+    arexp                          shift and go to state 67
+    term                           shift and go to state 68
+    factor                         shift and go to state 69
+    element                        shift and go to state 70
+    callfunc                       shift and go to state 71
+    compound                       shift and go to state 72
+    const                          shift and go to state 73
+    compoundx                      shift and go to state 74
+
+state 181
 
     (76) callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack . store_gosub
     (104) store_gosub -> .
@@ -3540,20 +3527,110 @@ state 182
     )               reduce using rule 104 (store_gosub -> .)
     ,               reduce using rule 104 (store_gosub -> .)
 
-    store_gosub                    shift and go to state 189
+    store_gosub                    shift and go to state 186
 
-state 183
+state 182
 
     (80) callfuncparx -> , callfuncpar .
     )               reduce using rule 80 (callfuncparx -> , callfuncpar .)
 
 
+state 183
+
+    (31) statement -> statement statement .
+    (31) statement -> statement . statement
+    (23) statement -> . loop unload_pv
+    (24) statement -> . input unload_pv
+    (25) statement -> . output unload_pv
+    (26) statement -> . ifelse unload_pv
+    (27) statement -> . returns unload_pv ;
+    (28) statement -> . expr ;
+    (29) statement -> . var_assign unload_pv
+    (30) statement -> .
+    (31) statement -> . statement statement
+    (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
+    (41) input -> . INPUT ( ID store_oper ) ;
+    (38) output -> . OUTPUT ( expr outex ) ;
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
+    (33) returns -> . RETURN expr store_rquad
+    (43) expr -> . arexp exprx
+    (32) var_assign -> . ID store_oper = expr ;
+    (54) arexp -> . term arexpextra
+    (55) arexp -> . term
+    (59) term -> . factor termx
+    (60) term -> . factor
+    (64) factor -> . element
+    (65) factor -> . ( store_op expr ) store_op
+    (66) element -> . callfunc store_oper
+    (67) element -> . compound store_oper
+    (68) element -> . const store_const
+    (76) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (69) compound -> . compoundx
+    (71) const -> . FLOAT
+    (72) const -> . INT
+    (73) const -> . FALSE
+    (74) const -> . TRUE
+    (70) compoundx -> . ID store_oper
+  ! reduce/reduce conflict for WHILE resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for INPUT resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for OUTPUT resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for IF resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for RETURN resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for ID resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for ( resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for FLOAT resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for INT resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for FALSE resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for TRUE resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for } resolved using rule 31 (statement -> statement statement .)
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for INPUT resolved as shift
+  ! shift/reduce conflict for OUTPUT resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for RETURN resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for ( resolved as shift
+  ! shift/reduce conflict for FLOAT resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for FALSE resolved as shift
+  ! shift/reduce conflict for TRUE resolved as shift
+    }               reduce using rule 31 (statement -> statement statement .)
+    WHILE           shift and go to state 61
+    INPUT           shift and go to state 62
+    OUTPUT          shift and go to state 64
+    IF              shift and go to state 65
+    RETURN          shift and go to state 66
+    ID              shift and go to state 63
+    (               shift and go to state 51
+    FLOAT           shift and go to state 75
+    INT             shift and go to state 76
+    FALSE           shift and go to state 77
+    TRUE            shift and go to state 78
+
+    statement                      shift and go to state 183
+    loop                           shift and go to state 54
+    input                          shift and go to state 55
+    output                         shift and go to state 56
+    ifelse                         shift and go to state 57
+    returns                        shift and go to state 58
+    expr                           shift and go to state 59
+    var_assign                     shift and go to state 60
+    arexp                          shift and go to state 67
+    term                           shift and go to state 68
+    factor                         shift and go to state 69
+    element                        shift and go to state 70
+    callfunc                       shift and go to state 71
+    compound                       shift and go to state 72
+    const                          shift and go to state 73
+    compoundx                      shift and go to state 74
+
 state 184
 
-    (34) ifelse -> IF ( expr ) store_gotof { ifelsecont } . store_endif
-    (35) ifelse -> IF ( expr ) store_gotof { ifelsecont } . ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> IF ( expr ) store_gotof { statement } . store_endif
+    (35) ifelse -> IF ( expr ) store_gotof { statement } . ELSE store_goto { ifelsecont } store_endif
     (98) store_endif -> .
-    ELSE            shift and go to state 191
+    ELSE            shift and go to state 188
     WHILE           reduce using rule 98 (store_endif -> .)
     INPUT           reduce using rule 98 (store_endif -> .)
     OUTPUT          reduce using rule 98 (store_endif -> .)
@@ -3567,200 +3644,9 @@ state 184
     TRUE            reduce using rule 98 (store_endif -> .)
     }               reduce using rule 98 (store_endif -> .)
 
-    store_endif                    shift and go to state 190
+    store_endif                    shift and go to state 187
 
 state 185
-
-    (31) statement -> statement statement .
-    (37) ifelsecont -> statement . ifelsecont
-    (31) statement -> statement . statement
-    (36) ifelsecont -> .
-    (37) ifelsecont -> . statement ifelsecont
-    (23) statement -> . loop unload_pv
-    (24) statement -> . input unload_pv
-    (25) statement -> . output unload_pv
-    (26) statement -> . ifelse unload_pv
-    (27) statement -> . returns unload_pv ;
-    (28) statement -> . expr ;
-    (29) statement -> . var_assign unload_pv
-    (30) statement -> .
-    (31) statement -> . statement statement
-    (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
-    (41) input -> . INPUT ( ID store_oper ) ;
-    (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
-    (33) returns -> . RETURN expr store_rquad
-    (43) expr -> . arexp exprx
-    (32) var_assign -> . ID store_oper = expr ;
-    (54) arexp -> . term arexpextra
-    (55) arexp -> . term
-    (59) term -> . factor termx
-    (60) term -> . factor
-    (64) factor -> . element
-    (65) factor -> . ( store_op expr ) store_op
-    (66) element -> . callfunc store_oper
-    (67) element -> . compound store_oper
-    (68) element -> . const store_const
-    (76) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
-    (69) compound -> . compoundx
-    (71) const -> . FLOAT
-    (72) const -> . INT
-    (73) const -> . FALSE
-    (74) const -> . TRUE
-    (70) compoundx -> . ID store_oper
-  ! reduce/reduce conflict for } resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for WHILE resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for INPUT resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for OUTPUT resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for IF resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for RETURN resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for ID resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for ( resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for FLOAT resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for INT resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for FALSE resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for TRUE resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for } resolved using rule 31 (statement -> statement statement .)
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for INPUT resolved as shift
-  ! shift/reduce conflict for OUTPUT resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for RETURN resolved as shift
-  ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for ( resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for INT resolved as shift
-  ! shift/reduce conflict for FALSE resolved as shift
-  ! shift/reduce conflict for TRUE resolved as shift
-    }               reduce using rule 31 (statement -> statement statement .)
-    WHILE           shift and go to state 61
-    INPUT           shift and go to state 62
-    OUTPUT          shift and go to state 64
-    IF              shift and go to state 65
-    RETURN          shift and go to state 66
-    ID              shift and go to state 63
-    (               shift and go to state 51
-    FLOAT           shift and go to state 75
-    INT             shift and go to state 76
-    FALSE           shift and go to state 77
-    TRUE            shift and go to state 78
-
-    statement                      shift and go to state 185
-    ifelsecont                     shift and go to state 186
-    loop                           shift and go to state 54
-    input                          shift and go to state 55
-    output                         shift and go to state 56
-    ifelse                         shift and go to state 57
-    returns                        shift and go to state 58
-    expr                           shift and go to state 59
-    var_assign                     shift and go to state 60
-    arexp                          shift and go to state 67
-    term                           shift and go to state 68
-    factor                         shift and go to state 69
-    element                        shift and go to state 70
-    callfunc                       shift and go to state 71
-    compound                       shift and go to state 72
-    const                          shift and go to state 73
-    compoundx                      shift and go to state 74
-
-state 186
-
-    (37) ifelsecont -> statement ifelsecont .
-    }               reduce using rule 37 (ifelsecont -> statement ifelsecont .)
-
-
-state 187
-
-    (31) statement -> statement statement .
-    (31) statement -> statement . statement
-    (23) statement -> . loop unload_pv
-    (24) statement -> . input unload_pv
-    (25) statement -> . output unload_pv
-    (26) statement -> . ifelse unload_pv
-    (27) statement -> . returns unload_pv ;
-    (28) statement -> . expr ;
-    (29) statement -> . var_assign unload_pv
-    (30) statement -> .
-    (31) statement -> . statement statement
-    (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
-    (41) input -> . INPUT ( ID store_oper ) ;
-    (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
-    (33) returns -> . RETURN expr store_rquad
-    (43) expr -> . arexp exprx
-    (32) var_assign -> . ID store_oper = expr ;
-    (54) arexp -> . term arexpextra
-    (55) arexp -> . term
-    (59) term -> . factor termx
-    (60) term -> . factor
-    (64) factor -> . element
-    (65) factor -> . ( store_op expr ) store_op
-    (66) element -> . callfunc store_oper
-    (67) element -> . compound store_oper
-    (68) element -> . const store_const
-    (76) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
-    (69) compound -> . compoundx
-    (71) const -> . FLOAT
-    (72) const -> . INT
-    (73) const -> . FALSE
-    (74) const -> . TRUE
-    (70) compoundx -> . ID store_oper
-  ! reduce/reduce conflict for WHILE resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for INPUT resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for OUTPUT resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for IF resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for RETURN resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for ID resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for ( resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for FLOAT resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for INT resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for FALSE resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for TRUE resolved using rule 31 (statement -> statement statement .)
-  ! reduce/reduce conflict for } resolved using rule 31 (statement -> statement statement .)
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for INPUT resolved as shift
-  ! shift/reduce conflict for OUTPUT resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for RETURN resolved as shift
-  ! shift/reduce conflict for ID resolved as shift
-  ! shift/reduce conflict for ( resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for INT resolved as shift
-  ! shift/reduce conflict for FALSE resolved as shift
-  ! shift/reduce conflict for TRUE resolved as shift
-    }               reduce using rule 31 (statement -> statement statement .)
-    WHILE           shift and go to state 61
-    INPUT           shift and go to state 62
-    OUTPUT          shift and go to state 64
-    IF              shift and go to state 65
-    RETURN          shift and go to state 66
-    ID              shift and go to state 63
-    (               shift and go to state 51
-    FLOAT           shift and go to state 75
-    INT             shift and go to state 76
-    FALSE           shift and go to state 77
-    TRUE            shift and go to state 78
-
-    statement                      shift and go to state 187
-    loop                           shift and go to state 54
-    input                          shift and go to state 55
-    output                         shift and go to state 56
-    ifelse                         shift and go to state 57
-    returns                        shift and go to state 58
-    expr                           shift and go to state 59
-    var_assign                     shift and go to state 60
-    arexp                          shift and go to state 67
-    term                           shift and go to state 68
-    factor                         shift and go to state 69
-    element                        shift and go to state 70
-    callfunc                       shift and go to state 71
-    compound                       shift and go to state 72
-    const                          shift and go to state 73
-    compoundx                      shift and go to state 74
-
-state 188
 
     (42) loop -> WHILE store_jump ( expr ) store_gotof { statement } . end_loop
     (108) end_loop -> .
@@ -3777,9 +3663,9 @@ state 188
     TRUE            reduce using rule 108 (end_loop -> .)
     }               reduce using rule 108 (end_loop -> .)
 
-    end_loop                       shift and go to state 192
+    end_loop                       shift and go to state 189
 
-state 189
+state 186
 
     (76) callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .
     /               reduce using rule 76 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
@@ -3799,32 +3685,32 @@ state 189
     ,               reduce using rule 76 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
 
 
-state 190
+state 187
 
-    (34) ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .
-    WHILE           reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
-    INPUT           reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
-    OUTPUT          reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
-    IF              reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
-    RETURN          reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
-    ID              reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
-    (               reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
-    FLOAT           reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
-    INT             reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
-    FALSE           reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
-    TRUE            reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
-    }               reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { ifelsecont } store_endif .)
+    (34) ifelse -> IF ( expr ) store_gotof { statement } store_endif .
+    WHILE           reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
+    INPUT           reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
+    OUTPUT          reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
+    IF              reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
+    RETURN          reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
+    ID              reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
+    (               reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
+    FLOAT           reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
+    INT             reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
+    FALSE           reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
+    TRUE            reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
+    }               reduce using rule 34 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
 
 
-state 191
+state 188
 
-    (35) ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE . store_goto { ifelsecont } store_endif
+    (35) ifelse -> IF ( expr ) store_gotof { statement } ELSE . store_goto { ifelsecont } store_endif
     (106) store_goto -> .
     {               reduce using rule 106 (store_goto -> .)
 
-    store_goto                     shift and go to state 193
+    store_goto                     shift and go to state 190
 
-state 192
+state 189
 
     (42) loop -> WHILE store_jump ( expr ) store_gotof { statement } end_loop .
     WHILE           reduce using rule 42 (loop -> WHILE store_jump ( expr ) store_gotof { statement } end_loop .)
@@ -3841,15 +3727,15 @@ state 192
     }               reduce using rule 42 (loop -> WHILE store_jump ( expr ) store_gotof { statement } end_loop .)
 
 
-state 193
+state 190
 
-    (35) ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto . { ifelsecont } store_endif
-    {               shift and go to state 194
+    (35) ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto . { ifelsecont } store_endif
+    {               shift and go to state 191
 
 
-state 194
+state 191
 
-    (35) ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { . ifelsecont } store_endif
+    (35) ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { . ifelsecont } store_endif
     (36) ifelsecont -> .
     (37) ifelsecont -> . statement ifelsecont
     (23) statement -> . loop unload_pv
@@ -3864,8 +3750,8 @@ state 194
     (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
     (41) input -> . INPUT ( ID store_oper ) ;
     (38) output -> . OUTPUT ( expr outex ) ;
-    (34) ifelse -> . IF ( expr ) store_gotof { ifelsecont } store_endif
-    (35) ifelse -> . IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
     (33) returns -> . RETURN expr store_rquad
     (43) expr -> . arexp exprx
     (32) var_assign -> . ID store_oper = expr ;
@@ -3911,8 +3797,8 @@ state 194
     TRUE            shift and go to state 78
 
     expr                           shift and go to state 59
-    ifelsecont                     shift and go to state 195
-    statement                      shift and go to state 180
+    statement                      shift and go to state 192
+    ifelsecont                     shift and go to state 193
     loop                           shift and go to state 54
     input                          shift and go to state 55
     output                         shift and go to state 56
@@ -3928,15 +3814,198 @@ state 194
     const                          shift and go to state 73
     compoundx                      shift and go to state 74
 
+state 192
+
+    (37) ifelsecont -> statement . ifelsecont
+    (31) statement -> statement . statement
+    (36) ifelsecont -> .
+    (37) ifelsecont -> . statement ifelsecont
+    (23) statement -> . loop unload_pv
+    (24) statement -> . input unload_pv
+    (25) statement -> . output unload_pv
+    (26) statement -> . ifelse unload_pv
+    (27) statement -> . returns unload_pv ;
+    (28) statement -> . expr ;
+    (29) statement -> . var_assign unload_pv
+    (30) statement -> .
+    (31) statement -> . statement statement
+    (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
+    (41) input -> . INPUT ( ID store_oper ) ;
+    (38) output -> . OUTPUT ( expr outex ) ;
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
+    (33) returns -> . RETURN expr store_rquad
+    (43) expr -> . arexp exprx
+    (32) var_assign -> . ID store_oper = expr ;
+    (54) arexp -> . term arexpextra
+    (55) arexp -> . term
+    (59) term -> . factor termx
+    (60) term -> . factor
+    (64) factor -> . element
+    (65) factor -> . ( store_op expr ) store_op
+    (66) element -> . callfunc store_oper
+    (67) element -> . compound store_oper
+    (68) element -> . const store_const
+    (76) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (69) compound -> . compoundx
+    (71) const -> . FLOAT
+    (72) const -> . INT
+    (73) const -> . FALSE
+    (74) const -> . TRUE
+    (70) compoundx -> . ID store_oper
+  ! reduce/reduce conflict for } resolved using rule 30 (statement -> .)
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for INPUT resolved as shift
+  ! shift/reduce conflict for OUTPUT resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for RETURN resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for ( resolved as shift
+  ! shift/reduce conflict for FLOAT resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for FALSE resolved as shift
+  ! shift/reduce conflict for TRUE resolved as shift
+    }               reduce using rule 30 (statement -> .)
+    WHILE           shift and go to state 61
+    INPUT           shift and go to state 62
+    OUTPUT          shift and go to state 64
+    IF              shift and go to state 65
+    RETURN          shift and go to state 66
+    ID              shift and go to state 63
+    (               shift and go to state 51
+    FLOAT           shift and go to state 75
+    INT             shift and go to state 76
+    FALSE           shift and go to state 77
+    TRUE            shift and go to state 78
+
+    statement                      shift and go to state 194
+    ifelsecont                     shift and go to state 195
+    loop                           shift and go to state 54
+    input                          shift and go to state 55
+    output                         shift and go to state 56
+    ifelse                         shift and go to state 57
+    returns                        shift and go to state 58
+    expr                           shift and go to state 59
+    var_assign                     shift and go to state 60
+    arexp                          shift and go to state 67
+    term                           shift and go to state 68
+    factor                         shift and go to state 69
+    element                        shift and go to state 70
+    callfunc                       shift and go to state 71
+    compound                       shift and go to state 72
+    const                          shift and go to state 73
+    compoundx                      shift and go to state 74
+
+state 193
+
+    (35) ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont . } store_endif
+    }               shift and go to state 196
+
+
+state 194
+
+    (31) statement -> statement statement .
+    (37) ifelsecont -> statement . ifelsecont
+    (31) statement -> statement . statement
+    (36) ifelsecont -> .
+    (37) ifelsecont -> . statement ifelsecont
+    (23) statement -> . loop unload_pv
+    (24) statement -> . input unload_pv
+    (25) statement -> . output unload_pv
+    (26) statement -> . ifelse unload_pv
+    (27) statement -> . returns unload_pv ;
+    (28) statement -> . expr ;
+    (29) statement -> . var_assign unload_pv
+    (30) statement -> .
+    (31) statement -> . statement statement
+    (42) loop -> . WHILE store_jump ( expr ) store_gotof { statement } end_loop
+    (41) input -> . INPUT ( ID store_oper ) ;
+    (38) output -> . OUTPUT ( expr outex ) ;
+    (34) ifelse -> . IF ( expr ) store_gotof { statement } store_endif
+    (35) ifelse -> . IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif
+    (33) returns -> . RETURN expr store_rquad
+    (43) expr -> . arexp exprx
+    (32) var_assign -> . ID store_oper = expr ;
+    (54) arexp -> . term arexpextra
+    (55) arexp -> . term
+    (59) term -> . factor termx
+    (60) term -> . factor
+    (64) factor -> . element
+    (65) factor -> . ( store_op expr ) store_op
+    (66) element -> . callfunc store_oper
+    (67) element -> . compound store_oper
+    (68) element -> . const store_const
+    (76) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (69) compound -> . compoundx
+    (71) const -> . FLOAT
+    (72) const -> . INT
+    (73) const -> . FALSE
+    (74) const -> . TRUE
+    (70) compoundx -> . ID store_oper
+  ! reduce/reduce conflict for } resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for WHILE resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for INPUT resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for OUTPUT resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for IF resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for RETURN resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for ID resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for ( resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for FLOAT resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for INT resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for FALSE resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for TRUE resolved using rule 31 (statement -> statement statement .)
+  ! reduce/reduce conflict for } resolved using rule 31 (statement -> statement statement .)
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for INPUT resolved as shift
+  ! shift/reduce conflict for OUTPUT resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for RETURN resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for ( resolved as shift
+  ! shift/reduce conflict for FLOAT resolved as shift
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for FALSE resolved as shift
+  ! shift/reduce conflict for TRUE resolved as shift
+    }               reduce using rule 31 (statement -> statement statement .)
+    WHILE           shift and go to state 61
+    INPUT           shift and go to state 62
+    OUTPUT          shift and go to state 64
+    IF              shift and go to state 65
+    RETURN          shift and go to state 66
+    ID              shift and go to state 63
+    (               shift and go to state 51
+    FLOAT           shift and go to state 75
+    INT             shift and go to state 76
+    FALSE           shift and go to state 77
+    TRUE            shift and go to state 78
+
+    statement                      shift and go to state 194
+    ifelsecont                     shift and go to state 195
+    loop                           shift and go to state 54
+    input                          shift and go to state 55
+    output                         shift and go to state 56
+    ifelse                         shift and go to state 57
+    returns                        shift and go to state 58
+    expr                           shift and go to state 59
+    var_assign                     shift and go to state 60
+    arexp                          shift and go to state 67
+    term                           shift and go to state 68
+    factor                         shift and go to state 69
+    element                        shift and go to state 70
+    callfunc                       shift and go to state 71
+    compound                       shift and go to state 72
+    const                          shift and go to state 73
+    compoundx                      shift and go to state 74
+
 state 195
 
-    (35) ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont . } store_endif
-    }               shift and go to state 196
+    (37) ifelsecont -> statement ifelsecont .
+    }               reduce using rule 37 (ifelsecont -> statement ifelsecont .)
 
 
 state 196
 
-    (35) ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } . store_endif
+    (35) ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } . store_endif
     (98) store_endif -> .
     WHILE           reduce using rule 98 (store_endif -> .)
     INPUT           reduce using rule 98 (store_endif -> .)
@@ -3955,19 +4024,19 @@ state 196
 
 state 197
 
-    (35) ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .
-    WHILE           reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
-    INPUT           reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
-    OUTPUT          reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
-    IF              reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
-    RETURN          reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
-    ID              reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
-    (               reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
-    FLOAT           reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
-    INT             reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
-    FALSE           reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
-    TRUE            reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
-    }               reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { ifelsecont } ELSE store_goto { ifelsecont } store_endif .)
+    (35) ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .
+    WHILE           reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
+    INPUT           reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
+    OUTPUT          reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
+    IF              reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
+    RETURN          reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
+    ID              reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
+    (               reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
+    FLOAT           reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
+    INT             reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
+    FALSE           reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
+    TRUE            reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
+    }               reduce using rule 35 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_goto { ifelsecont } store_endif .)
 
 
 Conflicts:
@@ -4062,6 +4131,19 @@ shift/reduce conflict for FLOAT in state 175 resolved as shift
 shift/reduce conflict for INT in state 175 resolved as shift
 shift/reduce conflict for FALSE in state 175 resolved as shift
 shift/reduce conflict for TRUE in state 175 resolved as shift
+shift/reduce conflict for } in state 179 resolved as shift
+shift/reduce conflict for WHILE in state 179 resolved as shift
+shift/reduce conflict for INPUT in state 179 resolved as shift
+shift/reduce conflict for OUTPUT in state 179 resolved as shift
+shift/reduce conflict for IF in state 179 resolved as shift
+shift/reduce conflict for RETURN in state 179 resolved as shift
+shift/reduce conflict for ID in state 179 resolved as shift
+shift/reduce conflict for ( in state 179 resolved as shift
+shift/reduce conflict for FLOAT in state 179 resolved as shift
+shift/reduce conflict for INT in state 179 resolved as shift
+shift/reduce conflict for FALSE in state 179 resolved as shift
+shift/reduce conflict for TRUE in state 179 resolved as shift
+shift/reduce conflict for } in state 180 resolved as shift
 shift/reduce conflict for WHILE in state 180 resolved as shift
 shift/reduce conflict for INPUT in state 180 resolved as shift
 shift/reduce conflict for OUTPUT in state 180 resolved as shift
@@ -4073,40 +4155,39 @@ shift/reduce conflict for FLOAT in state 180 resolved as shift
 shift/reduce conflict for INT in state 180 resolved as shift
 shift/reduce conflict for FALSE in state 180 resolved as shift
 shift/reduce conflict for TRUE in state 180 resolved as shift
-shift/reduce conflict for } in state 181 resolved as shift
-shift/reduce conflict for WHILE in state 181 resolved as shift
-shift/reduce conflict for INPUT in state 181 resolved as shift
-shift/reduce conflict for OUTPUT in state 181 resolved as shift
-shift/reduce conflict for IF in state 181 resolved as shift
-shift/reduce conflict for RETURN in state 181 resolved as shift
-shift/reduce conflict for ID in state 181 resolved as shift
-shift/reduce conflict for ( in state 181 resolved as shift
-shift/reduce conflict for FLOAT in state 181 resolved as shift
-shift/reduce conflict for INT in state 181 resolved as shift
-shift/reduce conflict for FALSE in state 181 resolved as shift
-shift/reduce conflict for TRUE in state 181 resolved as shift
-shift/reduce conflict for WHILE in state 185 resolved as shift
-shift/reduce conflict for INPUT in state 185 resolved as shift
-shift/reduce conflict for OUTPUT in state 185 resolved as shift
-shift/reduce conflict for IF in state 185 resolved as shift
-shift/reduce conflict for RETURN in state 185 resolved as shift
-shift/reduce conflict for ID in state 185 resolved as shift
-shift/reduce conflict for ( in state 185 resolved as shift
-shift/reduce conflict for FLOAT in state 185 resolved as shift
-shift/reduce conflict for INT in state 185 resolved as shift
-shift/reduce conflict for FALSE in state 185 resolved as shift
-shift/reduce conflict for TRUE in state 185 resolved as shift
-shift/reduce conflict for WHILE in state 187 resolved as shift
-shift/reduce conflict for INPUT in state 187 resolved as shift
-shift/reduce conflict for OUTPUT in state 187 resolved as shift
-shift/reduce conflict for IF in state 187 resolved as shift
-shift/reduce conflict for RETURN in state 187 resolved as shift
-shift/reduce conflict for ID in state 187 resolved as shift
-shift/reduce conflict for ( in state 187 resolved as shift
-shift/reduce conflict for FLOAT in state 187 resolved as shift
-shift/reduce conflict for INT in state 187 resolved as shift
-shift/reduce conflict for FALSE in state 187 resolved as shift
-shift/reduce conflict for TRUE in state 187 resolved as shift
+shift/reduce conflict for WHILE in state 183 resolved as shift
+shift/reduce conflict for INPUT in state 183 resolved as shift
+shift/reduce conflict for OUTPUT in state 183 resolved as shift
+shift/reduce conflict for IF in state 183 resolved as shift
+shift/reduce conflict for RETURN in state 183 resolved as shift
+shift/reduce conflict for ID in state 183 resolved as shift
+shift/reduce conflict for ( in state 183 resolved as shift
+shift/reduce conflict for FLOAT in state 183 resolved as shift
+shift/reduce conflict for INT in state 183 resolved as shift
+shift/reduce conflict for FALSE in state 183 resolved as shift
+shift/reduce conflict for TRUE in state 183 resolved as shift
+shift/reduce conflict for WHILE in state 191 resolved as shift
+shift/reduce conflict for INPUT in state 191 resolved as shift
+shift/reduce conflict for OUTPUT in state 191 resolved as shift
+shift/reduce conflict for IF in state 191 resolved as shift
+shift/reduce conflict for RETURN in state 191 resolved as shift
+shift/reduce conflict for ID in state 191 resolved as shift
+shift/reduce conflict for ( in state 191 resolved as shift
+shift/reduce conflict for FLOAT in state 191 resolved as shift
+shift/reduce conflict for INT in state 191 resolved as shift
+shift/reduce conflict for FALSE in state 191 resolved as shift
+shift/reduce conflict for TRUE in state 191 resolved as shift
+shift/reduce conflict for WHILE in state 192 resolved as shift
+shift/reduce conflict for INPUT in state 192 resolved as shift
+shift/reduce conflict for OUTPUT in state 192 resolved as shift
+shift/reduce conflict for IF in state 192 resolved as shift
+shift/reduce conflict for RETURN in state 192 resolved as shift
+shift/reduce conflict for ID in state 192 resolved as shift
+shift/reduce conflict for ( in state 192 resolved as shift
+shift/reduce conflict for FLOAT in state 192 resolved as shift
+shift/reduce conflict for INT in state 192 resolved as shift
+shift/reduce conflict for FALSE in state 192 resolved as shift
+shift/reduce conflict for TRUE in state 192 resolved as shift
 shift/reduce conflict for WHILE in state 194 resolved as shift
 shift/reduce conflict for INPUT in state 194 resolved as shift
 shift/reduce conflict for OUTPUT in state 194 resolved as shift
@@ -4142,16 +4223,14 @@ reduce/reduce conflict in state 142 resolved using rule statement -> statement s
 rejected rule (statement -> <empty>) in state 142
 reduce/reduce conflict in state 142 resolved using rule funcontent -> <empty>
 rejected rule (statement -> <empty>) in state 142
-reduce/reduce conflict in state 174 resolved using rule statement -> <empty>
-rejected rule (ifelsecont -> <empty>) in state 174
-reduce/reduce conflict in state 180 resolved using rule statement -> <empty>
-rejected rule (ifelsecont -> <empty>) in state 180
-reduce/reduce conflict in state 185 resolved using rule statement -> statement statement
-rejected rule (ifelsecont -> <empty>) in state 185
-reduce/reduce conflict in state 185 resolved using rule statement -> statement statement
-rejected rule (statement -> <empty>) in state 185
-reduce/reduce conflict in state 187 resolved using rule statement -> statement statement
-rejected rule (statement -> <empty>) in state 187
-reduce/reduce conflict in state 194 resolved using rule statement -> <empty>
+reduce/reduce conflict in state 183 resolved using rule statement -> statement statement
+rejected rule (statement -> <empty>) in state 183
+reduce/reduce conflict in state 191 resolved using rule statement -> <empty>
+rejected rule (ifelsecont -> <empty>) in state 191
+reduce/reduce conflict in state 192 resolved using rule statement -> <empty>
+rejected rule (ifelsecont -> <empty>) in state 192
+reduce/reduce conflict in state 194 resolved using rule statement -> statement statement
 rejected rule (ifelsecont -> <empty>) in state 194
+reduce/reduce conflict in state 194 resolved using rule statement -> statement statement
+rejected rule (statement -> <empty>) in state 194
 Rule (ifelsecont -> <empty>) is never reduced

@@ -40,10 +40,7 @@ class QuadOverseer:
 
     # Add Operator to polish vector
     def addOperator(self, operator: str):
-        #print("OPERATOR = ")
-        #print(operator)
         # We found an ending parenthesis
-        print(operator)
         if operator == ')':
             self.unloadStack()
         elif operator == '%':
@@ -54,18 +51,11 @@ class QuadOverseer:
             self.jumps_stack.append(len(self.quad_stack) - 1)
         # We found a GOTOF
         elif self.operators[operator] == Hierarchy.GOTOF and self.quad_stack[-1]["operator"] != 17:
-            print("ENTERING GOTOF")
-            print(self.polish_vector)
             operand = self.popOperandS()
-
-            print("OPERAND OF GOTOF")
-            print(operand)
 
             if operand[1] != Data_Type.BOOLEAN.value:
                 sys.exit("Result must have been a boolean")
             self.addQuad(operator, operand, (), ())
-            print("operator of last quad:")
-            print(self.quad_stack[-1]["operator"])
             self.jumps_stack.append(len(self.quad_stack) - 1)
         # We found a While
         elif operator == "gotow":
@@ -166,11 +156,9 @@ class QuadOverseer:
                 self.addQuad(op, operandA, operandB, (None, match))
         # We found a comparison
         elif self.operators[operator] == Hierarchy.COMPARE:
-            print("FOUND A COMPARISON")
             # Verify for other comparisons or operations of higher hierarchy
             while (len(self.operator_stack) > 0 and (self.operators[self.operator_stack[-1]] == Hierarchy.COMPARE
             or self.operators[self.operator_stack[-1]] < Hierarchy.COMPARE)):
-                print("MAKING COMPARISON")
                 op = self.popOperatorS()
                 operandB = self.popOperandS()
                 operandA = self.popOperandS()
@@ -202,8 +190,6 @@ class QuadOverseer:
             self.unloadPolishVector()
         # Append operator
         if (operator != ')' and operator != '=' and operator != 'return' and operator != 'endfunc' and operator != 'era' and operator != '(' and operator != 'params' and operator != 'gosub' and operator != 'assignr' and operator != 'output' and operator != 'input' and operator != 'gotof' and operator != 'gotow' and operator != 'end'):
-            print("MAKING QUAD OF " + operator)
-            print(self.polish_vector)
             self.operator_stack.append(operator)
             op = self.popOperatorS()
             operandB = self.popOperandS()
@@ -231,10 +217,7 @@ class QuadOverseer:
         return operand
 
     # Unload Polish Vector
-    def unloadPolishVector(self):
-        print("UNLOADING POLISH VECTOR")
-        print(self.operator_stack)
-        print(self.polish_vector)
+    def unloadPolishVector(self):        
         while len(self.operator_stack) > 0:
             if self.operator_stack[-1] == '(':
                 break
@@ -319,11 +302,9 @@ class QuadOverseer:
 
     # Finish the goto and/or gotof
     def finishGoto(self, data_type: str = ""):
-        print("GOING TO JKGASNDGKJANSDFJKGDF")
-        print(self.jumps_stack)
         if self.operators[data_type] == Hierarchy.GOTOF:
             jump = self.popJump()
-            self.quad_stack[jump]["t_memory"] = (len(self.quad_stack) - 1)
+            self.quad_stack[jump]["t_memory"] = (len(self.quad_stack))
         else: 
             jump = self.popJump()
             self.quad_stack[jump]["t_memory"] = (len(self.quad_stack) )
@@ -350,16 +331,12 @@ class QuadOverseer:
             "operandB": operandB,
             "t_memory": t_memory
         })
-        print("op:")
-        print(op)
         if (op == "==" or self.operators[op] <= Hierarchy.LOGIC or 
                 self.operators[op] == Hierarchy.ASSIGN_R or
                 self.operators[op] == Hierarchy.ARR_BASE or
                 self.operators[op] == Hierarchy.ARR_SD or
                 self.operators[op] == Hierarchy.ARR_SDS):
-            print("adding op: " + op + " result to operands: " + str(t_memory[0]))
             self.addOperand(t_memory[0], t_memory[1])
-            print(self.polish_vector)
 
         
 

@@ -55,15 +55,11 @@ class ExMemory:
             return var[1:-1]
 
     def convertToType(self, data_type: str, var: str):
-        print(f'{data_type} , {var}')
         if data_type == "int":
             return int(var)
         elif data_type == "float":
             return float(var)
-        elif data_type == "boolean" and not isinstance(var, int):
-            print("var:")
-            print(data_type)
-            print(var)
+        elif data_type == "boolean" and not isinstance(var, int):            
             if var == 'False':
                 return False
             elif var == 'True':
@@ -76,8 +72,6 @@ class ExMemory:
         initial = self.address[data_type]
 
         for var in vars:
-            print("addr of var")
-            print(vars[var])
             space = vars[var] - initial
             self.memory["global"][initial][space] = self.convertToType(data_type, var)
 
@@ -111,10 +105,6 @@ class ExMemory:
 
     # Initialize local memory with the memory needed
     def initializeLocalMemory(self, locals: dict, temps: int):
-        print("Locals:")
-        print(locals)
-        print()
-        print(len(locals["integer"]))
         self.memory["local"][self.address["local_int"]] = [None] * (len(locals["integer"]) + temps)
         self.memory["local"][self.address["local_float"]] = [None] * (len(locals["float"]) + temps)
         self.memory["local"][self.address["local_string"]] = [None] * (len(locals["string"]) + temps)
@@ -177,9 +167,7 @@ class ExMemory:
             newAddr = addr[1:-1]
             address = self.getValue(int(newAddr), data_type)
             addr = address
-        print(f'The value is {value}')
         value = self.convertToType(data_type, value)
-        print(f'The value now is {value}')
 
         # Global address
         if addr >= 0 * self.area and addr < 4 * self.area:
@@ -189,13 +177,7 @@ class ExMemory:
         # Local address
         elif addr >= 4 * self.area and addr < 8 * self.area:
             pos = addr - self.address["local_" + data_type]
-            pos = self.convertToType("int", pos)
-            print("Data_type:")
-            print(data_type)
-            print("pos:")
-            print(pos)
-            print("Value:")
-            print(value)
+            pos = self.convertToType("int", pos)           
             self.memory["local"][self.address["local_" + data_type]][pos] = value
 
     # Pass along values into the New Extra Memory

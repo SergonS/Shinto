@@ -6,7 +6,7 @@ int function volta(fifa: int, ea: int, ball: int)
 {
 	var int iX, iY;
 
-	iX = 3 + 5;
+	iX = 3 + 5 + ea;
 	return iX;
 }
 
@@ -28,6 +28,12 @@ function main()
 	while (iA < 3)
 	{
 		output(iA);
+
+		if (iA == 2)
+		{
+			output(iA);
+		}
+
 		iA = iA + 1;
 	}
 

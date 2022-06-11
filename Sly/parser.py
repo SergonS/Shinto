@@ -57,6 +57,7 @@ class ShintoParser(Parser):
 
     @_('PROG ID check_program ";" gvars store_gvars functions gvars store_gvars main')
     def program(self, x):
+        """
         print("VARIABLES DIR:")
         self.dir_vars.showDirectory()
         print()
@@ -64,6 +65,7 @@ class ShintoParser(Parser):
         self.dir_functions.showDirectory()
         print()
         print(self.quads.polish_vector)
+        """
         self.quads.addQuad("end", (), (), ())
         pass
 
@@ -233,11 +235,11 @@ class ShintoParser(Parser):
 
     #IFELSE
 
-    @_('IF "(" expr ")" store_gotof "{" ifelsecont "}" ELSE store_goto "{" ifelsecont "}" store_endif')
+    @_('IF "(" expr ")" store_gotof "{" statement "}" ELSE store_goto "{" ifelsecont "}" store_endif')
     def ifelse(self, x):
         pass
 
-    @_('IF "(" expr ")" store_gotof "{" ifelsecont "}" store_endif')
+    @_('IF "(" expr ")" store_gotof "{" statement "}" store_endif')
     def ifelse(self, x):
         pass
 
@@ -285,8 +287,6 @@ class ShintoParser(Parser):
 
     @_('exprop arexp')
     def exprx(self, x):
-        print("x[0] at exprop")
-        print(x[0])
         self.quads.addOperator(x[0])
         pass
 
@@ -575,17 +575,12 @@ class ShintoParser(Parser):
     def store_oper(self, x):
         if self.verifyVar(x[-1]):
             var = self.dir_vars.getVar(x[-1])
-            print("STORING " + var.name + " IN POLISH VECTOR")
-
             if self.verifyFunc(x[-1]) == False:
-                print(var.name + " NOT A FUNC")
                 self.quads.addOperand(var.addr, var.data_type)
         pass
 
     @_('')
     def store_const(self, x):
-        print("STORING CONSTANT:")
-        print(x[-1])
         self.storeConstant(x[-1][0], x[-1][1])
         pass
 
@@ -602,7 +597,6 @@ class ShintoParser(Parser):
             sys.exit(f'Function {self.scope} is of type void, it cannot have return')
         
         self.quads.addOperand(func.addr, func.data_type)
-        #print(str(self.quads.polish_vector) + " at RETYURN")
         self.quads.addOperator("return")
         self.quads.addOperator("endfunc")
 
@@ -669,7 +663,6 @@ class ShintoParser(Parser):
 
     @_('')
     def store_gotof(self, x):
-        print("STORING GOTOF")
         self.quads.addOperator("gotof")
         pass
 
