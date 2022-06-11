@@ -13,14 +13,17 @@ int function volta(fifa: int, ea: int, ball: int)
 function main()
 {
 	// This is a comment. 
-	var int iA, iB, iC, iD;
+	var int iA, iB, iC, iD, iE, iF;
 	var boolean bt;
 	iB = 2;
 	iC = 3;
 
 	output("Hello world", iB, 23);
 	iA = 1 + 6 + 3;
+	iA = 3.5;
 	iD = volta(iA, iB, iC);
+
+	output(iA);
 
 	output(iD);
 

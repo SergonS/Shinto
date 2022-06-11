@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
         res = S_parser.parse(S_lexer.tokenize(f))
         S_parser.quads.printQuads()
-
+        print("Console output:")
         vm = VirtualMachine(S_parser.parseData(), S_parser.quads.counter_temps)
         
 

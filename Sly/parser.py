@@ -24,7 +24,7 @@ class ShintoParser(Parser):
     debugfile = 'parser.out'
     tokens = ShintoLexer.tokens
     ERROR_FLAG = False
-    stack_dim = []
+    stack_matrix = []
     stack_params = []
     stack_vars = []
     stack_gvars = []
@@ -57,10 +57,11 @@ class ShintoParser(Parser):
 
     @_('PROG ID check_program ";" gvars store_gvars functions gvars store_gvars main')
     def program(self, x):
-        """
+        
         print("VARIABLES DIR:")
         self.dir_vars.showDirectory()
         print()
+        """
         print("FUNCTIONS DIR:")
         self.dir_functions.showDirectory()
         print()
@@ -121,19 +122,57 @@ class ShintoParser(Parser):
         pass
 
     # VARIDS
-    @_('ID "," varids')
+    @_('ID darray "," varids')
     def varids(self, x):
         self.stack_vars.append(x[0])
+
+        if (len(self.stack_matrix) == 1):
+            matrix = [x[0]] * self.stack_matrix[0]
+            self.stack_vars.extend(matrix)
+            self.stack_matrix.clear()
+        elif (len(self.stack_matrix) == 2):
+            matrix = [x[0]] * (self.stack_matrix[0] * self.stack_matrix[0])
+            self.stack_vars.extend(matrix)
+            self.stack_matrix.clear()
+
         pass
 
-    @_('ID')
+    @_('ID darray')
     def varids(self, x):
         self.stack_vars.append(x[0])
+
+        if (len(self.stack_matrix) == 1):
+            self.stack_vars.append((self.stack_matrix[0], 0))
+            self.stack_matrix.clear()
+        elif (len(self.stack_matrix) == 2):
+            self.stack_vars.append((self.stack_matrix[1], self.stack_matrix[0]))
+            self.stack_matrix.clear()
+
         pass
 
     @_('')
     def store_type(self, x):
         self.stack_vars.append(x[-2])
+        pass
+
+    # ARRAY DECLARATION
+
+    @_('"[" INT "]" twodarray')
+    def darray(self, x):
+        self.stack_matrix.append(x[1])
+        pass
+
+    @_('')
+    def darray(self, x):
+        pass
+
+    @_('"[" INT "]"')
+    def twodarray(self, x):
+        self.stack_matrix.append(x[1])
+        pass
+
+    @_('')
+    def twodarray(self, x):
         pass
 
     # FUNCTIONS
@@ -539,6 +578,7 @@ class ShintoParser(Parser):
             if self.globals.addBoolean(name, addr) == True:
                 self.delimitation.updateCounter("global_boolean")
                 self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, "global")
+
         func = self.createFunction(name, dt)
 
         if dt != "void":
@@ -726,10 +766,13 @@ class ShintoParser(Parser):
                     
     def storeLocalVars(self, scope: str):
         dt = "none"
+        dim = 0
+        spaces = 0
+        print(self.stack_vars)
         for var in reversed(self.stack_vars):
             if var == "int" or var == "float" or var == "string" or var == "boolean":
                 dt = var
-            else:
+            elif type(var) != tuple:
                 if dt == "int":
                     addr = self.delimitation.getAddr("local_int") + self.delimitation.getCounter("local_int")
                     self.delimitation.verifyDelimitation(addr, "local_int")
@@ -763,6 +806,19 @@ class ShintoParser(Parser):
                         self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, scope)
                 newVar = Variable(var, dt, addr, 0, 0, scope)
                 self.dir_functions.getFunc(scope).addVar(newVar)
+
+            if type(var) == tuple:
+                if var[1] == 0:
+                    dim = 1
+                    spaces = var[0]
+                else:
+                    dim = 2
+                    spaces = var[0] * var[1]             
+                i = 0
+                while i < spaces:
+                    self.delimitation.updateCounter("local_int")
+                    i = i + 1   
+                print(f'Found an array with {dim} dimensions and {spaces} spaces')
         self.stack_vars.clear()
 
     def storeParams(self, funcName: str):

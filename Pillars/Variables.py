@@ -1,3 +1,6 @@
+from multiprocessing.context import SpawnProcess
+
+
 class Variable:
     name: str
     data_type: str

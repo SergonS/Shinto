@@ -55,6 +55,10 @@ class Delimitation:
     def getAddr(self, scope_type: str) -> int:
         return self.territories[scope_type]
 
+    def updateIntCounter(self, scope_type: str, delta: int):
+        print(f'Updating counter to delta {delta}')
+        self.counter[scope_type] = self.counter[scope_type] + delta
+
     def updateCounter(self, scope_type: str, delta: int = 1):
         self.counter[scope_type] = self.counter[scope_type] + delta
 
