@@ -10,13 +10,6 @@ class ExMemory:
     # Store additional memory for functions
     extra_memory = []
 
-    newEMemory = {
-        address["local_int"]: [],
-        address["local_float"]: [],
-        address["local_string"]: [],
-        address["local_boolean"]: []
-    }
-
     memory = {
         "global": {
             address["global_int"]: [],
@@ -111,21 +104,6 @@ class ExMemory:
         self.memory["local"][self.address["local_boolean"]] = [None] * (len(locals["boolean"]) + temps)
 
 
-    # Copy the extra memory into the local memory in execution
-    def setEMtoLM(self):
-        self.memory["local"] = self.newEMemory.copy()
-
-    def getLocalMemory(self):
-        return self.memory["local"]
-
-    # Save the local memory and instruction pointer to allow new local memory in its place
-    def saveMemory(self, instructionPointer: int):
-        info = {
-            "memory": self.getLocalMemory().copy(),
-            "instructionPointer": instructionPointer
-        }
-        self.extra_memory.append(info)
-
     def showMemory(self):
         print("Constant")
         print(self.memory["constant"])
@@ -180,18 +158,3 @@ class ExMemory:
             pos = addr - self.address["local_" + data_type]
             pos = self.convertToType("int", pos)           
             self.memory["local"][self.address["local_" + data_type]][pos] = value
-
-    # Pass along values into the New Extra Memory
-    def passParamsToExtra(self, addr: int, data_type: str, value):
-        value = self.convertToType(data_type, value)
-
-        if addr >= 4 * self.area and addr < 8 * self.area:
-            pos = addr - self.address["local_" + data_type]
-            self.newEMemory[self.address["local_" + data_type]][pos] = value
-
-    # Restore Memory within the New Extra Memory to our Current Memory
-    def restorePrevMemory(self) -> int:
-        prevM = self.extra_memory[-1]
-        self.memory["local"] = prevM["memory"]
-        self.extra_memory.pop()
-        return prevM["instructionPointer"]
