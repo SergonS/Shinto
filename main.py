@@ -7,7 +7,7 @@ if __name__ == '__main__':
         S_parser = ShintoParser()
 
         # To read from file
-        f_name = "script.txt"
+        f_name = "fibonacci.txt"
         file = open(f_name, 'r') 
         f = file.read()
 

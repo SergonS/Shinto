@@ -83,7 +83,7 @@ class VirtualMachine:
             # Or
             elif self.operators.getOpID("||") == quad["operator"]:
                 ans = opA or opB
-
+            #print(ans)
             self.em.saveValue(store[0], store[1], ans)
 
             self.nextInstruction()

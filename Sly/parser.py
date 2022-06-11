@@ -235,20 +235,12 @@ class ShintoParser(Parser):
 
     #IFELSE
 
-    @_('IF "(" expr ")" store_gotof "{" statement "}" ELSE store_goto "{" ifelsecont "}" store_endif')
-    def ifelse(self, x):
-        pass
-
     @_('IF "(" expr ")" store_gotof "{" statement "}" store_endif')
     def ifelse(self, x):
         pass
 
-    @_('statement ifelsecont')
-    def ifelsecont(self, x):
-        pass
-
-    @_('')
-    def ifelsecont(self, x):
+    @_('IF "(" expr ")" store_gotof "{" statement "}" ELSE store_endif "{" statement "}"')
+    def ifelse(self, x):
         pass
 
     # OUTPUT
@@ -423,7 +415,7 @@ class ShintoParser(Parser):
         return ('float', x.FLOAT)
 
     @_('STRING')
-    def string(self, x):
+    def const(self, x):
         return ('string', x.STRING)
 
     # CALLFUNC
@@ -475,6 +467,10 @@ class ShintoParser(Parser):
     @_('D_BOOL')
     def datatype(self, x):
         return "boolean"
+
+    @_('VOID')
+    def datatype(self, x):
+        return "void"
 
     
 
@@ -544,7 +540,9 @@ class ShintoParser(Parser):
                 self.delimitation.updateCounter("global_boolean")
                 self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, "global")
         func = self.createFunction(name, dt)
-        func.addr = addr
+
+        if dt != "void":
+            func.addr = addr
 
         self.dir_functions.addFunc(func)
 

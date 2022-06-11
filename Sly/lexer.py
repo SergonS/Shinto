@@ -74,7 +74,8 @@ class ShintoLexer(Lexer):
         'OR',                # ||
         'RETURN',
         'OUTPUT',
-        'INPUT'
+        'INPUT',
+        'VOID'
     }
 
     reserved = {
@@ -91,7 +92,8 @@ class ShintoLexer(Lexer):
         'float'         : 'FLOAT',
         'string'        : 'STRING',
         'bool'          : 'BOOL',
-        'while'         : 'WHILE'
+        'while'         : 'WHILE',
+        'void'          : 'VOID'
     }
 
     ignore = '\t'
@@ -133,6 +135,8 @@ class ShintoLexer(Lexer):
     ARROW = r'->'
     OUTPUT = r'output'
     INPUT = r'input'
+    VOID = r'void'
+
 
     EQEQ = r'=='
     GOETHAN = r'>='

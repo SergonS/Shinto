@@ -153,6 +153,7 @@ class ExMemory:
         # Constant address
         elif addr >= 8 * self.area and addr < 12 * self.area:
             pos = addr - self.address["constant_" + data_type]
+            pos = self.convertToType("int", pos)
             var = self.memory["constant"][self.address["constant_" + data_type]][pos]
         
         # Variable not found

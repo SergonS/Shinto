@@ -17,6 +17,7 @@ function main()
 	iB = 2;
 	iC = 3;
 
+	output("Hello world", iB, 23);
 	iA = 1 + 6 + 3;
 	iD = volta(iA, iB, iC);
 
@@ -31,7 +32,7 @@ function main()
 
 		if (iA == 2)
 		{
-			output(iA);
+			output(iA, "Hello", iC);
 		}
 
 		iA = iA + 1;

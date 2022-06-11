@@ -62,6 +62,9 @@ class QuadOverseer:
             false = self.jumps_stack.pop()
             ret = self.jumps_stack.pop()
             
+            print(false)
+            print(ret)
+
             self.addQuad("goto", (), (), ())
             
             self.quad_stack[len(self.quad_stack) - 1]["t_memory"] = ret
@@ -189,7 +192,7 @@ class QuadOverseer:
             #print("OPERATOR FOUND IS OUTPUT")
             self.unloadPolishVector()
         # Append operator
-        if (operator != ')' and operator != '=' and operator != 'return' and operator != 'endfunc' and operator != 'era' and operator != '(' and operator != 'params' and operator != 'gosub' and operator != 'assignr' and operator != 'output' and operator != 'input' and operator != 'gotof' and operator != 'gotow' and operator != 'end'):
+        if (operator != ')' and operator != '=' and operator != 'return' and operator != 'endfunc' and operator != 'era' and operator != '(' and operator != 'params' and operator != 'gosub' and operator != 'assignr' and operator != 'output' and operator != 'input' and operator != 'gotof' and operator != 'gotow' and operator != 'end' and operator != 'goto'):
             self.operator_stack.append(operator)
             op = self.popOperatorS()
             operandB = self.popOperandS()
