@@ -14,9 +14,9 @@ Rule 10    varids -> ID darray
 Rule 11    varids -> ID darray , varids
 Rule 12    store_type -> <empty>
 Rule 13    darray -> <empty>
-Rule 14    darray -> [ INT ] twodarray
-Rule 15    twodarray -> <empty>
-Rule 16    twodarray -> [ INT ]
+Rule 14    darray -> [ INT ]
+Rule 15    array -> <empty>
+Rule 16    array -> [ add_fstack expr end_fstack ] ver_quad add_dir
 Rule 17    functions -> datatype FUNC ID ( params ) store_funcv store_params store_init_quad { vars store_local_vars funcontent } close_func functions
 Rule 18    functions -> <empty>
 Rule 19    funcontent -> <empty>
@@ -73,44 +73,47 @@ Rule 69    element -> compound store_oper
 Rule 70    element -> const store_const
 Rule 71    compound -> compoundx
 Rule 72    compoundx -> ID store_oper
-Rule 73    const -> STRING
-Rule 74    const -> FLOAT
-Rule 75    const -> INT
-Rule 76    const -> FALSE
-Rule 77    const -> TRUE
-Rule 78    callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
-Rule 79    callfuncpar -> <empty>
-Rule 80    callfuncpar -> expr store_pquad callfuncparx
-Rule 81    callfuncparx -> <empty>
-Rule 82    callfuncparx -> , callfuncpar
-Rule 83    datatype -> VOID
-Rule 84    datatype -> D_BOOL
-Rule 85    datatype -> D_STRING
-Rule 86    datatype -> D_FLOAT
-Rule 87    datatype -> D_INT
-Rule 88    check_program -> <empty>
-Rule 89    store_init_quad -> <empty>
-Rule 90    store_funcm -> <empty>
-Rule 91    store_funcv -> <empty>
-Rule 92    store_params -> <empty>
-Rule 93    store_local_vars -> <empty>
-Rule 94    store_mainv -> <empty>
-Rule 95    store_op -> <empty>
-Rule 96    store_oper -> <empty>
-Rule 97    store_const -> <empty>
-Rule 98    unload_pv -> <empty>
-Rule 99    store_rquad -> <empty>
-Rule 100   close_func -> <empty>
-Rule 101   store_endif -> <empty>
-Rule 102   store_pquad -> <empty>
-Rule 103   ver_params -> <empty>
-Rule 104   verify_func -> <empty>
-Rule 105   add_fstack -> <empty>
-Rule 106   end_fstack -> <empty>
-Rule 107   store_gosub -> <empty>
-Rule 108   store_gotof -> <empty>
-Rule 109   store_jump -> <empty>
-Rule 110   end_loop -> <empty>
+Rule 73    compoundx -> ID array store_oper
+Rule 74    const -> STRING
+Rule 75    const -> FLOAT
+Rule 76    const -> INT
+Rule 77    const -> FALSE
+Rule 78    const -> TRUE
+Rule 79    callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+Rule 80    callfuncpar -> <empty>
+Rule 81    callfuncpar -> expr store_pquad callfuncparx
+Rule 82    callfuncparx -> <empty>
+Rule 83    callfuncparx -> , callfuncpar
+Rule 84    datatype -> VOID
+Rule 85    datatype -> D_BOOL
+Rule 86    datatype -> D_STRING
+Rule 87    datatype -> D_FLOAT
+Rule 88    datatype -> D_INT
+Rule 89    check_program -> <empty>
+Rule 90    store_init_quad -> <empty>
+Rule 91    store_funcm -> <empty>
+Rule 92    store_funcv -> <empty>
+Rule 93    store_params -> <empty>
+Rule 94    store_local_vars -> <empty>
+Rule 95    store_mainv -> <empty>
+Rule 96    store_op -> <empty>
+Rule 97    store_oper -> <empty>
+Rule 98    store_const -> <empty>
+Rule 99    unload_pv -> <empty>
+Rule 100   store_rquad -> <empty>
+Rule 101   close_func -> <empty>
+Rule 102   store_endif -> <empty>
+Rule 103   store_pquad -> <empty>
+Rule 104   ver_params -> <empty>
+Rule 105   verify_func -> <empty>
+Rule 106   add_fstack -> <empty>
+Rule 107   end_fstack -> <empty>
+Rule 108   store_gosub -> <empty>
+Rule 109   store_gotof -> <empty>
+Rule 110   store_jump -> <empty>
+Rule 111   end_loop -> <empty>
+Rule 112   ver_quad -> <empty>
+Rule 113   add_dir -> <empty>
 
 Unused terminals:
 
@@ -118,11 +121,11 @@ Unused terminals:
 
 Terminals, with rules where they appear:
 
-(                    : 17 24 38 39 40 43 44 67 78
-)                    : 17 24 38 39 40 43 44 67 78
+(                    : 17 24 38 39 40 43 44 67 79
+)                    : 17 24 38 39 40 43 44 67 79
 *                    : 65
 +                    : 60
-,                    : 5 11 21 42 82
+,                    : 5 11 21 42 83
 -                    : 59
 /                    : 64
 :                    : 21 22
@@ -133,30 +136,30 @@ Terminals, with rules where they appear:
 AND                  : 51
 COMMENT              : 
 DIFF                 : 50
-D_BOOL               : 84
-D_FLOAT              : 86
-D_INT                : 87
-D_STRING             : 85
+D_BOOL               : 85
+D_FLOAT              : 87
+D_INT                : 88
+D_STRING             : 86
 ELSE                 : 38
 EQEQ                 : 49
-FALSE                : 76
-FLOAT                : 74
+FALSE                : 77
+FLOAT                : 75
 FUNC                 : 17 24
 GOETHAN              : 55
-ID                   : 1 4 5 10 11 17 21 22 36 43 72 78
+ID                   : 1 4 5 10 11 17 21 22 36 43 72 73 79
 IF                   : 38 39
 INPUT                : 43
-INT                  : 14 16 75
+INT                  : 14 76
 LOETHAN              : 53
 MAIN                 : 24
 OR                   : 48
 OUTPUT               : 40
 PROG                 : 1
 RETURN               : 37
-STRING               : 73
-TRUE                 : 77
+STRING               : 74
+TRUE                 : 78
 VAR                  : 2 8
-VOID                 : 83
+VOID                 : 84
 WHILE                : 44
 [                    : 14 16
 ]                    : 14 16
@@ -166,12 +169,14 @@ error                :
 
 Nonterminals, with rules where they appear:
 
-add_fstack           : 78
+add_dir              : 16
+add_fstack           : 16 79
 arexp                : 45 47
 arexpextra           : 56 59 60
+array                : 73
 callfunc             : 68
-callfuncpar          : 78 82
-callfuncparx         : 80
+callfuncpar          : 79 83
+callfuncparx         : 81
 check_program        : 1
 close_func           : 17
 compound             : 69
@@ -180,9 +185,9 @@ const                : 70
 darray               : 10 11
 datatype             : 2 8 17 21 22
 element              : 66
-end_fstack           : 78
+end_fstack           : 16 79
 end_loop             : 44
-expr                 : 32 36 37 38 39 40 42 44 67 80
+expr                 : 16 32 36 37 38 39 40 42 44 67 81
 exprop               : 47
 exprx                : 45
 factor               : 61 62 64 65
@@ -205,7 +210,7 @@ store_const          : 70
 store_endif          : 38 39
 store_funcm          : 24
 store_funcv          : 17
-store_gosub          : 78
+store_gosub          : 79
 store_gotof          : 38 39 44
 store_gtype          : 2
 store_gvars          : 1 1
@@ -214,20 +219,20 @@ store_jump           : 44
 store_local_vars     : 17
 store_mainv          : 24
 store_op             : 67 67
-store_oper           : 36 43 68 69 72
+store_oper           : 36 43 68 69 72 73
 store_params         : 17
-store_pquad          : 80
+store_pquad          : 81
 store_rquad          : 37
 store_type           : 8
 term                 : 56 57 59 60
 termx                : 61 64 65
-twodarray            : 14
 unload_pv            : 27 28 29 30 31 33
 var_assign           : 33
 varids               : 8 11
 vars                 : 8 17 24
-ver_params           : 78
-verify_func          : 78
+ver_params           : 79
+ver_quad             : 16
+verify_func          : 79
 
 
 state 0
@@ -252,8 +257,8 @@ state 2
 state 3
 
     (1) program -> PROG ID . check_program ; gvars store_gvars functions gvars store_gvars main
-    (88) check_program -> .
-    ;               reduce using rule 88 (check_program -> .)
+    (89) check_program -> .
+    ;               reduce using rule 89 (check_program -> .)
 
     check_program                  shift and go to state 4
 
@@ -296,11 +301,11 @@ state 6
 state 7
 
     (2) gvars -> VAR . datatype gvarids store_gtype ; gvars
-    (83) datatype -> . VOID
-    (84) datatype -> . D_BOOL
-    (85) datatype -> . D_STRING
-    (86) datatype -> . D_FLOAT
-    (87) datatype -> . D_INT
+    (84) datatype -> . VOID
+    (85) datatype -> . D_BOOL
+    (86) datatype -> . D_STRING
+    (87) datatype -> . D_FLOAT
+    (88) datatype -> . D_INT
     VOID            shift and go to state 10
     D_BOOL          shift and go to state 11
     D_STRING        shift and go to state 12
@@ -314,11 +319,11 @@ state 8
     (1) program -> PROG ID check_program ; gvars store_gvars . functions gvars store_gvars main
     (17) functions -> . datatype FUNC ID ( params ) store_funcv store_params store_init_quad { vars store_local_vars funcontent } close_func functions
     (18) functions -> .
-    (83) datatype -> . VOID
-    (84) datatype -> . D_BOOL
-    (85) datatype -> . D_STRING
-    (86) datatype -> . D_FLOAT
-    (87) datatype -> . D_INT
+    (84) datatype -> . VOID
+    (85) datatype -> . D_BOOL
+    (86) datatype -> . D_STRING
+    (87) datatype -> . D_FLOAT
+    (88) datatype -> . D_INT
     VAR             reduce using rule 18 (functions -> .)
     FUNC            reduce using rule 18 (functions -> .)
     VOID            shift and go to state 10
@@ -341,47 +346,47 @@ state 9
 
 state 10
 
-    (83) datatype -> VOID .
-    ID              reduce using rule 83 (datatype -> VOID .)
-    FUNC            reduce using rule 83 (datatype -> VOID .)
-    ,               reduce using rule 83 (datatype -> VOID .)
-    )               reduce using rule 83 (datatype -> VOID .)
+    (84) datatype -> VOID .
+    ID              reduce using rule 84 (datatype -> VOID .)
+    FUNC            reduce using rule 84 (datatype -> VOID .)
+    ,               reduce using rule 84 (datatype -> VOID .)
+    )               reduce using rule 84 (datatype -> VOID .)
 
 
 state 11
 
-    (84) datatype -> D_BOOL .
-    ID              reduce using rule 84 (datatype -> D_BOOL .)
-    FUNC            reduce using rule 84 (datatype -> D_BOOL .)
-    ,               reduce using rule 84 (datatype -> D_BOOL .)
-    )               reduce using rule 84 (datatype -> D_BOOL .)
+    (85) datatype -> D_BOOL .
+    ID              reduce using rule 85 (datatype -> D_BOOL .)
+    FUNC            reduce using rule 85 (datatype -> D_BOOL .)
+    ,               reduce using rule 85 (datatype -> D_BOOL .)
+    )               reduce using rule 85 (datatype -> D_BOOL .)
 
 
 state 12
 
-    (85) datatype -> D_STRING .
-    ID              reduce using rule 85 (datatype -> D_STRING .)
-    FUNC            reduce using rule 85 (datatype -> D_STRING .)
-    ,               reduce using rule 85 (datatype -> D_STRING .)
-    )               reduce using rule 85 (datatype -> D_STRING .)
+    (86) datatype -> D_STRING .
+    ID              reduce using rule 86 (datatype -> D_STRING .)
+    FUNC            reduce using rule 86 (datatype -> D_STRING .)
+    ,               reduce using rule 86 (datatype -> D_STRING .)
+    )               reduce using rule 86 (datatype -> D_STRING .)
 
 
 state 13
 
-    (86) datatype -> D_FLOAT .
-    ID              reduce using rule 86 (datatype -> D_FLOAT .)
-    FUNC            reduce using rule 86 (datatype -> D_FLOAT .)
-    ,               reduce using rule 86 (datatype -> D_FLOAT .)
-    )               reduce using rule 86 (datatype -> D_FLOAT .)
+    (87) datatype -> D_FLOAT .
+    ID              reduce using rule 87 (datatype -> D_FLOAT .)
+    FUNC            reduce using rule 87 (datatype -> D_FLOAT .)
+    ,               reduce using rule 87 (datatype -> D_FLOAT .)
+    )               reduce using rule 87 (datatype -> D_FLOAT .)
 
 
 state 14
 
-    (87) datatype -> D_INT .
-    ID              reduce using rule 87 (datatype -> D_INT .)
-    FUNC            reduce using rule 87 (datatype -> D_INT .)
-    ,               reduce using rule 87 (datatype -> D_INT .)
-    )               reduce using rule 87 (datatype -> D_INT .)
+    (88) datatype -> D_INT .
+    ID              reduce using rule 88 (datatype -> D_INT .)
+    FUNC            reduce using rule 88 (datatype -> D_INT .)
+    ,               reduce using rule 88 (datatype -> D_INT .)
+    )               reduce using rule 88 (datatype -> D_INT .)
 
 
 state 15
@@ -545,11 +550,11 @@ state 35
 
     (21) params -> ID : . datatype , params
     (22) params -> ID : . datatype
-    (83) datatype -> . VOID
-    (84) datatype -> . D_BOOL
-    (85) datatype -> . D_STRING
-    (86) datatype -> . D_FLOAT
-    (87) datatype -> . D_INT
+    (84) datatype -> . VOID
+    (85) datatype -> . D_BOOL
+    (86) datatype -> . D_STRING
+    (87) datatype -> . D_FLOAT
+    (88) datatype -> . D_INT
     VOID            shift and go to state 10
     D_BOOL          shift and go to state 11
     D_STRING        shift and go to state 12
@@ -561,16 +566,16 @@ state 35
 state 36
 
     (17) functions -> datatype FUNC ID ( params ) . store_funcv store_params store_init_quad { vars store_local_vars funcontent } close_func functions
-    (91) store_funcv -> .
-    {               reduce using rule 91 (store_funcv -> .)
+    (92) store_funcv -> .
+    {               reduce using rule 92 (store_funcv -> .)
 
     store_funcv                    shift and go to state 39
 
 state 37
 
     (24) main -> FUNC MAIN ( ) . store_funcm { vars store_mainv maincontent }
-    (90) store_funcm -> .
-    {               reduce using rule 90 (store_funcm -> .)
+    (91) store_funcm -> .
+    {               reduce using rule 91 (store_funcm -> .)
 
     store_funcm                    shift and go to state 40
 
@@ -585,8 +590,8 @@ state 38
 state 39
 
     (17) functions -> datatype FUNC ID ( params ) store_funcv . store_params store_init_quad { vars store_local_vars funcontent } close_func functions
-    (92) store_params -> .
-    {               reduce using rule 92 (store_params -> .)
+    (93) store_params -> .
+    {               reduce using rule 93 (store_params -> .)
 
     store_params                   shift and go to state 42
 
@@ -610,8 +615,8 @@ state 41
 state 42
 
     (17) functions -> datatype FUNC ID ( params ) store_funcv store_params . store_init_quad { vars store_local_vars funcontent } close_func functions
-    (89) store_init_quad -> .
-    {               reduce using rule 89 (store_init_quad -> .)
+    (90) store_init_quad -> .
+    {               reduce using rule 90 (store_init_quad -> .)
 
     store_init_quad                shift and go to state 45
 
@@ -652,31 +657,31 @@ state 45
 state 46
 
     (24) main -> FUNC MAIN ( ) store_funcm { vars . store_mainv maincontent }
-    (94) store_mainv -> .
-    WHILE           reduce using rule 94 (store_mainv -> .)
-    INPUT           reduce using rule 94 (store_mainv -> .)
-    OUTPUT          reduce using rule 94 (store_mainv -> .)
-    IF              reduce using rule 94 (store_mainv -> .)
-    RETURN          reduce using rule 94 (store_mainv -> .)
-    ID              reduce using rule 94 (store_mainv -> .)
-    (               reduce using rule 94 (store_mainv -> .)
-    STRING          reduce using rule 94 (store_mainv -> .)
-    FLOAT           reduce using rule 94 (store_mainv -> .)
-    INT             reduce using rule 94 (store_mainv -> .)
-    FALSE           reduce using rule 94 (store_mainv -> .)
-    TRUE            reduce using rule 94 (store_mainv -> .)
-    }               reduce using rule 94 (store_mainv -> .)
+    (95) store_mainv -> .
+    WHILE           reduce using rule 95 (store_mainv -> .)
+    INPUT           reduce using rule 95 (store_mainv -> .)
+    OUTPUT          reduce using rule 95 (store_mainv -> .)
+    IF              reduce using rule 95 (store_mainv -> .)
+    RETURN          reduce using rule 95 (store_mainv -> .)
+    ID              reduce using rule 95 (store_mainv -> .)
+    (               reduce using rule 95 (store_mainv -> .)
+    STRING          reduce using rule 95 (store_mainv -> .)
+    FLOAT           reduce using rule 95 (store_mainv -> .)
+    INT             reduce using rule 95 (store_mainv -> .)
+    FALSE           reduce using rule 95 (store_mainv -> .)
+    TRUE            reduce using rule 95 (store_mainv -> .)
+    }               reduce using rule 95 (store_mainv -> .)
 
     store_mainv                    shift and go to state 49
 
 state 47
 
     (8) vars -> VAR . datatype varids store_type ; vars
-    (83) datatype -> . VOID
-    (84) datatype -> . D_BOOL
-    (85) datatype -> . D_STRING
-    (86) datatype -> . D_FLOAT
-    (87) datatype -> . D_INT
+    (84) datatype -> . VOID
+    (85) datatype -> . D_BOOL
+    (86) datatype -> . D_STRING
+    (87) datatype -> . D_FLOAT
+    (88) datatype -> . D_INT
     VOID            shift and go to state 10
     D_BOOL          shift and go to state 11
     D_STRING        shift and go to state 12
@@ -738,14 +743,15 @@ state 49
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! reduce/reduce conflict for } resolved using rule 25 (maincontent -> .)
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for INPUT resolved as shift
@@ -803,34 +809,34 @@ state 50
 state 51
 
     (17) functions -> datatype FUNC ID ( params ) store_funcv store_params store_init_quad { vars . store_local_vars funcontent } close_func functions
-    (93) store_local_vars -> .
-    WHILE           reduce using rule 93 (store_local_vars -> .)
-    INPUT           reduce using rule 93 (store_local_vars -> .)
-    OUTPUT          reduce using rule 93 (store_local_vars -> .)
-    IF              reduce using rule 93 (store_local_vars -> .)
-    RETURN          reduce using rule 93 (store_local_vars -> .)
-    ID              reduce using rule 93 (store_local_vars -> .)
-    (               reduce using rule 93 (store_local_vars -> .)
-    STRING          reduce using rule 93 (store_local_vars -> .)
-    FLOAT           reduce using rule 93 (store_local_vars -> .)
-    INT             reduce using rule 93 (store_local_vars -> .)
-    FALSE           reduce using rule 93 (store_local_vars -> .)
-    TRUE            reduce using rule 93 (store_local_vars -> .)
-    }               reduce using rule 93 (store_local_vars -> .)
+    (94) store_local_vars -> .
+    WHILE           reduce using rule 94 (store_local_vars -> .)
+    INPUT           reduce using rule 94 (store_local_vars -> .)
+    OUTPUT          reduce using rule 94 (store_local_vars -> .)
+    IF              reduce using rule 94 (store_local_vars -> .)
+    RETURN          reduce using rule 94 (store_local_vars -> .)
+    ID              reduce using rule 94 (store_local_vars -> .)
+    (               reduce using rule 94 (store_local_vars -> .)
+    STRING          reduce using rule 94 (store_local_vars -> .)
+    FLOAT           reduce using rule 94 (store_local_vars -> .)
+    INT             reduce using rule 94 (store_local_vars -> .)
+    FALSE           reduce using rule 94 (store_local_vars -> .)
+    TRUE            reduce using rule 94 (store_local_vars -> .)
+    }               reduce using rule 94 (store_local_vars -> .)
 
     store_local_vars               shift and go to state 83
 
 state 52
 
     (67) factor -> ( . store_op expr ) store_op
-    (95) store_op -> .
-    (               reduce using rule 95 (store_op -> .)
-    ID              reduce using rule 95 (store_op -> .)
-    STRING          reduce using rule 95 (store_op -> .)
-    FLOAT           reduce using rule 95 (store_op -> .)
-    INT             reduce using rule 95 (store_op -> .)
-    FALSE           reduce using rule 95 (store_op -> .)
-    TRUE            reduce using rule 95 (store_op -> .)
+    (96) store_op -> .
+    (               reduce using rule 96 (store_op -> .)
+    ID              reduce using rule 96 (store_op -> .)
+    STRING          reduce using rule 96 (store_op -> .)
+    FLOAT           reduce using rule 96 (store_op -> .)
+    INT             reduce using rule 96 (store_op -> .)
+    FALSE           reduce using rule 96 (store_op -> .)
+    TRUE            reduce using rule 96 (store_op -> .)
 
     store_op                       shift and go to state 84
 
@@ -872,14 +878,15 @@ state 54
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! reduce/reduce conflict for } resolved using rule 25 (maincontent -> .)
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for INPUT resolved as shift
@@ -928,88 +935,88 @@ state 54
 state 55
 
     (27) statement -> loop . unload_pv
-    (98) unload_pv -> .
-    WHILE           reduce using rule 98 (unload_pv -> .)
-    INPUT           reduce using rule 98 (unload_pv -> .)
-    OUTPUT          reduce using rule 98 (unload_pv -> .)
-    IF              reduce using rule 98 (unload_pv -> .)
-    RETURN          reduce using rule 98 (unload_pv -> .)
-    ID              reduce using rule 98 (unload_pv -> .)
-    (               reduce using rule 98 (unload_pv -> .)
-    STRING          reduce using rule 98 (unload_pv -> .)
-    FLOAT           reduce using rule 98 (unload_pv -> .)
-    INT             reduce using rule 98 (unload_pv -> .)
-    FALSE           reduce using rule 98 (unload_pv -> .)
-    TRUE            reduce using rule 98 (unload_pv -> .)
-    }               reduce using rule 98 (unload_pv -> .)
+    (99) unload_pv -> .
+    WHILE           reduce using rule 99 (unload_pv -> .)
+    INPUT           reduce using rule 99 (unload_pv -> .)
+    OUTPUT          reduce using rule 99 (unload_pv -> .)
+    IF              reduce using rule 99 (unload_pv -> .)
+    RETURN          reduce using rule 99 (unload_pv -> .)
+    ID              reduce using rule 99 (unload_pv -> .)
+    (               reduce using rule 99 (unload_pv -> .)
+    STRING          reduce using rule 99 (unload_pv -> .)
+    FLOAT           reduce using rule 99 (unload_pv -> .)
+    INT             reduce using rule 99 (unload_pv -> .)
+    FALSE           reduce using rule 99 (unload_pv -> .)
+    TRUE            reduce using rule 99 (unload_pv -> .)
+    }               reduce using rule 99 (unload_pv -> .)
 
     unload_pv                      shift and go to state 88
 
 state 56
 
     (28) statement -> input . unload_pv
-    (98) unload_pv -> .
-    WHILE           reduce using rule 98 (unload_pv -> .)
-    INPUT           reduce using rule 98 (unload_pv -> .)
-    OUTPUT          reduce using rule 98 (unload_pv -> .)
-    IF              reduce using rule 98 (unload_pv -> .)
-    RETURN          reduce using rule 98 (unload_pv -> .)
-    ID              reduce using rule 98 (unload_pv -> .)
-    (               reduce using rule 98 (unload_pv -> .)
-    STRING          reduce using rule 98 (unload_pv -> .)
-    FLOAT           reduce using rule 98 (unload_pv -> .)
-    INT             reduce using rule 98 (unload_pv -> .)
-    FALSE           reduce using rule 98 (unload_pv -> .)
-    TRUE            reduce using rule 98 (unload_pv -> .)
-    }               reduce using rule 98 (unload_pv -> .)
+    (99) unload_pv -> .
+    WHILE           reduce using rule 99 (unload_pv -> .)
+    INPUT           reduce using rule 99 (unload_pv -> .)
+    OUTPUT          reduce using rule 99 (unload_pv -> .)
+    IF              reduce using rule 99 (unload_pv -> .)
+    RETURN          reduce using rule 99 (unload_pv -> .)
+    ID              reduce using rule 99 (unload_pv -> .)
+    (               reduce using rule 99 (unload_pv -> .)
+    STRING          reduce using rule 99 (unload_pv -> .)
+    FLOAT           reduce using rule 99 (unload_pv -> .)
+    INT             reduce using rule 99 (unload_pv -> .)
+    FALSE           reduce using rule 99 (unload_pv -> .)
+    TRUE            reduce using rule 99 (unload_pv -> .)
+    }               reduce using rule 99 (unload_pv -> .)
 
     unload_pv                      shift and go to state 89
 
 state 57
 
     (29) statement -> output . unload_pv
-    (98) unload_pv -> .
-    WHILE           reduce using rule 98 (unload_pv -> .)
-    INPUT           reduce using rule 98 (unload_pv -> .)
-    OUTPUT          reduce using rule 98 (unload_pv -> .)
-    IF              reduce using rule 98 (unload_pv -> .)
-    RETURN          reduce using rule 98 (unload_pv -> .)
-    ID              reduce using rule 98 (unload_pv -> .)
-    (               reduce using rule 98 (unload_pv -> .)
-    STRING          reduce using rule 98 (unload_pv -> .)
-    FLOAT           reduce using rule 98 (unload_pv -> .)
-    INT             reduce using rule 98 (unload_pv -> .)
-    FALSE           reduce using rule 98 (unload_pv -> .)
-    TRUE            reduce using rule 98 (unload_pv -> .)
-    }               reduce using rule 98 (unload_pv -> .)
+    (99) unload_pv -> .
+    WHILE           reduce using rule 99 (unload_pv -> .)
+    INPUT           reduce using rule 99 (unload_pv -> .)
+    OUTPUT          reduce using rule 99 (unload_pv -> .)
+    IF              reduce using rule 99 (unload_pv -> .)
+    RETURN          reduce using rule 99 (unload_pv -> .)
+    ID              reduce using rule 99 (unload_pv -> .)
+    (               reduce using rule 99 (unload_pv -> .)
+    STRING          reduce using rule 99 (unload_pv -> .)
+    FLOAT           reduce using rule 99 (unload_pv -> .)
+    INT             reduce using rule 99 (unload_pv -> .)
+    FALSE           reduce using rule 99 (unload_pv -> .)
+    TRUE            reduce using rule 99 (unload_pv -> .)
+    }               reduce using rule 99 (unload_pv -> .)
 
     unload_pv                      shift and go to state 90
 
 state 58
 
     (30) statement -> ifelse . unload_pv
-    (98) unload_pv -> .
-    WHILE           reduce using rule 98 (unload_pv -> .)
-    INPUT           reduce using rule 98 (unload_pv -> .)
-    OUTPUT          reduce using rule 98 (unload_pv -> .)
-    IF              reduce using rule 98 (unload_pv -> .)
-    RETURN          reduce using rule 98 (unload_pv -> .)
-    ID              reduce using rule 98 (unload_pv -> .)
-    (               reduce using rule 98 (unload_pv -> .)
-    STRING          reduce using rule 98 (unload_pv -> .)
-    FLOAT           reduce using rule 98 (unload_pv -> .)
-    INT             reduce using rule 98 (unload_pv -> .)
-    FALSE           reduce using rule 98 (unload_pv -> .)
-    TRUE            reduce using rule 98 (unload_pv -> .)
-    }               reduce using rule 98 (unload_pv -> .)
+    (99) unload_pv -> .
+    WHILE           reduce using rule 99 (unload_pv -> .)
+    INPUT           reduce using rule 99 (unload_pv -> .)
+    OUTPUT          reduce using rule 99 (unload_pv -> .)
+    IF              reduce using rule 99 (unload_pv -> .)
+    RETURN          reduce using rule 99 (unload_pv -> .)
+    ID              reduce using rule 99 (unload_pv -> .)
+    (               reduce using rule 99 (unload_pv -> .)
+    STRING          reduce using rule 99 (unload_pv -> .)
+    FLOAT           reduce using rule 99 (unload_pv -> .)
+    INT             reduce using rule 99 (unload_pv -> .)
+    FALSE           reduce using rule 99 (unload_pv -> .)
+    TRUE            reduce using rule 99 (unload_pv -> .)
+    }               reduce using rule 99 (unload_pv -> .)
 
     unload_pv                      shift and go to state 91
 
 state 59
 
     (31) statement -> returns . unload_pv ;
-    (98) unload_pv -> .
-    ;               reduce using rule 98 (unload_pv -> .)
+    (99) unload_pv -> .
+    ;               reduce using rule 99 (unload_pv -> .)
 
     unload_pv                      shift and go to state 92
 
@@ -1022,28 +1029,28 @@ state 60
 state 61
 
     (33) statement -> var_assign . unload_pv
-    (98) unload_pv -> .
-    WHILE           reduce using rule 98 (unload_pv -> .)
-    INPUT           reduce using rule 98 (unload_pv -> .)
-    OUTPUT          reduce using rule 98 (unload_pv -> .)
-    IF              reduce using rule 98 (unload_pv -> .)
-    RETURN          reduce using rule 98 (unload_pv -> .)
-    ID              reduce using rule 98 (unload_pv -> .)
-    (               reduce using rule 98 (unload_pv -> .)
-    STRING          reduce using rule 98 (unload_pv -> .)
-    FLOAT           reduce using rule 98 (unload_pv -> .)
-    INT             reduce using rule 98 (unload_pv -> .)
-    FALSE           reduce using rule 98 (unload_pv -> .)
-    TRUE            reduce using rule 98 (unload_pv -> .)
-    }               reduce using rule 98 (unload_pv -> .)
+    (99) unload_pv -> .
+    WHILE           reduce using rule 99 (unload_pv -> .)
+    INPUT           reduce using rule 99 (unload_pv -> .)
+    OUTPUT          reduce using rule 99 (unload_pv -> .)
+    IF              reduce using rule 99 (unload_pv -> .)
+    RETURN          reduce using rule 99 (unload_pv -> .)
+    ID              reduce using rule 99 (unload_pv -> .)
+    (               reduce using rule 99 (unload_pv -> .)
+    STRING          reduce using rule 99 (unload_pv -> .)
+    FLOAT           reduce using rule 99 (unload_pv -> .)
+    INT             reduce using rule 99 (unload_pv -> .)
+    FALSE           reduce using rule 99 (unload_pv -> .)
+    TRUE            reduce using rule 99 (unload_pv -> .)
+    }               reduce using rule 99 (unload_pv -> .)
 
     unload_pv                      shift and go to state 94
 
 state 62
 
     (44) loop -> WHILE . store_jump ( expr ) store_gotof { statement } end_loop
-    (109) store_jump -> .
-    (               reduce using rule 109 (store_jump -> .)
+    (110) store_jump -> .
+    (               reduce using rule 110 (store_jump -> .)
 
     store_jump                     shift and go to state 95
 
@@ -1056,40 +1063,58 @@ state 63
 state 64
 
     (36) var_assign -> ID . store_oper = expr ;
-    (78) callfunc -> ID . verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> ID . verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (72) compoundx -> ID . store_oper
-    (96) store_oper -> .
-    (104) verify_func -> .
-    =               reduce using rule 96 (store_oper -> .)
-    /               reduce using rule 96 (store_oper -> .)
-    *               reduce using rule 96 (store_oper -> .)
-    -               reduce using rule 96 (store_oper -> .)
-    +               reduce using rule 96 (store_oper -> .)
-    OR              reduce using rule 96 (store_oper -> .)
-    EQEQ            reduce using rule 96 (store_oper -> .)
-    DIFF            reduce using rule 96 (store_oper -> .)
-    AND             reduce using rule 96 (store_oper -> .)
-    <               reduce using rule 96 (store_oper -> .)
-    LOETHAN         reduce using rule 96 (store_oper -> .)
-    >               reduce using rule 96 (store_oper -> .)
-    GOETHAN         reduce using rule 96 (store_oper -> .)
-    ;               reduce using rule 96 (store_oper -> .)
-    (               reduce using rule 104 (verify_func -> .)
+    (73) compoundx -> ID . array store_oper
+    (97) store_oper -> .
+    (105) verify_func -> .
+    (15) array -> .
+    (16) array -> . [ add_fstack expr end_fstack ] ver_quad add_dir
+  ! reduce/reduce conflict for / resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for * resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for - resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for + resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for OR resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for EQEQ resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for DIFF resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for AND resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for < resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for LOETHAN resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for > resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for GOETHAN resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for ; resolved using rule 15 (array -> .)
+    =               reduce using rule 97 (store_oper -> .)
+    (               reduce using rule 105 (verify_func -> .)
+    /               reduce using rule 15 (array -> .)
+    *               reduce using rule 15 (array -> .)
+    -               reduce using rule 15 (array -> .)
+    +               reduce using rule 15 (array -> .)
+    OR              reduce using rule 15 (array -> .)
+    EQEQ            reduce using rule 15 (array -> .)
+    DIFF            reduce using rule 15 (array -> .)
+    AND             reduce using rule 15 (array -> .)
+    <               reduce using rule 15 (array -> .)
+    LOETHAN         reduce using rule 15 (array -> .)
+    >               reduce using rule 15 (array -> .)
+    GOETHAN         reduce using rule 15 (array -> .)
+    ;               reduce using rule 15 (array -> .)
+    [               shift and go to state 100
 
     store_oper                     shift and go to state 97
     verify_func                    shift and go to state 98
+    array                          shift and go to state 99
 
 state 65
 
     (40) output -> OUTPUT . ( expr outex ) ;
-    (               shift and go to state 99
+    (               shift and go to state 101
 
 
 state 66
 
     (38) ifelse -> IF . ( expr ) store_gotof { statement } ELSE store_endif { statement }
     (39) ifelse -> IF . ( expr ) store_gotof { statement } store_endif
-    (               shift and go to state 100
+    (               shift and go to state 102
 
 
 state 67
@@ -1105,23 +1130,24 @@ state 67
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    expr                           shift and go to state 101
+    expr                           shift and go to state 103
     arexp                          shift and go to state 68
     term                           shift and go to state 69
     factor                         shift and go to state 70
@@ -1147,17 +1173,18 @@ state 68
     ;               reduce using rule 46 (exprx -> .)
     )               reduce using rule 46 (exprx -> .)
     ,               reduce using rule 46 (exprx -> .)
-    OR              shift and go to state 105
-    EQEQ            shift and go to state 106
-    DIFF            shift and go to state 107
-    AND             shift and go to state 108
-    <               shift and go to state 109
-    LOETHAN         shift and go to state 110
-    >               shift and go to state 111
-    GOETHAN         shift and go to state 112
+    ]               reduce using rule 46 (exprx -> .)
+    OR              shift and go to state 107
+    EQEQ            shift and go to state 108
+    DIFF            shift and go to state 109
+    AND             shift and go to state 110
+    <               shift and go to state 111
+    LOETHAN         shift and go to state 112
+    >               shift and go to state 113
+    GOETHAN         shift and go to state 114
 
-    exprx                          shift and go to state 103
-    exprop                         shift and go to state 104
+    exprx                          shift and go to state 105
+    exprop                         shift and go to state 106
 
 state 69
 
@@ -1177,6 +1204,7 @@ state 69
   ! reduce/reduce conflict for ; resolved using rule 57 (arexp -> term .)
   ! reduce/reduce conflict for ) resolved using rule 57 (arexp -> term .)
   ! reduce/reduce conflict for , resolved using rule 57 (arexp -> term .)
+  ! reduce/reduce conflict for ] resolved using rule 57 (arexp -> term .)
     OR              reduce using rule 57 (arexp -> term .)
     EQEQ            reduce using rule 57 (arexp -> term .)
     DIFF            reduce using rule 57 (arexp -> term .)
@@ -1188,10 +1216,11 @@ state 69
     ;               reduce using rule 57 (arexp -> term .)
     )               reduce using rule 57 (arexp -> term .)
     ,               reduce using rule 57 (arexp -> term .)
-    -               shift and go to state 114
-    +               shift and go to state 115
+    ]               reduce using rule 57 (arexp -> term .)
+    -               shift and go to state 116
+    +               shift and go to state 117
 
-    arexpextra                     shift and go to state 113
+    arexpextra                     shift and go to state 115
 
 state 70
 
@@ -1213,6 +1242,7 @@ state 70
   ! reduce/reduce conflict for ; resolved using rule 62 (term -> factor .)
   ! reduce/reduce conflict for ) resolved using rule 62 (term -> factor .)
   ! reduce/reduce conflict for , resolved using rule 62 (term -> factor .)
+  ! reduce/reduce conflict for ] resolved using rule 62 (term -> factor .)
     -               reduce using rule 62 (term -> factor .)
     +               reduce using rule 62 (term -> factor .)
     OR              reduce using rule 62 (term -> factor .)
@@ -1226,10 +1256,11 @@ state 70
     ;               reduce using rule 62 (term -> factor .)
     )               reduce using rule 62 (term -> factor .)
     ,               reduce using rule 62 (term -> factor .)
-    /               shift and go to state 117
-    *               shift and go to state 118
+    ]               reduce using rule 62 (term -> factor .)
+    /               shift and go to state 119
+    *               shift and go to state 120
 
-    termx                          shift and go to state 116
+    termx                          shift and go to state 118
 
 state 71
 
@@ -1249,73 +1280,77 @@ state 71
     ;               reduce using rule 66 (factor -> element .)
     )               reduce using rule 66 (factor -> element .)
     ,               reduce using rule 66 (factor -> element .)
+    ]               reduce using rule 66 (factor -> element .)
 
 
 state 72
 
     (68) element -> callfunc . store_oper
-    (96) store_oper -> .
-    /               reduce using rule 96 (store_oper -> .)
-    *               reduce using rule 96 (store_oper -> .)
-    -               reduce using rule 96 (store_oper -> .)
-    +               reduce using rule 96 (store_oper -> .)
-    OR              reduce using rule 96 (store_oper -> .)
-    EQEQ            reduce using rule 96 (store_oper -> .)
-    DIFF            reduce using rule 96 (store_oper -> .)
-    AND             reduce using rule 96 (store_oper -> .)
-    <               reduce using rule 96 (store_oper -> .)
-    LOETHAN         reduce using rule 96 (store_oper -> .)
-    >               reduce using rule 96 (store_oper -> .)
-    GOETHAN         reduce using rule 96 (store_oper -> .)
-    ;               reduce using rule 96 (store_oper -> .)
-    )               reduce using rule 96 (store_oper -> .)
-    ,               reduce using rule 96 (store_oper -> .)
+    (97) store_oper -> .
+    /               reduce using rule 97 (store_oper -> .)
+    *               reduce using rule 97 (store_oper -> .)
+    -               reduce using rule 97 (store_oper -> .)
+    +               reduce using rule 97 (store_oper -> .)
+    OR              reduce using rule 97 (store_oper -> .)
+    EQEQ            reduce using rule 97 (store_oper -> .)
+    DIFF            reduce using rule 97 (store_oper -> .)
+    AND             reduce using rule 97 (store_oper -> .)
+    <               reduce using rule 97 (store_oper -> .)
+    LOETHAN         reduce using rule 97 (store_oper -> .)
+    >               reduce using rule 97 (store_oper -> .)
+    GOETHAN         reduce using rule 97 (store_oper -> .)
+    ;               reduce using rule 97 (store_oper -> .)
+    )               reduce using rule 97 (store_oper -> .)
+    ,               reduce using rule 97 (store_oper -> .)
+    ]               reduce using rule 97 (store_oper -> .)
 
-    store_oper                     shift and go to state 119
+    store_oper                     shift and go to state 121
 
 state 73
 
     (69) element -> compound . store_oper
-    (96) store_oper -> .
-    /               reduce using rule 96 (store_oper -> .)
-    *               reduce using rule 96 (store_oper -> .)
-    -               reduce using rule 96 (store_oper -> .)
-    +               reduce using rule 96 (store_oper -> .)
-    OR              reduce using rule 96 (store_oper -> .)
-    EQEQ            reduce using rule 96 (store_oper -> .)
-    DIFF            reduce using rule 96 (store_oper -> .)
-    AND             reduce using rule 96 (store_oper -> .)
-    <               reduce using rule 96 (store_oper -> .)
-    LOETHAN         reduce using rule 96 (store_oper -> .)
-    >               reduce using rule 96 (store_oper -> .)
-    GOETHAN         reduce using rule 96 (store_oper -> .)
-    ;               reduce using rule 96 (store_oper -> .)
-    )               reduce using rule 96 (store_oper -> .)
-    ,               reduce using rule 96 (store_oper -> .)
+    (97) store_oper -> .
+    /               reduce using rule 97 (store_oper -> .)
+    *               reduce using rule 97 (store_oper -> .)
+    -               reduce using rule 97 (store_oper -> .)
+    +               reduce using rule 97 (store_oper -> .)
+    OR              reduce using rule 97 (store_oper -> .)
+    EQEQ            reduce using rule 97 (store_oper -> .)
+    DIFF            reduce using rule 97 (store_oper -> .)
+    AND             reduce using rule 97 (store_oper -> .)
+    <               reduce using rule 97 (store_oper -> .)
+    LOETHAN         reduce using rule 97 (store_oper -> .)
+    >               reduce using rule 97 (store_oper -> .)
+    GOETHAN         reduce using rule 97 (store_oper -> .)
+    ;               reduce using rule 97 (store_oper -> .)
+    )               reduce using rule 97 (store_oper -> .)
+    ,               reduce using rule 97 (store_oper -> .)
+    ]               reduce using rule 97 (store_oper -> .)
 
-    store_oper                     shift and go to state 120
+    store_oper                     shift and go to state 122
 
 state 74
 
     (70) element -> const . store_const
-    (97) store_const -> .
-    /               reduce using rule 97 (store_const -> .)
-    *               reduce using rule 97 (store_const -> .)
-    -               reduce using rule 97 (store_const -> .)
-    +               reduce using rule 97 (store_const -> .)
-    OR              reduce using rule 97 (store_const -> .)
-    EQEQ            reduce using rule 97 (store_const -> .)
-    DIFF            reduce using rule 97 (store_const -> .)
-    AND             reduce using rule 97 (store_const -> .)
-    <               reduce using rule 97 (store_const -> .)
-    LOETHAN         reduce using rule 97 (store_const -> .)
-    >               reduce using rule 97 (store_const -> .)
-    GOETHAN         reduce using rule 97 (store_const -> .)
-    ;               reduce using rule 97 (store_const -> .)
-    )               reduce using rule 97 (store_const -> .)
-    ,               reduce using rule 97 (store_const -> .)
+    (98) store_const -> .
+    /               reduce using rule 98 (store_const -> .)
+    *               reduce using rule 98 (store_const -> .)
+    -               reduce using rule 98 (store_const -> .)
+    +               reduce using rule 98 (store_const -> .)
+    OR              reduce using rule 98 (store_const -> .)
+    EQEQ            reduce using rule 98 (store_const -> .)
+    DIFF            reduce using rule 98 (store_const -> .)
+    AND             reduce using rule 98 (store_const -> .)
+    <               reduce using rule 98 (store_const -> .)
+    LOETHAN         reduce using rule 98 (store_const -> .)
+    >               reduce using rule 98 (store_const -> .)
+    GOETHAN         reduce using rule 98 (store_const -> .)
+    ;               reduce using rule 98 (store_const -> .)
+    )               reduce using rule 98 (store_const -> .)
+    ,               reduce using rule 98 (store_const -> .)
+    ]               reduce using rule 98 (store_const -> .)
 
-    store_const                    shift and go to state 121
+    store_const                    shift and go to state 123
 
 state 75
 
@@ -1335,106 +1370,112 @@ state 75
     ;               reduce using rule 71 (compound -> compoundx .)
     )               reduce using rule 71 (compound -> compoundx .)
     ,               reduce using rule 71 (compound -> compoundx .)
+    ]               reduce using rule 71 (compound -> compoundx .)
 
 
 state 76
 
-    (73) const -> STRING .
-    /               reduce using rule 73 (const -> STRING .)
-    *               reduce using rule 73 (const -> STRING .)
-    -               reduce using rule 73 (const -> STRING .)
-    +               reduce using rule 73 (const -> STRING .)
-    OR              reduce using rule 73 (const -> STRING .)
-    EQEQ            reduce using rule 73 (const -> STRING .)
-    DIFF            reduce using rule 73 (const -> STRING .)
-    AND             reduce using rule 73 (const -> STRING .)
-    <               reduce using rule 73 (const -> STRING .)
-    LOETHAN         reduce using rule 73 (const -> STRING .)
-    >               reduce using rule 73 (const -> STRING .)
-    GOETHAN         reduce using rule 73 (const -> STRING .)
-    ;               reduce using rule 73 (const -> STRING .)
-    )               reduce using rule 73 (const -> STRING .)
-    ,               reduce using rule 73 (const -> STRING .)
+    (74) const -> STRING .
+    /               reduce using rule 74 (const -> STRING .)
+    *               reduce using rule 74 (const -> STRING .)
+    -               reduce using rule 74 (const -> STRING .)
+    +               reduce using rule 74 (const -> STRING .)
+    OR              reduce using rule 74 (const -> STRING .)
+    EQEQ            reduce using rule 74 (const -> STRING .)
+    DIFF            reduce using rule 74 (const -> STRING .)
+    AND             reduce using rule 74 (const -> STRING .)
+    <               reduce using rule 74 (const -> STRING .)
+    LOETHAN         reduce using rule 74 (const -> STRING .)
+    >               reduce using rule 74 (const -> STRING .)
+    GOETHAN         reduce using rule 74 (const -> STRING .)
+    ;               reduce using rule 74 (const -> STRING .)
+    )               reduce using rule 74 (const -> STRING .)
+    ,               reduce using rule 74 (const -> STRING .)
+    ]               reduce using rule 74 (const -> STRING .)
 
 
 state 77
 
-    (74) const -> FLOAT .
-    /               reduce using rule 74 (const -> FLOAT .)
-    *               reduce using rule 74 (const -> FLOAT .)
-    -               reduce using rule 74 (const -> FLOAT .)
-    +               reduce using rule 74 (const -> FLOAT .)
-    OR              reduce using rule 74 (const -> FLOAT .)
-    EQEQ            reduce using rule 74 (const -> FLOAT .)
-    DIFF            reduce using rule 74 (const -> FLOAT .)
-    AND             reduce using rule 74 (const -> FLOAT .)
-    <               reduce using rule 74 (const -> FLOAT .)
-    LOETHAN         reduce using rule 74 (const -> FLOAT .)
-    >               reduce using rule 74 (const -> FLOAT .)
-    GOETHAN         reduce using rule 74 (const -> FLOAT .)
-    ;               reduce using rule 74 (const -> FLOAT .)
-    )               reduce using rule 74 (const -> FLOAT .)
-    ,               reduce using rule 74 (const -> FLOAT .)
+    (75) const -> FLOAT .
+    /               reduce using rule 75 (const -> FLOAT .)
+    *               reduce using rule 75 (const -> FLOAT .)
+    -               reduce using rule 75 (const -> FLOAT .)
+    +               reduce using rule 75 (const -> FLOAT .)
+    OR              reduce using rule 75 (const -> FLOAT .)
+    EQEQ            reduce using rule 75 (const -> FLOAT .)
+    DIFF            reduce using rule 75 (const -> FLOAT .)
+    AND             reduce using rule 75 (const -> FLOAT .)
+    <               reduce using rule 75 (const -> FLOAT .)
+    LOETHAN         reduce using rule 75 (const -> FLOAT .)
+    >               reduce using rule 75 (const -> FLOAT .)
+    GOETHAN         reduce using rule 75 (const -> FLOAT .)
+    ;               reduce using rule 75 (const -> FLOAT .)
+    )               reduce using rule 75 (const -> FLOAT .)
+    ,               reduce using rule 75 (const -> FLOAT .)
+    ]               reduce using rule 75 (const -> FLOAT .)
 
 
 state 78
 
-    (75) const -> INT .
-    /               reduce using rule 75 (const -> INT .)
-    *               reduce using rule 75 (const -> INT .)
-    -               reduce using rule 75 (const -> INT .)
-    +               reduce using rule 75 (const -> INT .)
-    OR              reduce using rule 75 (const -> INT .)
-    EQEQ            reduce using rule 75 (const -> INT .)
-    DIFF            reduce using rule 75 (const -> INT .)
-    AND             reduce using rule 75 (const -> INT .)
-    <               reduce using rule 75 (const -> INT .)
-    LOETHAN         reduce using rule 75 (const -> INT .)
-    >               reduce using rule 75 (const -> INT .)
-    GOETHAN         reduce using rule 75 (const -> INT .)
-    ;               reduce using rule 75 (const -> INT .)
-    )               reduce using rule 75 (const -> INT .)
-    ,               reduce using rule 75 (const -> INT .)
+    (76) const -> INT .
+    /               reduce using rule 76 (const -> INT .)
+    *               reduce using rule 76 (const -> INT .)
+    -               reduce using rule 76 (const -> INT .)
+    +               reduce using rule 76 (const -> INT .)
+    OR              reduce using rule 76 (const -> INT .)
+    EQEQ            reduce using rule 76 (const -> INT .)
+    DIFF            reduce using rule 76 (const -> INT .)
+    AND             reduce using rule 76 (const -> INT .)
+    <               reduce using rule 76 (const -> INT .)
+    LOETHAN         reduce using rule 76 (const -> INT .)
+    >               reduce using rule 76 (const -> INT .)
+    GOETHAN         reduce using rule 76 (const -> INT .)
+    ;               reduce using rule 76 (const -> INT .)
+    )               reduce using rule 76 (const -> INT .)
+    ,               reduce using rule 76 (const -> INT .)
+    ]               reduce using rule 76 (const -> INT .)
 
 
 state 79
 
-    (76) const -> FALSE .
-    /               reduce using rule 76 (const -> FALSE .)
-    *               reduce using rule 76 (const -> FALSE .)
-    -               reduce using rule 76 (const -> FALSE .)
-    +               reduce using rule 76 (const -> FALSE .)
-    OR              reduce using rule 76 (const -> FALSE .)
-    EQEQ            reduce using rule 76 (const -> FALSE .)
-    DIFF            reduce using rule 76 (const -> FALSE .)
-    AND             reduce using rule 76 (const -> FALSE .)
-    <               reduce using rule 76 (const -> FALSE .)
-    LOETHAN         reduce using rule 76 (const -> FALSE .)
-    >               reduce using rule 76 (const -> FALSE .)
-    GOETHAN         reduce using rule 76 (const -> FALSE .)
-    ;               reduce using rule 76 (const -> FALSE .)
-    )               reduce using rule 76 (const -> FALSE .)
-    ,               reduce using rule 76 (const -> FALSE .)
+    (77) const -> FALSE .
+    /               reduce using rule 77 (const -> FALSE .)
+    *               reduce using rule 77 (const -> FALSE .)
+    -               reduce using rule 77 (const -> FALSE .)
+    +               reduce using rule 77 (const -> FALSE .)
+    OR              reduce using rule 77 (const -> FALSE .)
+    EQEQ            reduce using rule 77 (const -> FALSE .)
+    DIFF            reduce using rule 77 (const -> FALSE .)
+    AND             reduce using rule 77 (const -> FALSE .)
+    <               reduce using rule 77 (const -> FALSE .)
+    LOETHAN         reduce using rule 77 (const -> FALSE .)
+    >               reduce using rule 77 (const -> FALSE .)
+    GOETHAN         reduce using rule 77 (const -> FALSE .)
+    ;               reduce using rule 77 (const -> FALSE .)
+    )               reduce using rule 77 (const -> FALSE .)
+    ,               reduce using rule 77 (const -> FALSE .)
+    ]               reduce using rule 77 (const -> FALSE .)
 
 
 state 80
 
-    (77) const -> TRUE .
-    /               reduce using rule 77 (const -> TRUE .)
-    *               reduce using rule 77 (const -> TRUE .)
-    -               reduce using rule 77 (const -> TRUE .)
-    +               reduce using rule 77 (const -> TRUE .)
-    OR              reduce using rule 77 (const -> TRUE .)
-    EQEQ            reduce using rule 77 (const -> TRUE .)
-    DIFF            reduce using rule 77 (const -> TRUE .)
-    AND             reduce using rule 77 (const -> TRUE .)
-    <               reduce using rule 77 (const -> TRUE .)
-    LOETHAN         reduce using rule 77 (const -> TRUE .)
-    >               reduce using rule 77 (const -> TRUE .)
-    GOETHAN         reduce using rule 77 (const -> TRUE .)
-    ;               reduce using rule 77 (const -> TRUE .)
-    )               reduce using rule 77 (const -> TRUE .)
-    ,               reduce using rule 77 (const -> TRUE .)
+    (78) const -> TRUE .
+    /               reduce using rule 78 (const -> TRUE .)
+    *               reduce using rule 78 (const -> TRUE .)
+    -               reduce using rule 78 (const -> TRUE .)
+    +               reduce using rule 78 (const -> TRUE .)
+    OR              reduce using rule 78 (const -> TRUE .)
+    EQEQ            reduce using rule 78 (const -> TRUE .)
+    DIFF            reduce using rule 78 (const -> TRUE .)
+    AND             reduce using rule 78 (const -> TRUE .)
+    <               reduce using rule 78 (const -> TRUE .)
+    LOETHAN         reduce using rule 78 (const -> TRUE .)
+    >               reduce using rule 78 (const -> TRUE .)
+    GOETHAN         reduce using rule 78 (const -> TRUE .)
+    ;               reduce using rule 78 (const -> TRUE .)
+    )               reduce using rule 78 (const -> TRUE .)
+    ,               reduce using rule 78 (const -> TRUE .)
+    ]               reduce using rule 78 (const -> TRUE .)
 
 
 state 81
@@ -1443,19 +1484,19 @@ state 81
     (12) store_type -> .
     ;               reduce using rule 12 (store_type -> .)
 
-    store_type                     shift and go to state 122
+    store_type                     shift and go to state 124
 
 state 82
 
     (10) varids -> ID . darray
     (11) varids -> ID . darray , varids
     (13) darray -> .
-    (14) darray -> . [ INT ] twodarray
+    (14) darray -> . [ INT ]
     ,               reduce using rule 13 (darray -> .)
     ;               reduce using rule 13 (darray -> .)
-    [               shift and go to state 124
+    [               shift and go to state 126
 
-    darray                         shift and go to state 123
+    darray                         shift and go to state 125
 
 state 83
 
@@ -1488,14 +1529,15 @@ state 83
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! reduce/reduce conflict for } resolved using rule 19 (funcontent -> .)
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for INPUT resolved as shift
@@ -1523,8 +1565,8 @@ state 83
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    funcontent                     shift and go to state 125
-    statement                      shift and go to state 126
+    funcontent                     shift and go to state 127
+    statement                      shift and go to state 128
     loop                           shift and go to state 55
     input                          shift and go to state 56
     output                         shift and go to state 57
@@ -1554,23 +1596,24 @@ state 84
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    expr                           shift and go to state 127
+    expr                           shift and go to state 129
     arexp                          shift and go to state 68
     term                           shift and go to state 69
     factor                         shift and go to state 70
@@ -1619,14 +1662,15 @@ state 86
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! reduce/reduce conflict for } resolved using rule 25 (maincontent -> .)
   ! reduce/reduce conflict for WHILE resolved using rule 35 (statement -> statement statement .)
   ! reduce/reduce conflict for INPUT resolved using rule 35 (statement -> statement statement .)
@@ -1766,7 +1810,7 @@ state 91
 state 92
 
     (31) statement -> returns unload_pv . ;
-    ;               shift and go to state 128
+    ;               shift and go to state 130
 
 
 state 93
@@ -1808,20 +1852,20 @@ state 94
 state 95
 
     (44) loop -> WHILE store_jump . ( expr ) store_gotof { statement } end_loop
-    (               shift and go to state 129
+    (               shift and go to state 131
 
 
 state 96
 
     (43) input -> INPUT ( . ID store_oper ) ;
-    ID              shift and go to state 130
+    ID              shift and go to state 132
 
 
 state 97
 
     (36) var_assign -> ID store_oper . = expr ;
     (72) compoundx -> ID store_oper .
-    =               shift and go to state 131
+    =               shift and go to state 133
     /               reduce using rule 72 (compoundx -> ID store_oper .)
     *               reduce using rule 72 (compoundx -> ID store_oper .)
     -               reduce using rule 72 (compoundx -> ID store_oper .)
@@ -1839,13 +1883,50 @@ state 97
 
 state 98
 
-    (78) callfunc -> ID verify_func . add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
-    (105) add_fstack -> .
-    (               reduce using rule 105 (add_fstack -> .)
+    (79) callfunc -> ID verify_func . add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (106) add_fstack -> .
+    (               reduce using rule 106 (add_fstack -> .)
 
-    add_fstack                     shift and go to state 132
+    add_fstack                     shift and go to state 134
 
 state 99
+
+    (73) compoundx -> ID array . store_oper
+    (97) store_oper -> .
+    /               reduce using rule 97 (store_oper -> .)
+    *               reduce using rule 97 (store_oper -> .)
+    -               reduce using rule 97 (store_oper -> .)
+    +               reduce using rule 97 (store_oper -> .)
+    OR              reduce using rule 97 (store_oper -> .)
+    EQEQ            reduce using rule 97 (store_oper -> .)
+    DIFF            reduce using rule 97 (store_oper -> .)
+    AND             reduce using rule 97 (store_oper -> .)
+    <               reduce using rule 97 (store_oper -> .)
+    LOETHAN         reduce using rule 97 (store_oper -> .)
+    >               reduce using rule 97 (store_oper -> .)
+    GOETHAN         reduce using rule 97 (store_oper -> .)
+    ;               reduce using rule 97 (store_oper -> .)
+    )               reduce using rule 97 (store_oper -> .)
+    ,               reduce using rule 97 (store_oper -> .)
+    ]               reduce using rule 97 (store_oper -> .)
+
+    store_oper                     shift and go to state 135
+
+state 100
+
+    (16) array -> [ . add_fstack expr end_fstack ] ver_quad add_dir
+    (106) add_fstack -> .
+    (               reduce using rule 106 (add_fstack -> .)
+    ID              reduce using rule 106 (add_fstack -> .)
+    STRING          reduce using rule 106 (add_fstack -> .)
+    FLOAT           reduce using rule 106 (add_fstack -> .)
+    INT             reduce using rule 106 (add_fstack -> .)
+    FALSE           reduce using rule 106 (add_fstack -> .)
+    TRUE            reduce using rule 106 (add_fstack -> .)
+
+    add_fstack                     shift and go to state 136
+
+state 101
 
     (40) output -> OUTPUT ( . expr outex ) ;
     (45) expr -> . arexp exprx
@@ -1858,23 +1939,24 @@ state 99
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    expr                           shift and go to state 133
+    expr                           shift and go to state 137
     arexp                          shift and go to state 68
     term                           shift and go to state 69
     factor                         shift and go to state 70
@@ -1884,7 +1966,7 @@ state 99
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 100
+state 102
 
     (38) ifelse -> IF ( . expr ) store_gotof { statement } ELSE store_endif { statement }
     (39) ifelse -> IF ( . expr ) store_gotof { statement } store_endif
@@ -1898,23 +1980,24 @@ state 100
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    expr                           shift and go to state 134
+    expr                           shift and go to state 138
     arexp                          shift and go to state 68
     term                           shift and go to state 69
     factor                         shift and go to state 70
@@ -1924,49 +2007,72 @@ state 100
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 101
+state 103
 
     (37) returns -> RETURN expr . store_rquad
-    (99) store_rquad -> .
-    ;               reduce using rule 99 (store_rquad -> .)
+    (100) store_rquad -> .
+    ;               reduce using rule 100 (store_rquad -> .)
 
-    store_rquad                    shift and go to state 135
+    store_rquad                    shift and go to state 139
 
-state 102
+state 104
 
-    (78) callfunc -> ID . verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> ID . verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (72) compoundx -> ID . store_oper
-    (104) verify_func -> .
-    (96) store_oper -> .
-    (               reduce using rule 104 (verify_func -> .)
-    /               reduce using rule 96 (store_oper -> .)
-    *               reduce using rule 96 (store_oper -> .)
-    -               reduce using rule 96 (store_oper -> .)
-    +               reduce using rule 96 (store_oper -> .)
-    OR              reduce using rule 96 (store_oper -> .)
-    EQEQ            reduce using rule 96 (store_oper -> .)
-    DIFF            reduce using rule 96 (store_oper -> .)
-    AND             reduce using rule 96 (store_oper -> .)
-    <               reduce using rule 96 (store_oper -> .)
-    LOETHAN         reduce using rule 96 (store_oper -> .)
-    >               reduce using rule 96 (store_oper -> .)
-    GOETHAN         reduce using rule 96 (store_oper -> .)
-    ;               reduce using rule 96 (store_oper -> .)
-    )               reduce using rule 96 (store_oper -> .)
-    ,               reduce using rule 96 (store_oper -> .)
+    (73) compoundx -> ID . array store_oper
+    (105) verify_func -> .
+    (97) store_oper -> .
+    (15) array -> .
+    (16) array -> . [ add_fstack expr end_fstack ] ver_quad add_dir
+  ! reduce/reduce conflict for / resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for * resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for - resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for + resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for OR resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for EQEQ resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for DIFF resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for AND resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for < resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for LOETHAN resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for > resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for GOETHAN resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for ; resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for ) resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for , resolved using rule 15 (array -> .)
+  ! reduce/reduce conflict for ] resolved using rule 15 (array -> .)
+    (               reduce using rule 105 (verify_func -> .)
+    /               reduce using rule 15 (array -> .)
+    *               reduce using rule 15 (array -> .)
+    -               reduce using rule 15 (array -> .)
+    +               reduce using rule 15 (array -> .)
+    OR              reduce using rule 15 (array -> .)
+    EQEQ            reduce using rule 15 (array -> .)
+    DIFF            reduce using rule 15 (array -> .)
+    AND             reduce using rule 15 (array -> .)
+    <               reduce using rule 15 (array -> .)
+    LOETHAN         reduce using rule 15 (array -> .)
+    >               reduce using rule 15 (array -> .)
+    GOETHAN         reduce using rule 15 (array -> .)
+    ;               reduce using rule 15 (array -> .)
+    )               reduce using rule 15 (array -> .)
+    ,               reduce using rule 15 (array -> .)
+    ]               reduce using rule 15 (array -> .)
+    [               shift and go to state 100
 
     verify_func                    shift and go to state 98
-    store_oper                     shift and go to state 136
+    store_oper                     shift and go to state 140
+    array                          shift and go to state 99
 
-state 103
+state 105
 
     (45) expr -> arexp exprx .
     ;               reduce using rule 45 (expr -> arexp exprx .)
     )               reduce using rule 45 (expr -> arexp exprx .)
     ,               reduce using rule 45 (expr -> arexp exprx .)
+    ]               reduce using rule 45 (expr -> arexp exprx .)
 
 
-state 104
+state 106
 
     (47) exprx -> exprop . arexp
     (56) arexp -> . term arexpextra
@@ -1978,23 +2084,24 @@ state 104
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    arexp                          shift and go to state 137
+    arexp                          shift and go to state 141
     term                           shift and go to state 69
     factor                         shift and go to state 70
     element                        shift and go to state 71
@@ -2003,7 +2110,7 @@ state 104
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 105
+state 107
 
     (48) exprop -> OR .
     (               reduce using rule 48 (exprop -> OR .)
@@ -2015,7 +2122,7 @@ state 105
     TRUE            reduce using rule 48 (exprop -> OR .)
 
 
-state 106
+state 108
 
     (49) exprop -> EQEQ .
     (               reduce using rule 49 (exprop -> EQEQ .)
@@ -2027,7 +2134,7 @@ state 106
     TRUE            reduce using rule 49 (exprop -> EQEQ .)
 
 
-state 107
+state 109
 
     (50) exprop -> DIFF .
     (               reduce using rule 50 (exprop -> DIFF .)
@@ -2039,7 +2146,7 @@ state 107
     TRUE            reduce using rule 50 (exprop -> DIFF .)
 
 
-state 108
+state 110
 
     (51) exprop -> AND .
     (               reduce using rule 51 (exprop -> AND .)
@@ -2051,7 +2158,7 @@ state 108
     TRUE            reduce using rule 51 (exprop -> AND .)
 
 
-state 109
+state 111
 
     (52) exprop -> < .
     (               reduce using rule 52 (exprop -> < .)
@@ -2063,7 +2170,7 @@ state 109
     TRUE            reduce using rule 52 (exprop -> < .)
 
 
-state 110
+state 112
 
     (53) exprop -> LOETHAN .
     (               reduce using rule 53 (exprop -> LOETHAN .)
@@ -2075,7 +2182,7 @@ state 110
     TRUE            reduce using rule 53 (exprop -> LOETHAN .)
 
 
-state 111
+state 113
 
     (54) exprop -> > .
     (               reduce using rule 54 (exprop -> > .)
@@ -2087,7 +2194,7 @@ state 111
     TRUE            reduce using rule 54 (exprop -> > .)
 
 
-state 112
+state 114
 
     (55) exprop -> GOETHAN .
     (               reduce using rule 55 (exprop -> GOETHAN .)
@@ -2099,7 +2206,7 @@ state 112
     TRUE            reduce using rule 55 (exprop -> GOETHAN .)
 
 
-state 113
+state 115
 
     (56) arexp -> term arexpextra .
     OR              reduce using rule 56 (arexp -> term arexpextra .)
@@ -2113,9 +2220,10 @@ state 113
     ;               reduce using rule 56 (arexp -> term arexpextra .)
     )               reduce using rule 56 (arexp -> term arexpextra .)
     ,               reduce using rule 56 (arexp -> term arexpextra .)
+    ]               reduce using rule 56 (arexp -> term arexpextra .)
 
 
-state 114
+state 116
 
     (59) arexpextra -> - . term arexpextra
     (61) term -> . factor termx
@@ -2125,23 +2233,24 @@ state 114
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    term                           shift and go to state 138
+    term                           shift and go to state 142
     factor                         shift and go to state 70
     element                        shift and go to state 71
     callfunc                       shift and go to state 72
@@ -2149,7 +2258,7 @@ state 114
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 115
+state 117
 
     (60) arexpextra -> + . term arexpextra
     (61) term -> . factor termx
@@ -2159,23 +2268,24 @@ state 115
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    term                           shift and go to state 139
+    term                           shift and go to state 143
     factor                         shift and go to state 70
     element                        shift and go to state 71
     callfunc                       shift and go to state 72
@@ -2183,7 +2293,7 @@ state 115
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 116
+state 118
 
     (61) term -> factor termx .
     -               reduce using rule 61 (term -> factor termx .)
@@ -2199,9 +2309,10 @@ state 116
     ;               reduce using rule 61 (term -> factor termx .)
     )               reduce using rule 61 (term -> factor termx .)
     ,               reduce using rule 61 (term -> factor termx .)
+    ]               reduce using rule 61 (term -> factor termx .)
 
 
-state 117
+state 119
 
     (64) termx -> / . factor termx
     (66) factor -> . element
@@ -2209,30 +2320,31 @@ state 117
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    factor                         shift and go to state 140
+    factor                         shift and go to state 144
     element                        shift and go to state 71
     callfunc                       shift and go to state 72
     compound                       shift and go to state 73
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 118
+state 120
 
     (65) termx -> * . factor termx
     (66) factor -> . element
@@ -2240,30 +2352,31 @@ state 118
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    factor                         shift and go to state 141
+    factor                         shift and go to state 145
     element                        shift and go to state 71
     callfunc                       shift and go to state 72
     compound                       shift and go to state 73
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 119
+state 121
 
     (68) element -> callfunc store_oper .
     /               reduce using rule 68 (element -> callfunc store_oper .)
@@ -2281,9 +2394,10 @@ state 119
     ;               reduce using rule 68 (element -> callfunc store_oper .)
     )               reduce using rule 68 (element -> callfunc store_oper .)
     ,               reduce using rule 68 (element -> callfunc store_oper .)
+    ]               reduce using rule 68 (element -> callfunc store_oper .)
 
 
-state 120
+state 122
 
     (69) element -> compound store_oper .
     /               reduce using rule 69 (element -> compound store_oper .)
@@ -2301,9 +2415,10 @@ state 120
     ;               reduce using rule 69 (element -> compound store_oper .)
     )               reduce using rule 69 (element -> compound store_oper .)
     ,               reduce using rule 69 (element -> compound store_oper .)
+    ]               reduce using rule 69 (element -> compound store_oper .)
 
 
-state 121
+state 123
 
     (70) element -> const store_const .
     /               reduce using rule 70 (element -> const store_const .)
@@ -2321,35 +2436,36 @@ state 121
     ;               reduce using rule 70 (element -> const store_const .)
     )               reduce using rule 70 (element -> const store_const .)
     ,               reduce using rule 70 (element -> const store_const .)
-
-
-state 122
-
-    (8) vars -> VAR datatype varids store_type . ; vars
-    ;               shift and go to state 142
-
-
-state 123
-
-    (10) varids -> ID darray .
-    (11) varids -> ID darray . , varids
-    ;               reduce using rule 10 (varids -> ID darray .)
-    ,               shift and go to state 143
+    ]               reduce using rule 70 (element -> const store_const .)
 
 
 state 124
 
-    (14) darray -> [ . INT ] twodarray
-    INT             shift and go to state 144
+    (8) vars -> VAR datatype varids store_type . ; vars
+    ;               shift and go to state 146
 
 
 state 125
 
-    (17) functions -> datatype FUNC ID ( params ) store_funcv store_params store_init_quad { vars store_local_vars funcontent . } close_func functions
-    }               shift and go to state 145
+    (10) varids -> ID darray .
+    (11) varids -> ID darray . , varids
+    ;               reduce using rule 10 (varids -> ID darray .)
+    ,               shift and go to state 147
 
 
 state 126
+
+    (14) darray -> [ . INT ]
+    INT             shift and go to state 148
+
+
+state 127
+
+    (17) functions -> datatype FUNC ID ( params ) store_funcv store_params store_init_quad { vars store_local_vars funcontent . } close_func functions
+    }               shift and go to state 149
+
+
+state 128
 
     (20) funcontent -> statement . funcontent
     (35) statement -> statement . statement
@@ -2381,14 +2497,15 @@ state 126
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! reduce/reduce conflict for } resolved using rule 19 (funcontent -> .)
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for INPUT resolved as shift
@@ -2416,8 +2533,8 @@ state 126
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    statement                      shift and go to state 146
-    funcontent                     shift and go to state 147
+    statement                      shift and go to state 150
+    funcontent                     shift and go to state 151
     loop                           shift and go to state 55
     input                          shift and go to state 56
     output                         shift and go to state 57
@@ -2434,13 +2551,13 @@ state 126
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 127
+state 129
 
     (67) factor -> ( store_op expr . ) store_op
-    )               shift and go to state 148
+    )               shift and go to state 152
 
 
-state 128
+state 130
 
     (31) statement -> returns unload_pv ; .
     WHILE           reduce using rule 31 (statement -> returns unload_pv ; .)
@@ -2458,7 +2575,7 @@ state 128
     }               reduce using rule 31 (statement -> returns unload_pv ; .)
 
 
-state 129
+state 131
 
     (44) loop -> WHILE store_jump ( . expr ) store_gotof { statement } end_loop
     (45) expr -> . arexp exprx
@@ -2471,23 +2588,24 @@ state 129
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    expr                           shift and go to state 149
+    expr                           shift and go to state 153
     arexp                          shift and go to state 68
     term                           shift and go to state 69
     factor                         shift and go to state 70
@@ -2497,15 +2615,15 @@ state 129
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 130
+state 132
 
     (43) input -> INPUT ( ID . store_oper ) ;
-    (96) store_oper -> .
-    )               reduce using rule 96 (store_oper -> .)
+    (97) store_oper -> .
+    )               reduce using rule 97 (store_oper -> .)
 
-    store_oper                     shift and go to state 150
+    store_oper                     shift and go to state 154
 
-state 131
+state 133
 
     (36) var_assign -> ID store_oper = . expr ;
     (45) expr -> . arexp exprx
@@ -2518,23 +2636,24 @@ state 131
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    expr                           shift and go to state 151
+    expr                           shift and go to state 155
     arexp                          shift and go to state 68
     term                           shift and go to state 69
     factor                         shift and go to state 70
@@ -2544,36 +2663,97 @@ state 131
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 132
+state 134
 
-    (78) callfunc -> ID verify_func add_fstack . ( callfuncpar ver_params ) end_fstack store_gosub
-    (               shift and go to state 152
+    (79) callfunc -> ID verify_func add_fstack . ( callfuncpar ver_params ) end_fstack store_gosub
+    (               shift and go to state 156
 
 
-state 133
+state 135
+
+    (73) compoundx -> ID array store_oper .
+    /               reduce using rule 73 (compoundx -> ID array store_oper .)
+    *               reduce using rule 73 (compoundx -> ID array store_oper .)
+    -               reduce using rule 73 (compoundx -> ID array store_oper .)
+    +               reduce using rule 73 (compoundx -> ID array store_oper .)
+    OR              reduce using rule 73 (compoundx -> ID array store_oper .)
+    EQEQ            reduce using rule 73 (compoundx -> ID array store_oper .)
+    DIFF            reduce using rule 73 (compoundx -> ID array store_oper .)
+    AND             reduce using rule 73 (compoundx -> ID array store_oper .)
+    <               reduce using rule 73 (compoundx -> ID array store_oper .)
+    LOETHAN         reduce using rule 73 (compoundx -> ID array store_oper .)
+    >               reduce using rule 73 (compoundx -> ID array store_oper .)
+    GOETHAN         reduce using rule 73 (compoundx -> ID array store_oper .)
+    ;               reduce using rule 73 (compoundx -> ID array store_oper .)
+    )               reduce using rule 73 (compoundx -> ID array store_oper .)
+    ,               reduce using rule 73 (compoundx -> ID array store_oper .)
+    ]               reduce using rule 73 (compoundx -> ID array store_oper .)
+
+
+state 136
+
+    (16) array -> [ add_fstack . expr end_fstack ] ver_quad add_dir
+    (45) expr -> . arexp exprx
+    (56) arexp -> . term arexpextra
+    (57) arexp -> . term
+    (61) term -> . factor termx
+    (62) term -> . factor
+    (66) factor -> . element
+    (67) factor -> . ( store_op expr ) store_op
+    (68) element -> . callfunc store_oper
+    (69) element -> . compound store_oper
+    (70) element -> . const store_const
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (71) compound -> . compoundx
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
+    (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
+    (               shift and go to state 52
+    ID              shift and go to state 104
+    STRING          shift and go to state 76
+    FLOAT           shift and go to state 77
+    INT             shift and go to state 78
+    FALSE           shift and go to state 79
+    TRUE            shift and go to state 80
+
+    expr                           shift and go to state 157
+    arexp                          shift and go to state 68
+    term                           shift and go to state 69
+    factor                         shift and go to state 70
+    element                        shift and go to state 71
+    callfunc                       shift and go to state 72
+    compound                       shift and go to state 73
+    const                          shift and go to state 74
+    compoundx                      shift and go to state 75
+
+state 137
 
     (40) output -> OUTPUT ( expr . outex ) ;
     (41) outex -> .
     (42) outex -> . , expr outex
     )               reduce using rule 41 (outex -> .)
-    ,               shift and go to state 154
+    ,               shift and go to state 159
 
-    outex                          shift and go to state 153
+    outex                          shift and go to state 158
 
-state 134
+state 138
 
     (38) ifelse -> IF ( expr . ) store_gotof { statement } ELSE store_endif { statement }
     (39) ifelse -> IF ( expr . ) store_gotof { statement } store_endif
-    )               shift and go to state 155
+    )               shift and go to state 160
 
 
-state 135
+state 139
 
     (37) returns -> RETURN expr store_rquad .
     ;               reduce using rule 37 (returns -> RETURN expr store_rquad .)
 
 
-state 136
+state 140
 
     (72) compoundx -> ID store_oper .
     /               reduce using rule 72 (compoundx -> ID store_oper .)
@@ -2591,17 +2771,19 @@ state 136
     ;               reduce using rule 72 (compoundx -> ID store_oper .)
     )               reduce using rule 72 (compoundx -> ID store_oper .)
     ,               reduce using rule 72 (compoundx -> ID store_oper .)
+    ]               reduce using rule 72 (compoundx -> ID store_oper .)
 
 
-state 137
+state 141
 
     (47) exprx -> exprop arexp .
     ;               reduce using rule 47 (exprx -> exprop arexp .)
     )               reduce using rule 47 (exprx -> exprop arexp .)
     ,               reduce using rule 47 (exprx -> exprop arexp .)
+    ]               reduce using rule 47 (exprx -> exprop arexp .)
 
 
-state 138
+state 142
 
     (59) arexpextra -> - term . arexpextra
     (58) arexpextra -> .
@@ -2618,12 +2800,13 @@ state 138
     ;               reduce using rule 58 (arexpextra -> .)
     )               reduce using rule 58 (arexpextra -> .)
     ,               reduce using rule 58 (arexpextra -> .)
-    -               shift and go to state 114
-    +               shift and go to state 115
+    ]               reduce using rule 58 (arexpextra -> .)
+    -               shift and go to state 116
+    +               shift and go to state 117
 
-    arexpextra                     shift and go to state 156
+    arexpextra                     shift and go to state 161
 
-state 139
+state 143
 
     (60) arexpextra -> + term . arexpextra
     (58) arexpextra -> .
@@ -2640,12 +2823,13 @@ state 139
     ;               reduce using rule 58 (arexpextra -> .)
     )               reduce using rule 58 (arexpextra -> .)
     ,               reduce using rule 58 (arexpextra -> .)
-    -               shift and go to state 114
-    +               shift and go to state 115
+    ]               reduce using rule 58 (arexpextra -> .)
+    -               shift and go to state 116
+    +               shift and go to state 117
 
-    arexpextra                     shift and go to state 157
+    arexpextra                     shift and go to state 162
 
-state 140
+state 144
 
     (64) termx -> / factor . termx
     (63) termx -> .
@@ -2664,12 +2848,13 @@ state 140
     ;               reduce using rule 63 (termx -> .)
     )               reduce using rule 63 (termx -> .)
     ,               reduce using rule 63 (termx -> .)
-    /               shift and go to state 117
-    *               shift and go to state 118
+    ]               reduce using rule 63 (termx -> .)
+    /               shift and go to state 119
+    *               shift and go to state 120
 
-    termx                          shift and go to state 158
+    termx                          shift and go to state 163
 
-state 141
+state 145
 
     (65) termx -> * factor . termx
     (63) termx -> .
@@ -2688,12 +2873,13 @@ state 141
     ;               reduce using rule 63 (termx -> .)
     )               reduce using rule 63 (termx -> .)
     ,               reduce using rule 63 (termx -> .)
-    /               shift and go to state 117
-    *               shift and go to state 118
+    ]               reduce using rule 63 (termx -> .)
+    /               shift and go to state 119
+    *               shift and go to state 120
 
-    termx                          shift and go to state 159
+    termx                          shift and go to state 164
 
-state 142
+state 146
 
     (8) vars -> VAR datatype varids store_type ; . vars
     (8) vars -> . VAR datatype varids store_type ; vars
@@ -2713,38 +2899,38 @@ state 142
     TRUE            reduce using rule 9 (vars -> .)
     }               reduce using rule 9 (vars -> .)
 
-    vars                           shift and go to state 160
+    vars                           shift and go to state 165
 
-state 143
+state 147
 
     (11) varids -> ID darray , . varids
     (10) varids -> . ID darray
     (11) varids -> . ID darray , varids
     ID              shift and go to state 82
 
-    varids                         shift and go to state 161
+    varids                         shift and go to state 166
 
-state 144
+state 148
 
-    (14) darray -> [ INT . ] twodarray
-    ]               shift and go to state 162
+    (14) darray -> [ INT . ]
+    ]               shift and go to state 167
 
 
-state 145
+state 149
 
     (17) functions -> datatype FUNC ID ( params ) store_funcv store_params store_init_quad { vars store_local_vars funcontent } . close_func functions
-    (100) close_func -> .
-    VOID            reduce using rule 100 (close_func -> .)
-    D_BOOL          reduce using rule 100 (close_func -> .)
-    D_STRING        reduce using rule 100 (close_func -> .)
-    D_FLOAT         reduce using rule 100 (close_func -> .)
-    D_INT           reduce using rule 100 (close_func -> .)
-    VAR             reduce using rule 100 (close_func -> .)
-    FUNC            reduce using rule 100 (close_func -> .)
+    (101) close_func -> .
+    VOID            reduce using rule 101 (close_func -> .)
+    D_BOOL          reduce using rule 101 (close_func -> .)
+    D_STRING        reduce using rule 101 (close_func -> .)
+    D_FLOAT         reduce using rule 101 (close_func -> .)
+    D_INT           reduce using rule 101 (close_func -> .)
+    VAR             reduce using rule 101 (close_func -> .)
+    FUNC            reduce using rule 101 (close_func -> .)
 
-    close_func                     shift and go to state 163
+    close_func                     shift and go to state 168
 
-state 146
+state 150
 
     (35) statement -> statement statement .
     (20) funcontent -> statement . funcontent
@@ -2777,14 +2963,15 @@ state 146
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! reduce/reduce conflict for } resolved using rule 19 (funcontent -> .)
   ! reduce/reduce conflict for WHILE resolved using rule 35 (statement -> statement statement .)
   ! reduce/reduce conflict for INPUT resolved using rule 35 (statement -> statement statement .)
@@ -2825,8 +3012,8 @@ state 146
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    statement                      shift and go to state 146
-    funcontent                     shift and go to state 147
+    statement                      shift and go to state 150
+    funcontent                     shift and go to state 151
     loop                           shift and go to state 55
     input                          shift and go to state 56
     output                         shift and go to state 57
@@ -2843,57 +3030,58 @@ state 146
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 147
+state 151
 
     (20) funcontent -> statement funcontent .
     }               reduce using rule 20 (funcontent -> statement funcontent .)
 
 
-state 148
-
-    (67) factor -> ( store_op expr ) . store_op
-    (95) store_op -> .
-    /               reduce using rule 95 (store_op -> .)
-    *               reduce using rule 95 (store_op -> .)
-    -               reduce using rule 95 (store_op -> .)
-    +               reduce using rule 95 (store_op -> .)
-    OR              reduce using rule 95 (store_op -> .)
-    EQEQ            reduce using rule 95 (store_op -> .)
-    DIFF            reduce using rule 95 (store_op -> .)
-    AND             reduce using rule 95 (store_op -> .)
-    <               reduce using rule 95 (store_op -> .)
-    LOETHAN         reduce using rule 95 (store_op -> .)
-    >               reduce using rule 95 (store_op -> .)
-    GOETHAN         reduce using rule 95 (store_op -> .)
-    ;               reduce using rule 95 (store_op -> .)
-    )               reduce using rule 95 (store_op -> .)
-    ,               reduce using rule 95 (store_op -> .)
-
-    store_op                       shift and go to state 164
-
-state 149
-
-    (44) loop -> WHILE store_jump ( expr . ) store_gotof { statement } end_loop
-    )               shift and go to state 165
-
-
-state 150
-
-    (43) input -> INPUT ( ID store_oper . ) ;
-    )               shift and go to state 166
-
-
-state 151
-
-    (36) var_assign -> ID store_oper = expr . ;
-    ;               shift and go to state 167
-
-
 state 152
 
-    (78) callfunc -> ID verify_func add_fstack ( . callfuncpar ver_params ) end_fstack store_gosub
-    (79) callfuncpar -> .
-    (80) callfuncpar -> . expr store_pquad callfuncparx
+    (67) factor -> ( store_op expr ) . store_op
+    (96) store_op -> .
+    /               reduce using rule 96 (store_op -> .)
+    *               reduce using rule 96 (store_op -> .)
+    -               reduce using rule 96 (store_op -> .)
+    +               reduce using rule 96 (store_op -> .)
+    OR              reduce using rule 96 (store_op -> .)
+    EQEQ            reduce using rule 96 (store_op -> .)
+    DIFF            reduce using rule 96 (store_op -> .)
+    AND             reduce using rule 96 (store_op -> .)
+    <               reduce using rule 96 (store_op -> .)
+    LOETHAN         reduce using rule 96 (store_op -> .)
+    >               reduce using rule 96 (store_op -> .)
+    GOETHAN         reduce using rule 96 (store_op -> .)
+    ;               reduce using rule 96 (store_op -> .)
+    )               reduce using rule 96 (store_op -> .)
+    ,               reduce using rule 96 (store_op -> .)
+    ]               reduce using rule 96 (store_op -> .)
+
+    store_op                       shift and go to state 169
+
+state 153
+
+    (44) loop -> WHILE store_jump ( expr . ) store_gotof { statement } end_loop
+    )               shift and go to state 170
+
+
+state 154
+
+    (43) input -> INPUT ( ID store_oper . ) ;
+    )               shift and go to state 171
+
+
+state 155
+
+    (36) var_assign -> ID store_oper = expr . ;
+    ;               shift and go to state 172
+
+
+state 156
+
+    (79) callfunc -> ID verify_func add_fstack ( . callfuncpar ver_params ) end_fstack store_gosub
+    (80) callfuncpar -> .
+    (81) callfuncpar -> . expr store_pquad callfuncparx
     (45) expr -> . arexp exprx
     (56) arexp -> . term arexpextra
     (57) arexp -> . term
@@ -2904,25 +3092,26 @@ state 152
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
-    )               reduce using rule 79 (callfuncpar -> .)
+    (73) compoundx -> . ID array store_oper
+    )               reduce using rule 80 (callfuncpar -> .)
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    callfuncpar                    shift and go to state 168
-    expr                           shift and go to state 169
+    callfuncpar                    shift and go to state 173
+    expr                           shift and go to state 174
     arexp                          shift and go to state 68
     term                           shift and go to state 69
     factor                         shift and go to state 70
@@ -2932,13 +3121,21 @@ state 152
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 153
+state 157
+
+    (16) array -> [ add_fstack expr . end_fstack ] ver_quad add_dir
+    (107) end_fstack -> .
+    ]               reduce using rule 107 (end_fstack -> .)
+
+    end_fstack                     shift and go to state 175
+
+state 158
 
     (40) output -> OUTPUT ( expr outex . ) ;
-    )               shift and go to state 170
+    )               shift and go to state 176
 
 
-state 154
+state 159
 
     (42) outex -> , . expr outex
     (45) expr -> . arexp exprx
@@ -2951,23 +3148,24 @@ state 154
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    expr                           shift and go to state 171
+    expr                           shift and go to state 177
     arexp                          shift and go to state 68
     term                           shift and go to state 69
     factor                         shift and go to state 70
@@ -2977,16 +3175,16 @@ state 154
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 155
+state 160
 
     (38) ifelse -> IF ( expr ) . store_gotof { statement } ELSE store_endif { statement }
     (39) ifelse -> IF ( expr ) . store_gotof { statement } store_endif
-    (108) store_gotof -> .
-    {               reduce using rule 108 (store_gotof -> .)
+    (109) store_gotof -> .
+    {               reduce using rule 109 (store_gotof -> .)
 
-    store_gotof                    shift and go to state 172
+    store_gotof                    shift and go to state 178
 
-state 156
+state 161
 
     (59) arexpextra -> - term arexpextra .
     OR              reduce using rule 59 (arexpextra -> - term arexpextra .)
@@ -3000,9 +3198,10 @@ state 156
     ;               reduce using rule 59 (arexpextra -> - term arexpextra .)
     )               reduce using rule 59 (arexpextra -> - term arexpextra .)
     ,               reduce using rule 59 (arexpextra -> - term arexpextra .)
+    ]               reduce using rule 59 (arexpextra -> - term arexpextra .)
 
 
-state 157
+state 162
 
     (60) arexpextra -> + term arexpextra .
     OR              reduce using rule 60 (arexpextra -> + term arexpextra .)
@@ -3016,9 +3215,10 @@ state 157
     ;               reduce using rule 60 (arexpextra -> + term arexpextra .)
     )               reduce using rule 60 (arexpextra -> + term arexpextra .)
     ,               reduce using rule 60 (arexpextra -> + term arexpextra .)
+    ]               reduce using rule 60 (arexpextra -> + term arexpextra .)
 
 
-state 158
+state 163
 
     (64) termx -> / factor termx .
     -               reduce using rule 64 (termx -> / factor termx .)
@@ -3034,9 +3234,10 @@ state 158
     ;               reduce using rule 64 (termx -> / factor termx .)
     )               reduce using rule 64 (termx -> / factor termx .)
     ,               reduce using rule 64 (termx -> / factor termx .)
+    ]               reduce using rule 64 (termx -> / factor termx .)
 
 
-state 159
+state 164
 
     (65) termx -> * factor termx .
     -               reduce using rule 65 (termx -> * factor termx .)
@@ -3052,9 +3253,10 @@ state 159
     ;               reduce using rule 65 (termx -> * factor termx .)
     )               reduce using rule 65 (termx -> * factor termx .)
     ,               reduce using rule 65 (termx -> * factor termx .)
+    ]               reduce using rule 65 (termx -> * factor termx .)
 
 
-state 160
+state 165
 
     (8) vars -> VAR datatype varids store_type ; vars .
     WHILE           reduce using rule 8 (vars -> VAR datatype varids store_type ; vars .)
@@ -3072,33 +3274,29 @@ state 160
     }               reduce using rule 8 (vars -> VAR datatype varids store_type ; vars .)
 
 
-state 161
+state 166
 
     (11) varids -> ID darray , varids .
     ;               reduce using rule 11 (varids -> ID darray , varids .)
 
 
-state 162
+state 167
 
-    (14) darray -> [ INT ] . twodarray
-    (15) twodarray -> .
-    (16) twodarray -> . [ INT ]
-    ,               reduce using rule 15 (twodarray -> .)
-    ;               reduce using rule 15 (twodarray -> .)
-    [               shift and go to state 173
+    (14) darray -> [ INT ] .
+    ,               reduce using rule 14 (darray -> [ INT ] .)
+    ;               reduce using rule 14 (darray -> [ INT ] .)
 
-    twodarray                      shift and go to state 174
 
-state 163
+state 168
 
     (17) functions -> datatype FUNC ID ( params ) store_funcv store_params store_init_quad { vars store_local_vars funcontent } close_func . functions
     (17) functions -> . datatype FUNC ID ( params ) store_funcv store_params store_init_quad { vars store_local_vars funcontent } close_func functions
     (18) functions -> .
-    (83) datatype -> . VOID
-    (84) datatype -> . D_BOOL
-    (85) datatype -> . D_STRING
-    (86) datatype -> . D_FLOAT
-    (87) datatype -> . D_INT
+    (84) datatype -> . VOID
+    (85) datatype -> . D_BOOL
+    (86) datatype -> . D_STRING
+    (87) datatype -> . D_FLOAT
+    (88) datatype -> . D_INT
     VAR             reduce using rule 18 (functions -> .)
     FUNC            reduce using rule 18 (functions -> .)
     VOID            shift and go to state 10
@@ -3108,9 +3306,9 @@ state 163
     D_INT           shift and go to state 14
 
     datatype                       shift and go to state 16
-    functions                      shift and go to state 175
+    functions                      shift and go to state 179
 
-state 164
+state 169
 
     (67) factor -> ( store_op expr ) store_op .
     /               reduce using rule 67 (factor -> ( store_op expr ) store_op .)
@@ -3128,23 +3326,24 @@ state 164
     ;               reduce using rule 67 (factor -> ( store_op expr ) store_op .)
     )               reduce using rule 67 (factor -> ( store_op expr ) store_op .)
     ,               reduce using rule 67 (factor -> ( store_op expr ) store_op .)
+    ]               reduce using rule 67 (factor -> ( store_op expr ) store_op .)
 
 
-state 165
+state 170
 
     (44) loop -> WHILE store_jump ( expr ) . store_gotof { statement } end_loop
-    (108) store_gotof -> .
-    {               reduce using rule 108 (store_gotof -> .)
+    (109) store_gotof -> .
+    {               reduce using rule 109 (store_gotof -> .)
 
-    store_gotof                    shift and go to state 176
+    store_gotof                    shift and go to state 180
 
-state 166
+state 171
 
     (43) input -> INPUT ( ID store_oper ) . ;
-    ;               shift and go to state 177
+    ;               shift and go to state 181
 
 
-state 167
+state 172
 
     (36) var_assign -> ID store_oper = expr ; .
     WHILE           reduce using rule 36 (var_assign -> ID store_oper = expr ; .)
@@ -3162,73 +3361,66 @@ state 167
     }               reduce using rule 36 (var_assign -> ID store_oper = expr ; .)
 
 
-state 168
+state 173
 
-    (78) callfunc -> ID verify_func add_fstack ( callfuncpar . ver_params ) end_fstack store_gosub
-    (103) ver_params -> .
-    )               reduce using rule 103 (ver_params -> .)
+    (79) callfunc -> ID verify_func add_fstack ( callfuncpar . ver_params ) end_fstack store_gosub
+    (104) ver_params -> .
+    )               reduce using rule 104 (ver_params -> .)
 
-    ver_params                     shift and go to state 178
+    ver_params                     shift and go to state 182
 
-state 169
+state 174
 
-    (80) callfuncpar -> expr . store_pquad callfuncparx
-    (102) store_pquad -> .
-    ,               reduce using rule 102 (store_pquad -> .)
-    )               reduce using rule 102 (store_pquad -> .)
+    (81) callfuncpar -> expr . store_pquad callfuncparx
+    (103) store_pquad -> .
+    ,               reduce using rule 103 (store_pquad -> .)
+    )               reduce using rule 103 (store_pquad -> .)
 
-    store_pquad                    shift and go to state 179
+    store_pquad                    shift and go to state 183
 
-state 170
+state 175
+
+    (16) array -> [ add_fstack expr end_fstack . ] ver_quad add_dir
+    ]               shift and go to state 184
+
+
+state 176
 
     (40) output -> OUTPUT ( expr outex ) . ;
-    ;               shift and go to state 180
+    ;               shift and go to state 185
 
 
-state 171
+state 177
 
     (42) outex -> , expr . outex
     (41) outex -> .
     (42) outex -> . , expr outex
     )               reduce using rule 41 (outex -> .)
-    ,               shift and go to state 154
+    ,               shift and go to state 159
 
-    outex                          shift and go to state 181
+    outex                          shift and go to state 186
 
-state 172
+state 178
 
     (38) ifelse -> IF ( expr ) store_gotof . { statement } ELSE store_endif { statement }
     (39) ifelse -> IF ( expr ) store_gotof . { statement } store_endif
-    {               shift and go to state 182
+    {               shift and go to state 187
 
 
-state 173
-
-    (16) twodarray -> [ . INT ]
-    INT             shift and go to state 183
-
-
-state 174
-
-    (14) darray -> [ INT ] twodarray .
-    ,               reduce using rule 14 (darray -> [ INT ] twodarray .)
-    ;               reduce using rule 14 (darray -> [ INT ] twodarray .)
-
-
-state 175
+state 179
 
     (17) functions -> datatype FUNC ID ( params ) store_funcv store_params store_init_quad { vars store_local_vars funcontent } close_func functions .
     VAR             reduce using rule 17 (functions -> datatype FUNC ID ( params ) store_funcv store_params store_init_quad { vars store_local_vars funcontent } close_func functions .)
     FUNC            reduce using rule 17 (functions -> datatype FUNC ID ( params ) store_funcv store_params store_init_quad { vars store_local_vars funcontent } close_func functions .)
 
 
-state 176
+state 180
 
     (44) loop -> WHILE store_jump ( expr ) store_gotof . { statement } end_loop
-    {               shift and go to state 184
+    {               shift and go to state 188
 
 
-state 177
+state 181
 
     (43) input -> INPUT ( ID store_oper ) ; .
     WHILE           reduce using rule 43 (input -> INPUT ( ID store_oper ) ; .)
@@ -3246,23 +3438,46 @@ state 177
     }               reduce using rule 43 (input -> INPUT ( ID store_oper ) ; .)
 
 
-state 178
+state 182
 
-    (78) callfunc -> ID verify_func add_fstack ( callfuncpar ver_params . ) end_fstack store_gosub
-    )               shift and go to state 185
+    (79) callfunc -> ID verify_func add_fstack ( callfuncpar ver_params . ) end_fstack store_gosub
+    )               shift and go to state 189
 
 
-state 179
+state 183
 
-    (80) callfuncpar -> expr store_pquad . callfuncparx
-    (81) callfuncparx -> .
-    (82) callfuncparx -> . , callfuncpar
-    )               reduce using rule 81 (callfuncparx -> .)
-    ,               shift and go to state 187
+    (81) callfuncpar -> expr store_pquad . callfuncparx
+    (82) callfuncparx -> .
+    (83) callfuncparx -> . , callfuncpar
+    )               reduce using rule 82 (callfuncparx -> .)
+    ,               shift and go to state 191
 
-    callfuncparx                   shift and go to state 186
+    callfuncparx                   shift and go to state 190
 
-state 180
+state 184
+
+    (16) array -> [ add_fstack expr end_fstack ] . ver_quad add_dir
+    (112) ver_quad -> .
+    /               reduce using rule 112 (ver_quad -> .)
+    *               reduce using rule 112 (ver_quad -> .)
+    -               reduce using rule 112 (ver_quad -> .)
+    +               reduce using rule 112 (ver_quad -> .)
+    OR              reduce using rule 112 (ver_quad -> .)
+    EQEQ            reduce using rule 112 (ver_quad -> .)
+    DIFF            reduce using rule 112 (ver_quad -> .)
+    AND             reduce using rule 112 (ver_quad -> .)
+    <               reduce using rule 112 (ver_quad -> .)
+    LOETHAN         reduce using rule 112 (ver_quad -> .)
+    >               reduce using rule 112 (ver_quad -> .)
+    GOETHAN         reduce using rule 112 (ver_quad -> .)
+    ;               reduce using rule 112 (ver_quad -> .)
+    )               reduce using rule 112 (ver_quad -> .)
+    ,               reduce using rule 112 (ver_quad -> .)
+    ]               reduce using rule 112 (ver_quad -> .)
+
+    ver_quad                       shift and go to state 192
+
+state 185
 
     (40) output -> OUTPUT ( expr outex ) ; .
     WHILE           reduce using rule 40 (output -> OUTPUT ( expr outex ) ; .)
@@ -3280,13 +3495,13 @@ state 180
     }               reduce using rule 40 (output -> OUTPUT ( expr outex ) ; .)
 
 
-state 181
+state 186
 
     (42) outex -> , expr outex .
     )               reduce using rule 42 (outex -> , expr outex .)
 
 
-state 182
+state 187
 
     (38) ifelse -> IF ( expr ) store_gotof { . statement } ELSE store_endif { statement }
     (39) ifelse -> IF ( expr ) store_gotof { . statement } store_endif
@@ -3316,14 +3531,15 @@ state 182
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for INPUT resolved as shift
   ! shift/reduce conflict for OUTPUT resolved as shift
@@ -3351,7 +3567,7 @@ state 182
     TRUE            shift and go to state 80
 
     expr                           shift and go to state 60
-    statement                      shift and go to state 188
+    statement                      shift and go to state 193
     loop                           shift and go to state 55
     input                          shift and go to state 56
     output                         shift and go to state 57
@@ -3367,13 +3583,7 @@ state 182
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 183
-
-    (16) twodarray -> [ INT . ]
-    ]               shift and go to state 189
-
-
-state 184
+state 188
 
     (44) loop -> WHILE store_jump ( expr ) store_gotof { . statement } end_loop
     (27) statement -> . loop unload_pv
@@ -3402,14 +3612,15 @@ state 184
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for INPUT resolved as shift
   ! shift/reduce conflict for OUTPUT resolved as shift
@@ -3437,7 +3648,7 @@ state 184
     TRUE            shift and go to state 80
 
     expr                           shift and go to state 60
-    statement                      shift and go to state 190
+    statement                      shift and go to state 194
     loop                           shift and go to state 55
     input                          shift and go to state 56
     output                         shift and go to state 57
@@ -3453,39 +3664,40 @@ state 184
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 185
+state 189
 
-    (78) callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) . end_fstack store_gosub
-    (106) end_fstack -> .
-    /               reduce using rule 106 (end_fstack -> .)
-    *               reduce using rule 106 (end_fstack -> .)
-    -               reduce using rule 106 (end_fstack -> .)
-    +               reduce using rule 106 (end_fstack -> .)
-    OR              reduce using rule 106 (end_fstack -> .)
-    EQEQ            reduce using rule 106 (end_fstack -> .)
-    DIFF            reduce using rule 106 (end_fstack -> .)
-    AND             reduce using rule 106 (end_fstack -> .)
-    <               reduce using rule 106 (end_fstack -> .)
-    LOETHAN         reduce using rule 106 (end_fstack -> .)
-    >               reduce using rule 106 (end_fstack -> .)
-    GOETHAN         reduce using rule 106 (end_fstack -> .)
-    ;               reduce using rule 106 (end_fstack -> .)
-    )               reduce using rule 106 (end_fstack -> .)
-    ,               reduce using rule 106 (end_fstack -> .)
+    (79) callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) . end_fstack store_gosub
+    (107) end_fstack -> .
+    /               reduce using rule 107 (end_fstack -> .)
+    *               reduce using rule 107 (end_fstack -> .)
+    -               reduce using rule 107 (end_fstack -> .)
+    +               reduce using rule 107 (end_fstack -> .)
+    OR              reduce using rule 107 (end_fstack -> .)
+    EQEQ            reduce using rule 107 (end_fstack -> .)
+    DIFF            reduce using rule 107 (end_fstack -> .)
+    AND             reduce using rule 107 (end_fstack -> .)
+    <               reduce using rule 107 (end_fstack -> .)
+    LOETHAN         reduce using rule 107 (end_fstack -> .)
+    >               reduce using rule 107 (end_fstack -> .)
+    GOETHAN         reduce using rule 107 (end_fstack -> .)
+    ;               reduce using rule 107 (end_fstack -> .)
+    )               reduce using rule 107 (end_fstack -> .)
+    ,               reduce using rule 107 (end_fstack -> .)
+    ]               reduce using rule 107 (end_fstack -> .)
 
-    end_fstack                     shift and go to state 191
+    end_fstack                     shift and go to state 195
 
-state 186
+state 190
 
-    (80) callfuncpar -> expr store_pquad callfuncparx .
-    )               reduce using rule 80 (callfuncpar -> expr store_pquad callfuncparx .)
+    (81) callfuncpar -> expr store_pquad callfuncparx .
+    )               reduce using rule 81 (callfuncpar -> expr store_pquad callfuncparx .)
 
 
-state 187
+state 191
 
-    (82) callfuncparx -> , . callfuncpar
-    (79) callfuncpar -> .
-    (80) callfuncpar -> . expr store_pquad callfuncparx
+    (83) callfuncparx -> , . callfuncpar
+    (80) callfuncpar -> .
+    (81) callfuncpar -> . expr store_pquad callfuncparx
     (45) expr -> . arexp exprx
     (56) arexp -> . term arexpextra
     (57) arexp -> . term
@@ -3496,25 +3708,26 @@ state 187
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
-    )               reduce using rule 79 (callfuncpar -> .)
+    (73) compoundx -> . ID array store_oper
+    )               reduce using rule 80 (callfuncpar -> .)
     (               shift and go to state 52
-    ID              shift and go to state 102
+    ID              shift and go to state 104
     STRING          shift and go to state 76
     FLOAT           shift and go to state 77
     INT             shift and go to state 78
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    callfuncpar                    shift and go to state 192
-    expr                           shift and go to state 169
+    callfuncpar                    shift and go to state 196
+    expr                           shift and go to state 174
     arexp                          shift and go to state 68
     term                           shift and go to state 69
     factor                         shift and go to state 70
@@ -3524,7 +3737,30 @@ state 187
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 188
+state 192
+
+    (16) array -> [ add_fstack expr end_fstack ] ver_quad . add_dir
+    (113) add_dir -> .
+    /               reduce using rule 113 (add_dir -> .)
+    *               reduce using rule 113 (add_dir -> .)
+    -               reduce using rule 113 (add_dir -> .)
+    +               reduce using rule 113 (add_dir -> .)
+    OR              reduce using rule 113 (add_dir -> .)
+    EQEQ            reduce using rule 113 (add_dir -> .)
+    DIFF            reduce using rule 113 (add_dir -> .)
+    AND             reduce using rule 113 (add_dir -> .)
+    <               reduce using rule 113 (add_dir -> .)
+    LOETHAN         reduce using rule 113 (add_dir -> .)
+    >               reduce using rule 113 (add_dir -> .)
+    GOETHAN         reduce using rule 113 (add_dir -> .)
+    ;               reduce using rule 113 (add_dir -> .)
+    )               reduce using rule 113 (add_dir -> .)
+    ,               reduce using rule 113 (add_dir -> .)
+    ]               reduce using rule 113 (add_dir -> .)
+
+    add_dir                        shift and go to state 197
+
+state 193
 
     (38) ifelse -> IF ( expr ) store_gotof { statement . } ELSE store_endif { statement }
     (39) ifelse -> IF ( expr ) store_gotof { statement . } store_endif
@@ -3555,14 +3791,15 @@ state 188
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! shift/reduce conflict for } resolved as shift
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for INPUT resolved as shift
@@ -3576,7 +3813,7 @@ state 188
   ! shift/reduce conflict for INT resolved as shift
   ! shift/reduce conflict for FALSE resolved as shift
   ! shift/reduce conflict for TRUE resolved as shift
-    }               shift and go to state 194
+    }               shift and go to state 199
     WHILE           shift and go to state 62
     INPUT           shift and go to state 63
     OUTPUT          shift and go to state 65
@@ -3591,7 +3828,7 @@ state 188
     TRUE            shift and go to state 80
 
     expr                           shift and go to state 60
-    statement                      shift and go to state 193
+    statement                      shift and go to state 198
     loop                           shift and go to state 55
     input                          shift and go to state 56
     output                         shift and go to state 57
@@ -3607,14 +3844,7 @@ state 188
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 189
-
-    (16) twodarray -> [ INT ] .
-    ,               reduce using rule 16 (twodarray -> [ INT ] .)
-    ;               reduce using rule 16 (twodarray -> [ INT ] .)
-
-
-state 190
+state 194
 
     (44) loop -> WHILE store_jump ( expr ) store_gotof { statement . } end_loop
     (35) statement -> statement . statement
@@ -3644,14 +3874,15 @@ state 190
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! shift/reduce conflict for } resolved as shift
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for INPUT resolved as shift
@@ -3665,7 +3896,7 @@ state 190
   ! shift/reduce conflict for INT resolved as shift
   ! shift/reduce conflict for FALSE resolved as shift
   ! shift/reduce conflict for TRUE resolved as shift
-    }               shift and go to state 195
+    }               shift and go to state 200
     WHILE           shift and go to state 62
     INPUT           shift and go to state 63
     OUTPUT          shift and go to state 65
@@ -3680,7 +3911,7 @@ state 190
     TRUE            shift and go to state 80
 
     expr                           shift and go to state 60
-    statement                      shift and go to state 193
+    statement                      shift and go to state 198
     loop                           shift and go to state 55
     input                          shift and go to state 56
     output                         shift and go to state 57
@@ -3696,35 +3927,57 @@ state 190
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 191
+state 195
 
-    (78) callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack . store_gosub
-    (107) store_gosub -> .
-    /               reduce using rule 107 (store_gosub -> .)
-    *               reduce using rule 107 (store_gosub -> .)
-    -               reduce using rule 107 (store_gosub -> .)
-    +               reduce using rule 107 (store_gosub -> .)
-    OR              reduce using rule 107 (store_gosub -> .)
-    EQEQ            reduce using rule 107 (store_gosub -> .)
-    DIFF            reduce using rule 107 (store_gosub -> .)
-    AND             reduce using rule 107 (store_gosub -> .)
-    <               reduce using rule 107 (store_gosub -> .)
-    LOETHAN         reduce using rule 107 (store_gosub -> .)
-    >               reduce using rule 107 (store_gosub -> .)
-    GOETHAN         reduce using rule 107 (store_gosub -> .)
-    ;               reduce using rule 107 (store_gosub -> .)
-    )               reduce using rule 107 (store_gosub -> .)
-    ,               reduce using rule 107 (store_gosub -> .)
+    (79) callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack . store_gosub
+    (108) store_gosub -> .
+    /               reduce using rule 108 (store_gosub -> .)
+    *               reduce using rule 108 (store_gosub -> .)
+    -               reduce using rule 108 (store_gosub -> .)
+    +               reduce using rule 108 (store_gosub -> .)
+    OR              reduce using rule 108 (store_gosub -> .)
+    EQEQ            reduce using rule 108 (store_gosub -> .)
+    DIFF            reduce using rule 108 (store_gosub -> .)
+    AND             reduce using rule 108 (store_gosub -> .)
+    <               reduce using rule 108 (store_gosub -> .)
+    LOETHAN         reduce using rule 108 (store_gosub -> .)
+    >               reduce using rule 108 (store_gosub -> .)
+    GOETHAN         reduce using rule 108 (store_gosub -> .)
+    ;               reduce using rule 108 (store_gosub -> .)
+    )               reduce using rule 108 (store_gosub -> .)
+    ,               reduce using rule 108 (store_gosub -> .)
+    ]               reduce using rule 108 (store_gosub -> .)
 
-    store_gosub                    shift and go to state 196
+    store_gosub                    shift and go to state 201
 
-state 192
+state 196
 
-    (82) callfuncparx -> , callfuncpar .
-    )               reduce using rule 82 (callfuncparx -> , callfuncpar .)
+    (83) callfuncparx -> , callfuncpar .
+    )               reduce using rule 83 (callfuncparx -> , callfuncpar .)
 
 
-state 193
+state 197
+
+    (16) array -> [ add_fstack expr end_fstack ] ver_quad add_dir .
+    /               reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    *               reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    -               reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    +               reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    OR              reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    EQEQ            reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    DIFF            reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    AND             reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    <               reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    LOETHAN         reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    >               reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    GOETHAN         reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    ;               reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    )               reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    ,               reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+    ]               reduce using rule 16 (array -> [ add_fstack expr end_fstack ] ver_quad add_dir .)
+
+
+state 198
 
     (35) statement -> statement statement .
     (35) statement -> statement . statement
@@ -3754,14 +4007,15 @@ state 193
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! reduce/reduce conflict for WHILE resolved using rule 35 (statement -> statement statement .)
   ! reduce/reduce conflict for INPUT resolved using rule 35 (statement -> statement statement .)
   ! reduce/reduce conflict for OUTPUT resolved using rule 35 (statement -> statement statement .)
@@ -3801,7 +4055,7 @@ state 193
     FALSE           shift and go to state 79
     TRUE            shift and go to state 80
 
-    statement                      shift and go to state 193
+    statement                      shift and go to state 198
     loop                           shift and go to state 55
     input                          shift and go to state 56
     output                         shift and go to state 57
@@ -3818,77 +4072,78 @@ state 193
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 194
+state 199
 
     (38) ifelse -> IF ( expr ) store_gotof { statement } . ELSE store_endif { statement }
     (39) ifelse -> IF ( expr ) store_gotof { statement } . store_endif
-    (101) store_endif -> .
-    ELSE            shift and go to state 197
-    WHILE           reduce using rule 101 (store_endif -> .)
-    INPUT           reduce using rule 101 (store_endif -> .)
-    OUTPUT          reduce using rule 101 (store_endif -> .)
-    IF              reduce using rule 101 (store_endif -> .)
-    RETURN          reduce using rule 101 (store_endif -> .)
-    ID              reduce using rule 101 (store_endif -> .)
-    (               reduce using rule 101 (store_endif -> .)
-    STRING          reduce using rule 101 (store_endif -> .)
-    FLOAT           reduce using rule 101 (store_endif -> .)
-    INT             reduce using rule 101 (store_endif -> .)
-    FALSE           reduce using rule 101 (store_endif -> .)
-    TRUE            reduce using rule 101 (store_endif -> .)
-    }               reduce using rule 101 (store_endif -> .)
+    (102) store_endif -> .
+    ELSE            shift and go to state 202
+    WHILE           reduce using rule 102 (store_endif -> .)
+    INPUT           reduce using rule 102 (store_endif -> .)
+    OUTPUT          reduce using rule 102 (store_endif -> .)
+    IF              reduce using rule 102 (store_endif -> .)
+    RETURN          reduce using rule 102 (store_endif -> .)
+    ID              reduce using rule 102 (store_endif -> .)
+    (               reduce using rule 102 (store_endif -> .)
+    STRING          reduce using rule 102 (store_endif -> .)
+    FLOAT           reduce using rule 102 (store_endif -> .)
+    INT             reduce using rule 102 (store_endif -> .)
+    FALSE           reduce using rule 102 (store_endif -> .)
+    TRUE            reduce using rule 102 (store_endif -> .)
+    }               reduce using rule 102 (store_endif -> .)
 
-    store_endif                    shift and go to state 198
+    store_endif                    shift and go to state 203
 
-state 195
+state 200
 
     (44) loop -> WHILE store_jump ( expr ) store_gotof { statement } . end_loop
-    (110) end_loop -> .
-    WHILE           reduce using rule 110 (end_loop -> .)
-    INPUT           reduce using rule 110 (end_loop -> .)
-    OUTPUT          reduce using rule 110 (end_loop -> .)
-    IF              reduce using rule 110 (end_loop -> .)
-    RETURN          reduce using rule 110 (end_loop -> .)
-    ID              reduce using rule 110 (end_loop -> .)
-    (               reduce using rule 110 (end_loop -> .)
-    STRING          reduce using rule 110 (end_loop -> .)
-    FLOAT           reduce using rule 110 (end_loop -> .)
-    INT             reduce using rule 110 (end_loop -> .)
-    FALSE           reduce using rule 110 (end_loop -> .)
-    TRUE            reduce using rule 110 (end_loop -> .)
-    }               reduce using rule 110 (end_loop -> .)
+    (111) end_loop -> .
+    WHILE           reduce using rule 111 (end_loop -> .)
+    INPUT           reduce using rule 111 (end_loop -> .)
+    OUTPUT          reduce using rule 111 (end_loop -> .)
+    IF              reduce using rule 111 (end_loop -> .)
+    RETURN          reduce using rule 111 (end_loop -> .)
+    ID              reduce using rule 111 (end_loop -> .)
+    (               reduce using rule 111 (end_loop -> .)
+    STRING          reduce using rule 111 (end_loop -> .)
+    FLOAT           reduce using rule 111 (end_loop -> .)
+    INT             reduce using rule 111 (end_loop -> .)
+    FALSE           reduce using rule 111 (end_loop -> .)
+    TRUE            reduce using rule 111 (end_loop -> .)
+    }               reduce using rule 111 (end_loop -> .)
 
-    end_loop                       shift and go to state 199
+    end_loop                       shift and go to state 204
 
-state 196
+state 201
 
-    (78) callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .
-    /               reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    *               reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    -               reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    +               reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    OR              reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    EQEQ            reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    DIFF            reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    AND             reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    <               reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    LOETHAN         reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    >               reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    GOETHAN         reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    ;               reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    )               reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
-    ,               reduce using rule 78 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    (79) callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .
+    /               reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    *               reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    -               reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    +               reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    OR              reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    EQEQ            reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    DIFF            reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    AND             reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    <               reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    LOETHAN         reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    >               reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    GOETHAN         reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    ;               reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    )               reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    ,               reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
+    ]               reduce using rule 79 (callfunc -> ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub .)
 
 
-state 197
+state 202
 
     (38) ifelse -> IF ( expr ) store_gotof { statement } ELSE . store_endif { statement }
-    (101) store_endif -> .
-    {               reduce using rule 101 (store_endif -> .)
+    (102) store_endif -> .
+    {               reduce using rule 102 (store_endif -> .)
 
-    store_endif                    shift and go to state 200
+    store_endif                    shift and go to state 205
 
-state 198
+state 203
 
     (39) ifelse -> IF ( expr ) store_gotof { statement } store_endif .
     WHILE           reduce using rule 39 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
@@ -3906,7 +4161,7 @@ state 198
     }               reduce using rule 39 (ifelse -> IF ( expr ) store_gotof { statement } store_endif .)
 
 
-state 199
+state 204
 
     (44) loop -> WHILE store_jump ( expr ) store_gotof { statement } end_loop .
     WHILE           reduce using rule 44 (loop -> WHILE store_jump ( expr ) store_gotof { statement } end_loop .)
@@ -3924,13 +4179,13 @@ state 199
     }               reduce using rule 44 (loop -> WHILE store_jump ( expr ) store_gotof { statement } end_loop .)
 
 
-state 200
+state 205
 
     (38) ifelse -> IF ( expr ) store_gotof { statement } ELSE store_endif . { statement }
-    {               shift and go to state 201
+    {               shift and go to state 206
 
 
-state 201
+state 206
 
     (38) ifelse -> IF ( expr ) store_gotof { statement } ELSE store_endif { . statement }
     (27) statement -> . loop unload_pv
@@ -3959,14 +4214,15 @@ state 201
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for INPUT resolved as shift
   ! shift/reduce conflict for OUTPUT resolved as shift
@@ -3994,7 +4250,7 @@ state 201
     TRUE            shift and go to state 80
 
     expr                           shift and go to state 60
-    statement                      shift and go to state 202
+    statement                      shift and go to state 207
     loop                           shift and go to state 55
     input                          shift and go to state 56
     output                         shift and go to state 57
@@ -4010,7 +4266,7 @@ state 201
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 202
+state 207
 
     (38) ifelse -> IF ( expr ) store_gotof { statement } ELSE store_endif { statement . }
     (35) statement -> statement . statement
@@ -4040,14 +4296,15 @@ state 202
     (68) element -> . callfunc store_oper
     (69) element -> . compound store_oper
     (70) element -> . const store_const
-    (78) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
+    (79) callfunc -> . ID verify_func add_fstack ( callfuncpar ver_params ) end_fstack store_gosub
     (71) compound -> . compoundx
-    (73) const -> . STRING
-    (74) const -> . FLOAT
-    (75) const -> . INT
-    (76) const -> . FALSE
-    (77) const -> . TRUE
+    (74) const -> . STRING
+    (75) const -> . FLOAT
+    (76) const -> . INT
+    (77) const -> . FALSE
+    (78) const -> . TRUE
     (72) compoundx -> . ID store_oper
+    (73) compoundx -> . ID array store_oper
   ! shift/reduce conflict for } resolved as shift
   ! shift/reduce conflict for WHILE resolved as shift
   ! shift/reduce conflict for INPUT resolved as shift
@@ -4061,7 +4318,7 @@ state 202
   ! shift/reduce conflict for INT resolved as shift
   ! shift/reduce conflict for FALSE resolved as shift
   ! shift/reduce conflict for TRUE resolved as shift
-    }               shift and go to state 203
+    }               shift and go to state 208
     WHILE           shift and go to state 62
     INPUT           shift and go to state 63
     OUTPUT          shift and go to state 65
@@ -4076,7 +4333,7 @@ state 202
     TRUE            shift and go to state 80
 
     expr                           shift and go to state 60
-    statement                      shift and go to state 193
+    statement                      shift and go to state 198
     loop                           shift and go to state 55
     input                          shift and go to state 56
     output                         shift and go to state 57
@@ -4092,7 +4349,7 @@ state 202
     const                          shift and go to state 74
     compoundx                      shift and go to state 75
 
-state 203
+state 208
 
     (38) ifelse -> IF ( expr ) store_gotof { statement } ELSE store_endif { statement } .
     WHILE           reduce using rule 38 (ifelse -> IF ( expr ) store_gotof { statement } ELSE store_endif { statement } .)
@@ -4162,55 +4419,42 @@ shift/reduce conflict for FLOAT in state 86 resolved as shift
 shift/reduce conflict for INT in state 86 resolved as shift
 shift/reduce conflict for FALSE in state 86 resolved as shift
 shift/reduce conflict for TRUE in state 86 resolved as shift
-shift/reduce conflict for WHILE in state 126 resolved as shift
-shift/reduce conflict for INPUT in state 126 resolved as shift
-shift/reduce conflict for OUTPUT in state 126 resolved as shift
-shift/reduce conflict for IF in state 126 resolved as shift
-shift/reduce conflict for RETURN in state 126 resolved as shift
-shift/reduce conflict for ID in state 126 resolved as shift
-shift/reduce conflict for ( in state 126 resolved as shift
-shift/reduce conflict for STRING in state 126 resolved as shift
-shift/reduce conflict for FLOAT in state 126 resolved as shift
-shift/reduce conflict for INT in state 126 resolved as shift
-shift/reduce conflict for FALSE in state 126 resolved as shift
-shift/reduce conflict for TRUE in state 126 resolved as shift
-shift/reduce conflict for WHILE in state 146 resolved as shift
-shift/reduce conflict for INPUT in state 146 resolved as shift
-shift/reduce conflict for OUTPUT in state 146 resolved as shift
-shift/reduce conflict for IF in state 146 resolved as shift
-shift/reduce conflict for RETURN in state 146 resolved as shift
-shift/reduce conflict for ID in state 146 resolved as shift
-shift/reduce conflict for ( in state 146 resolved as shift
-shift/reduce conflict for STRING in state 146 resolved as shift
-shift/reduce conflict for FLOAT in state 146 resolved as shift
-shift/reduce conflict for INT in state 146 resolved as shift
-shift/reduce conflict for FALSE in state 146 resolved as shift
-shift/reduce conflict for TRUE in state 146 resolved as shift
-shift/reduce conflict for WHILE in state 182 resolved as shift
-shift/reduce conflict for INPUT in state 182 resolved as shift
-shift/reduce conflict for OUTPUT in state 182 resolved as shift
-shift/reduce conflict for IF in state 182 resolved as shift
-shift/reduce conflict for RETURN in state 182 resolved as shift
-shift/reduce conflict for ID in state 182 resolved as shift
-shift/reduce conflict for ( in state 182 resolved as shift
-shift/reduce conflict for STRING in state 182 resolved as shift
-shift/reduce conflict for FLOAT in state 182 resolved as shift
-shift/reduce conflict for INT in state 182 resolved as shift
-shift/reduce conflict for FALSE in state 182 resolved as shift
-shift/reduce conflict for TRUE in state 182 resolved as shift
-shift/reduce conflict for WHILE in state 184 resolved as shift
-shift/reduce conflict for INPUT in state 184 resolved as shift
-shift/reduce conflict for OUTPUT in state 184 resolved as shift
-shift/reduce conflict for IF in state 184 resolved as shift
-shift/reduce conflict for RETURN in state 184 resolved as shift
-shift/reduce conflict for ID in state 184 resolved as shift
-shift/reduce conflict for ( in state 184 resolved as shift
-shift/reduce conflict for STRING in state 184 resolved as shift
-shift/reduce conflict for FLOAT in state 184 resolved as shift
-shift/reduce conflict for INT in state 184 resolved as shift
-shift/reduce conflict for FALSE in state 184 resolved as shift
-shift/reduce conflict for TRUE in state 184 resolved as shift
-shift/reduce conflict for } in state 188 resolved as shift
+shift/reduce conflict for WHILE in state 128 resolved as shift
+shift/reduce conflict for INPUT in state 128 resolved as shift
+shift/reduce conflict for OUTPUT in state 128 resolved as shift
+shift/reduce conflict for IF in state 128 resolved as shift
+shift/reduce conflict for RETURN in state 128 resolved as shift
+shift/reduce conflict for ID in state 128 resolved as shift
+shift/reduce conflict for ( in state 128 resolved as shift
+shift/reduce conflict for STRING in state 128 resolved as shift
+shift/reduce conflict for FLOAT in state 128 resolved as shift
+shift/reduce conflict for INT in state 128 resolved as shift
+shift/reduce conflict for FALSE in state 128 resolved as shift
+shift/reduce conflict for TRUE in state 128 resolved as shift
+shift/reduce conflict for WHILE in state 150 resolved as shift
+shift/reduce conflict for INPUT in state 150 resolved as shift
+shift/reduce conflict for OUTPUT in state 150 resolved as shift
+shift/reduce conflict for IF in state 150 resolved as shift
+shift/reduce conflict for RETURN in state 150 resolved as shift
+shift/reduce conflict for ID in state 150 resolved as shift
+shift/reduce conflict for ( in state 150 resolved as shift
+shift/reduce conflict for STRING in state 150 resolved as shift
+shift/reduce conflict for FLOAT in state 150 resolved as shift
+shift/reduce conflict for INT in state 150 resolved as shift
+shift/reduce conflict for FALSE in state 150 resolved as shift
+shift/reduce conflict for TRUE in state 150 resolved as shift
+shift/reduce conflict for WHILE in state 187 resolved as shift
+shift/reduce conflict for INPUT in state 187 resolved as shift
+shift/reduce conflict for OUTPUT in state 187 resolved as shift
+shift/reduce conflict for IF in state 187 resolved as shift
+shift/reduce conflict for RETURN in state 187 resolved as shift
+shift/reduce conflict for ID in state 187 resolved as shift
+shift/reduce conflict for ( in state 187 resolved as shift
+shift/reduce conflict for STRING in state 187 resolved as shift
+shift/reduce conflict for FLOAT in state 187 resolved as shift
+shift/reduce conflict for INT in state 187 resolved as shift
+shift/reduce conflict for FALSE in state 187 resolved as shift
+shift/reduce conflict for TRUE in state 187 resolved as shift
 shift/reduce conflict for WHILE in state 188 resolved as shift
 shift/reduce conflict for INPUT in state 188 resolved as shift
 shift/reduce conflict for OUTPUT in state 188 resolved as shift
@@ -4223,19 +4467,7 @@ shift/reduce conflict for FLOAT in state 188 resolved as shift
 shift/reduce conflict for INT in state 188 resolved as shift
 shift/reduce conflict for FALSE in state 188 resolved as shift
 shift/reduce conflict for TRUE in state 188 resolved as shift
-shift/reduce conflict for } in state 190 resolved as shift
-shift/reduce conflict for WHILE in state 190 resolved as shift
-shift/reduce conflict for INPUT in state 190 resolved as shift
-shift/reduce conflict for OUTPUT in state 190 resolved as shift
-shift/reduce conflict for IF in state 190 resolved as shift
-shift/reduce conflict for RETURN in state 190 resolved as shift
-shift/reduce conflict for ID in state 190 resolved as shift
-shift/reduce conflict for ( in state 190 resolved as shift
-shift/reduce conflict for STRING in state 190 resolved as shift
-shift/reduce conflict for FLOAT in state 190 resolved as shift
-shift/reduce conflict for INT in state 190 resolved as shift
-shift/reduce conflict for FALSE in state 190 resolved as shift
-shift/reduce conflict for TRUE in state 190 resolved as shift
+shift/reduce conflict for } in state 193 resolved as shift
 shift/reduce conflict for WHILE in state 193 resolved as shift
 shift/reduce conflict for INPUT in state 193 resolved as shift
 shift/reduce conflict for OUTPUT in state 193 resolved as shift
@@ -4248,35 +4480,62 @@ shift/reduce conflict for FLOAT in state 193 resolved as shift
 shift/reduce conflict for INT in state 193 resolved as shift
 shift/reduce conflict for FALSE in state 193 resolved as shift
 shift/reduce conflict for TRUE in state 193 resolved as shift
-shift/reduce conflict for WHILE in state 201 resolved as shift
-shift/reduce conflict for INPUT in state 201 resolved as shift
-shift/reduce conflict for OUTPUT in state 201 resolved as shift
-shift/reduce conflict for IF in state 201 resolved as shift
-shift/reduce conflict for RETURN in state 201 resolved as shift
-shift/reduce conflict for ID in state 201 resolved as shift
-shift/reduce conflict for ( in state 201 resolved as shift
-shift/reduce conflict for STRING in state 201 resolved as shift
-shift/reduce conflict for FLOAT in state 201 resolved as shift
-shift/reduce conflict for INT in state 201 resolved as shift
-shift/reduce conflict for FALSE in state 201 resolved as shift
-shift/reduce conflict for TRUE in state 201 resolved as shift
-shift/reduce conflict for } in state 202 resolved as shift
-shift/reduce conflict for WHILE in state 202 resolved as shift
-shift/reduce conflict for INPUT in state 202 resolved as shift
-shift/reduce conflict for OUTPUT in state 202 resolved as shift
-shift/reduce conflict for IF in state 202 resolved as shift
-shift/reduce conflict for RETURN in state 202 resolved as shift
-shift/reduce conflict for ID in state 202 resolved as shift
-shift/reduce conflict for ( in state 202 resolved as shift
-shift/reduce conflict for STRING in state 202 resolved as shift
-shift/reduce conflict for FLOAT in state 202 resolved as shift
-shift/reduce conflict for INT in state 202 resolved as shift
-shift/reduce conflict for FALSE in state 202 resolved as shift
-shift/reduce conflict for TRUE in state 202 resolved as shift
+shift/reduce conflict for } in state 194 resolved as shift
+shift/reduce conflict for WHILE in state 194 resolved as shift
+shift/reduce conflict for INPUT in state 194 resolved as shift
+shift/reduce conflict for OUTPUT in state 194 resolved as shift
+shift/reduce conflict for IF in state 194 resolved as shift
+shift/reduce conflict for RETURN in state 194 resolved as shift
+shift/reduce conflict for ID in state 194 resolved as shift
+shift/reduce conflict for ( in state 194 resolved as shift
+shift/reduce conflict for STRING in state 194 resolved as shift
+shift/reduce conflict for FLOAT in state 194 resolved as shift
+shift/reduce conflict for INT in state 194 resolved as shift
+shift/reduce conflict for FALSE in state 194 resolved as shift
+shift/reduce conflict for TRUE in state 194 resolved as shift
+shift/reduce conflict for WHILE in state 198 resolved as shift
+shift/reduce conflict for INPUT in state 198 resolved as shift
+shift/reduce conflict for OUTPUT in state 198 resolved as shift
+shift/reduce conflict for IF in state 198 resolved as shift
+shift/reduce conflict for RETURN in state 198 resolved as shift
+shift/reduce conflict for ID in state 198 resolved as shift
+shift/reduce conflict for ( in state 198 resolved as shift
+shift/reduce conflict for STRING in state 198 resolved as shift
+shift/reduce conflict for FLOAT in state 198 resolved as shift
+shift/reduce conflict for INT in state 198 resolved as shift
+shift/reduce conflict for FALSE in state 198 resolved as shift
+shift/reduce conflict for TRUE in state 198 resolved as shift
+shift/reduce conflict for WHILE in state 206 resolved as shift
+shift/reduce conflict for INPUT in state 206 resolved as shift
+shift/reduce conflict for OUTPUT in state 206 resolved as shift
+shift/reduce conflict for IF in state 206 resolved as shift
+shift/reduce conflict for RETURN in state 206 resolved as shift
+shift/reduce conflict for ID in state 206 resolved as shift
+shift/reduce conflict for ( in state 206 resolved as shift
+shift/reduce conflict for STRING in state 206 resolved as shift
+shift/reduce conflict for FLOAT in state 206 resolved as shift
+shift/reduce conflict for INT in state 206 resolved as shift
+shift/reduce conflict for FALSE in state 206 resolved as shift
+shift/reduce conflict for TRUE in state 206 resolved as shift
+shift/reduce conflict for } in state 207 resolved as shift
+shift/reduce conflict for WHILE in state 207 resolved as shift
+shift/reduce conflict for INPUT in state 207 resolved as shift
+shift/reduce conflict for OUTPUT in state 207 resolved as shift
+shift/reduce conflict for IF in state 207 resolved as shift
+shift/reduce conflict for RETURN in state 207 resolved as shift
+shift/reduce conflict for ID in state 207 resolved as shift
+shift/reduce conflict for ( in state 207 resolved as shift
+shift/reduce conflict for STRING in state 207 resolved as shift
+shift/reduce conflict for FLOAT in state 207 resolved as shift
+shift/reduce conflict for INT in state 207 resolved as shift
+shift/reduce conflict for FALSE in state 207 resolved as shift
+shift/reduce conflict for TRUE in state 207 resolved as shift
 reduce/reduce conflict in state 49 resolved using rule maincontent -> <empty>
 rejected rule (statement -> <empty>) in state 49
 reduce/reduce conflict in state 54 resolved using rule maincontent -> <empty>
 rejected rule (statement -> <empty>) in state 54
+reduce/reduce conflict in state 64 resolved using rule array -> <empty>
+rejected rule (store_oper -> <empty>) in state 64
 reduce/reduce conflict in state 69 resolved using rule arexp -> term
 rejected rule (arexpextra -> <empty>) in state 69
 reduce/reduce conflict in state 70 resolved using rule term -> factor
@@ -4289,13 +4548,15 @@ reduce/reduce conflict in state 86 resolved using rule statement -> statement st
 rejected rule (statement -> <empty>) in state 86
 reduce/reduce conflict in state 86 resolved using rule maincontent -> <empty>
 rejected rule (statement -> <empty>) in state 86
-reduce/reduce conflict in state 126 resolved using rule funcontent -> <empty>
-rejected rule (statement -> <empty>) in state 126
-reduce/reduce conflict in state 146 resolved using rule funcontent -> <empty>
-rejected rule (statement -> statement statement) in state 146
-reduce/reduce conflict in state 146 resolved using rule statement -> statement statement
-rejected rule (statement -> <empty>) in state 146
-reduce/reduce conflict in state 146 resolved using rule funcontent -> <empty>
-rejected rule (statement -> <empty>) in state 146
-reduce/reduce conflict in state 193 resolved using rule statement -> statement statement
-rejected rule (statement -> <empty>) in state 193
+reduce/reduce conflict in state 104 resolved using rule array -> <empty>
+rejected rule (store_oper -> <empty>) in state 104
+reduce/reduce conflict in state 128 resolved using rule funcontent -> <empty>
+rejected rule (statement -> <empty>) in state 128
+reduce/reduce conflict in state 150 resolved using rule funcontent -> <empty>
+rejected rule (statement -> statement statement) in state 150
+reduce/reduce conflict in state 150 resolved using rule statement -> statement statement
+rejected rule (statement -> <empty>) in state 150
+reduce/reduce conflict in state 150 resolved using rule funcontent -> <empty>
+rejected rule (statement -> <empty>) in state 150
+reduce/reduce conflict in state 198 resolved using rule statement -> statement statement
+rejected rule (statement -> <empty>) in state 198

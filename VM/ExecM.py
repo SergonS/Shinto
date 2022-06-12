@@ -98,10 +98,15 @@ class ExMemory:
 
     # Initialize local memory with the memory needed
     def initializeLocalMemory(self, locals: dict, temps: int):
-        self.memory["local"][self.address["local_int"]] = [None] * (len(locals["integer"]) + temps)
+        print(f'Locals: {locals["integer"]}')
+        length = list(locals["integer"].items())
+        print(length[-1][1] - 400)
+        self.memory["local"][self.address["local_int"]] = [None] * (length[-1][1] - 400 + temps + 1)
         self.memory["local"][self.address["local_float"]] = [None] * (len(locals["float"]) + temps)
         self.memory["local"][self.address["local_string"]] = [None] * (len(locals["string"]) + temps)
         self.memory["local"][self.address["local_boolean"]] = [None] * (len(locals["boolean"]) + temps)
+
+        print(self.memory["local"][self.address["local_int"]])
 
 
     def showMemory(self):

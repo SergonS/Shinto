@@ -107,7 +107,7 @@ class QuadOverseer:
             operand = self.popOperandS()
             self.addQuad(operator, operand, (), (None, operand[1]))
         # We found a ver
-        elif self.operators[operator] == Hierarchy.VER:
+        elif operator == "ver":
             delimit = self.popOperandS()
             operand = self.polish_vector[-1]
 
@@ -115,20 +115,10 @@ class QuadOverseer:
                 sys.exit(f"Only integers are allowed in an array")
             self.addQuad(operator, operand, (0, "int"), delimit)
         # Generate quadruple for array base
-        elif self.operators[operator] == Hierarchy.ARR_BASE:
+        elif operator == "addbase":
             base = self.popOperandS()
             operand = self.popOperandS()
             self.addQuad(operator, operand, base, (None, base[1]))
-        # Generate s1 * d2 quad
-        elif self.operators[operator] == Hierarchy.ARR_SD:
-            d2 = self.popOperandS()
-            s1 = self.popOperandS()
-            self.addQuad(operator, s1, d2, (None, "int"))
-        # Generate (s1 * d2) + s2 quad
-        elif self.operators[operator] == Hierarchy.ARR_SDS:
-            s1d2 = self.popOperandS()
-            s2 = self.popOperandS()
-            self.addQuad(operator, s1d2, s2, (None, "int"))
         # We found a multiplication or division
         elif operator == "*" or operator == "/":
             # Verify for other multiplications or divisions
@@ -192,7 +182,7 @@ class QuadOverseer:
             #print("OPERATOR FOUND IS OUTPUT")
             self.unloadPolishVector()
         # Append operator
-        if (operator != ')' and operator != '=' and operator != 'return' and operator != 'endfunc' and operator != 'era' and operator != '(' and operator != 'params' and operator != 'gosub' and operator != 'assignr' and operator != 'output' and operator != 'input' and operator != 'gotof' and operator != 'gotow' and operator != 'end' and operator != 'goto'):
+        if (operator != ')' and operator != '=' and operator != 'return' and operator != 'endfunc' and operator != 'era' and operator != '(' and operator != 'params' and operator != 'gosub' and operator != 'assignr' and operator != 'output' and operator != 'input' and operator != 'gotof' and operator != 'gotow' and operator != 'end' and operator != 'goto' and operator != 'ver' and operator != 'arrbase'):
             self.operator_stack.append(operator)
             op = self.popOperatorS()
             operandB = self.popOperandS()

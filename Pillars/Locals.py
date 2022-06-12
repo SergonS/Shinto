@@ -16,6 +16,9 @@ class L_Table:
         else:
             return False
 
+    def addIntArray(self, value: str, addr):
+        self.l_integers[value] = addr
+
     def getInteger(self, value: str) -> int:
         return self.l_integers[value]
 

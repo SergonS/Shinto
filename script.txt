@@ -13,7 +13,7 @@ int function volta(fifa: int, ea: int, ball: int)
 function main()
 {
 	// This is a comment. 
-	var int iA, iB, iC, iD, iE, iF;
+	var int iA, iB, iC, iD, iE[3], iF;
 	var boolean bt;
 	iB = 2;
 	iC = 3;

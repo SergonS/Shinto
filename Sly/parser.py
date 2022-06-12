@@ -157,22 +157,23 @@ class ShintoParser(Parser):
 
     # ARRAY DECLARATION
 
-    @_('"[" INT "]" twodarray')
-    def darray(self, x):
-        self.stack_matrix.append(x[1])
-        pass
-
-    @_('')
-    def darray(self, x):
-        pass
-
     @_('"[" INT "]"')
-    def twodarray(self, x):
+    def darray(self, x):
         self.stack_matrix.append(x[1])
         pass
 
     @_('')
-    def twodarray(self, x):
+    def darray(self, x):
+        pass
+
+    # ARRAY ACCESS
+
+    @_('"[" add_fstack expr end_fstack "]" ver_quad add_dir')
+    def array(self, x):
+        pass
+
+    @_('')
+    def array(self, x):
         pass
 
     # FUNCTIONS
@@ -427,6 +428,10 @@ class ShintoParser(Parser):
     def compound(self, x):
         pass
 
+    @_('ID array store_oper')
+    def compoundx(self, x):
+        pass
+
     @_('ID store_oper')
     def compoundx(self, x):
         pass
@@ -434,6 +439,8 @@ class ShintoParser(Parser):
     @_('callfunc store_oper')
     def element(self, x):
         pass
+
+
     
     # CONST
 
@@ -723,6 +730,27 @@ class ShintoParser(Parser):
         self.quads.addOperator("gotow")
         pass
 
+    @_('')
+    def ver_quad(self, x):
+        name = x[-6]
+
+        if self.verifyVar(name):
+            var = self.dir_vars.getVar(name)
+            self.quads.addOperand(var.spaces, "int")
+            self.quads.addOperator("ver")
+        pass
+
+    @_('')
+    def add_dir(self, x):
+        name = x[-7]
+
+        if self.verifyVar(name):
+            var = self.dir_vars.getVar(name)
+            self.quads.addOperand(var.addr, "int")
+            self.quads.addOperator("addbase")
+        pass
+
+
     ### Auxiliary Functions
 
     def storeGlobalVars(self):
@@ -766,6 +794,7 @@ class ShintoParser(Parser):
                     
     def storeLocalVars(self, scope: str):
         dt = "none"
+        name = "none"
         dim = 0
         spaces = 0
         print(self.stack_vars)
@@ -773,49 +802,48 @@ class ShintoParser(Parser):
             if var == "int" or var == "float" or var == "string" or var == "boolean":
                 dt = var
             elif type(var) != tuple:
+                name = var
                 if dt == "int":
                     addr = self.delimitation.getAddr("local_int") + self.delimitation.getCounter("local_int")
                     self.delimitation.verifyDelimitation(addr, "local_int")
 
-                    if self.locals.addInteger(var, addr) == True:
+                    if self.locals.addInteger(name, addr) == True:
                         self.delimitation.updateCounter("local_int")
-                        self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, scope)
+                        self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, scope)
 
                 elif dt == "float":
                     addr = self.delimitation.getAddr("local_float") + self.delimitation.getCounter("local_float")
                     self.delimitation.verifyDelimitation(addr, "local_float")
 
-                    if self.locals.addFloat(var, addr) == True:
+                    if self.locals.addFloat(name, addr) == True:
                         self.delimitation.updateCounter("local_float")
-                        self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, scope)
+                        self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, scope)
 
                 elif dt == "string":
                     addr = self.delimitation.getAddr("local_string") + self.delimitation.getCounter("local_string")
                     self.delimitation.verifyDelimitation(addr, "local_string")
 
-                    if self.locals.addString(var, addr) == True:
+                    if self.locals.addString(name, addr) == True:
                         self.delimitation.updateCounter("local_string")
-                        self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, scope)
+                        self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, scope)
 
                 elif dt == "boolean":
                     addr = self.delimitation.getAddr("local_boolean") + self.delimitation.getCounter("local_boolean")
                     self.delimitation.verifyDelimitation(addr, "local_boolean")
 
-                    if self.locals.addBoolean(var, addr) == True:
+                    if self.locals.addBoolean(name, addr) == True:
                         self.delimitation.updateCounter("local_boolean")
-                        self.dir_vars.appendToDirectory(var, dt, addr, 0, 0, scope)
-                newVar = Variable(var, dt, addr, 0, 0, scope)
+                        self.dir_vars.appendToDirectory(name, dt, addr, 0, 0, scope)
+                newVar = Variable(name, dt, addr, 0, 0, scope)
                 self.dir_functions.getFunc(scope).addVar(newVar)
 
             if type(var) == tuple:
                 if var[1] == 0:
                     dim = 1
-                    spaces = var[0]
-                else:
-                    dim = 2
-                    spaces = var[0] * var[1]             
+                    spaces = var[0]    
                 i = 0
                 while i < spaces:
+                    addr = self.delimitation.getAddr("local_int") + self.delimitation.getCounter("local_int")
                     self.delimitation.updateCounter("local_int")
                     i = i + 1   
                 print(f'Found an array with {dim} dimensions and {spaces} spaces')

@@ -34,8 +34,8 @@ class VirtualMachine:
 
     def solveQuad(self, quad: dict):
         # Verify if operator is +, -, *, /, <, <=, >=, ==, !=, && or ||
-        #print("Solving quad:")
-        #print("#" + str(self.ip) + " " + str(quad))
+        print("Solving quad:")
+        print("#" + str(self.ip) + " " + str(quad))
         if quad["operator"] >= 1 and quad["operator"] <= 12:
             # Get operands and the address to store
             opA = quad["operandA"]
